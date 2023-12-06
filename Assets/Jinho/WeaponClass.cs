@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Jinho_Weapon
+namespace Jinho
 {
     public abstract class Weapon
     {
         public Sprite image;        //총기 종류 이미지
+        public PlayerAttackState attackState;   //공격 방식
         public float damage;        //총 대미지
         public int maxBullet;       //장전되는 총알 양
         int bulletCount;            //현재 총에 들어있는 총알 양
@@ -36,9 +37,10 @@ namespace Jinho_Weapon
 
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
-        public Weapon(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, GameObject bullet)
+        public Weapon(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState, GameObject bullet = null)
         {
             this.image = image;
+            this.attackState = attackState;
             this.damage = damage;
             this.maxBullet = maxBullet;
             BulletCount = bulletCount;
@@ -53,7 +55,7 @@ namespace Jinho_Weapon
     }
     public class Rifle : Weapon
     {
-        public Rifle(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, GameObject bullet) : base(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, bullet)
+        public Rifle(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState, GameObject bullet) : base(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, attackState, bullet)
         {
         }
 
@@ -68,7 +70,7 @@ namespace Jinho_Weapon
     }
     public class Shotgun : Weapon
     {
-        public Shotgun(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, GameObject bullet) : base(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, bullet)
+        public Shotgun(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState, GameObject bullet) : base(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, attackState, bullet)
         {
         }
 
@@ -83,7 +85,7 @@ namespace Jinho_Weapon
     }
     public class Handgun : Weapon
     {
-        public Handgun(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, GameObject bullet) : base(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, bullet)
+        public Handgun(Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState, GameObject bullet) : base(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, attackState, bullet)
         {
         }
 
@@ -105,6 +107,7 @@ namespace Jinho_Weapon
             Handgun,
         }
         public WeaponType weaponType;
+        public PlayerAttackState attackState;
         public Weapon weapon = null;
 
         public Sprite image;               //총기 종류 이미지
@@ -124,13 +127,13 @@ namespace Jinho_Weapon
             switch (weaponType)
             {
                 case WeaponType.Rifle:
-                    weapon = new Rifle(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, bullet);
+                    weapon = new Rifle(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, attackState, bullet);
                     break;
                 case WeaponType.Shotgun:
-                    weapon = new Rifle(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, bullet);
+                    weapon = new Shotgun(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, attackState, bullet);
                     break;
                 case WeaponType.Handgun:
-                    weapon = new Rifle(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, bullet);
+                    weapon = new Handgun(image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, attackState, bullet);
                     break;
             }
         }
