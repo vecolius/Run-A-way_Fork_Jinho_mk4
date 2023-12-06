@@ -19,6 +19,7 @@ public class CorutineRunner : MonoBehaviour
         Debug.Log("test");
         Debug.Log("test2");
         //fdsfds
+        //fdsffdsfds
     }
 
     public static Coroutine Start(IEnumerator coroutine)
