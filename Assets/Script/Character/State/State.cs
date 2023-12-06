@@ -7,20 +7,20 @@ using Hojun;
 namespace Hojun
 {
 
-    public abstract class State
+    public class State
     {
         public IStateMachine sm = null;
-        protected GameObject owner;
+        public GameObject owner;
 
-        public State( IStateMachine sm )
+
+        public State(IStateMachine sm)
         {
-            this.sm = sm;
-
-            if (sm.GetOwner() is GameObject)
+            if(sm.GetOwner() is GameObject)
                 owner = (GameObject)sm.GetOwner();
-            else
-                Debug.Log("Check This State");
-            
+
+            if (owner == null)
+                Debug.Log("ERROR");
+
         }
 
         public virtual void Init(IStateMachine sm)
@@ -28,12 +28,20 @@ namespace Hojun
             this.sm = sm;
         }
 
-        public abstract void Enter();
-        public abstract void Update();
-        public abstract void Exit();
-        
+        public virtual void Enter()
+        {
+        }
+        public virtual void Update()
+        {
+
+        }
+        public virtual void Exit()
+        {
+        }
     }
 
 
 
 }
+
+
