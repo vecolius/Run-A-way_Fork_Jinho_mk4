@@ -5,6 +5,7 @@ using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 
+
 public class SceneController : DontDestroySingle<SceneController>
 {
     [SerializeField] GameObject titleUi;
@@ -12,6 +13,9 @@ public class SceneController : DontDestroySingle<SceneController>
     [SerializeField] GameObject lobbyUi;
     [SerializeField] GameObject gameUi;
     [SerializeField] GameObject loadingUi;
+
+
+    List<GameObject> totalUi; 
 
     // [SerializeField] private GameObject lobbyMultiUi; //  멀티 일 때 사용 예정
     private new void Awake()
@@ -25,41 +29,42 @@ public class SceneController : DontDestroySingle<SceneController>
     {
         LoadScene("TitleScene");
 
-        //titleUi = GetComponent<Image>();
-        //mainUi = GetComponent<SceneController>().mainUi;
-        //lobbyUi = GetComponent<SceneController>().lobbyUi;
-        //gameUi = GetComponent<SceneController>().gameUi;
-        //loadingUi = GetComponent<SceneController>().loadingUi;
+        totalUi = new List<GameObject>();
+        totalUi.Add(titleUi);
+        totalUi.Add(mainUi);
+        totalUi.Add(lobbyUi);
+        totalUi.Add(gameUi);
+        totalUi.Add(loadingUi);
 
     }
 
-    //SceneController()
-    //{
-    //    titleUi = GetComponent<SceneController>().titleUi;
-    //    mainUi = GetComponent<SceneController>().mainUi;
-    //    lobbyUi = GetComponent<SceneController>().lobbyUi;
-    //    gameUi = GetComponent<SceneController>().gameUi;
-    //    loadingUi = GetComponent<SceneController>().loadingUi;
-    //}
-
-
+   
     public void ChangeScene(string sceneName)
     {
+        foreach (GameObject ui in totalUi) 
+        {
+            ui.SetActive(false);
+        }
 
+        // 리팩토링 해야할 듯 코드 무슨일...?
         switch (sceneName)
         {
             case "TitleScene":
                 titleUi.SetActive(true);
                 break;
+
             case "MainScene":
                 mainUi.SetActive(true);
                 break;
+
             case "LobbySceneSingle":
                 lobbyUi.SetActive(true);
                 break;
+
             case "GameScene":
                 gameUi.SetActive(true);
                 break;
+
             case "LoadingScene":
                 loadingUi.SetActive(true);
                 break;
@@ -79,6 +84,11 @@ public class SceneController : DontDestroySingle<SceneController>
    
     }
 
-   
+    public void OnApplicationQuit()
+    {
+        Application.Quit();
+        //Debug.Log("게임 종료"); 작동 확인
+    }
+
 
 }
