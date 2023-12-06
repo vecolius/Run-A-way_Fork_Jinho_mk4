@@ -17,6 +17,8 @@ public class CorutineRunner : MonoBehaviour
 
 
         Debug.Log("test");
+        Debug.Log("test2");
+
     }
 
     public static Coroutine Start(IEnumerator coroutine)
