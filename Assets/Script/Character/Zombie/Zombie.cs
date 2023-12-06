@@ -36,6 +36,8 @@ namespace Hojun
         protected ZombieData zombieData;
         public ZombieData Data { get => zombieData;}
 
+        public Transform traceTarget;
+        public Vector3 destination = Vector3.negativeInfinity;
 
         public enum MoveEnum
         {
@@ -50,18 +52,23 @@ namespace Hojun
             return moveDict[move];
         }
 
-        public IMoveStrategy MoveStrategy { get => moveStrtegy; set { moveStrtegy = value; } }
-        IMoveStrategy moveStrtegy;
+        public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
+        IMoveStrategy moveStrategy;
 
         protected void Awake()
         {
             stateMachine = new StateMachine<Zombie>(this);
         }
 
-        public virtual void Move(GameObject target) 
+
+
+        public virtual void Move() 
         {
-            MoveStrategy.Move(target);
+
         }
+
+
+
     }
 
 

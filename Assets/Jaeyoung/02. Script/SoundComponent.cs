@@ -26,13 +26,13 @@ namespace Jaeyoung
                 {
                     foreach (Collider zombie in coll)
                     {
-                        if (zombie.TryGetComponent<TestTarget>(out TestTarget zom))
-                        {
-                            if (zom.HearStrategy == null)
-                                continue;
+                        //if (zombie.TryGetComponent<TestTarget>(out TestTarget zom))
+                        //{
+                        //    if (zom.HearStrategy == null)
+                        //        continue;
 
-                            // zom.hearValue를 세팅.
-                        }
+                        //    // zom.hearValue를 세팅.
+                        //}
                     }
 
                     yield return new WaitForSeconds(time);

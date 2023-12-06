@@ -10,12 +10,13 @@ namespace Hojun
     {
         public GameObject Owner { get;}
         public void Move(GameObject target);
+        public void Move(Vector3 target);
     }
 
     public interface IMoveAble
     {
         public IMoveStrategy MoveStrategy { get; set; }
-        public void Move(GameObject target);
+        public void Move();
     }
 
     public interface IHearStrategy
