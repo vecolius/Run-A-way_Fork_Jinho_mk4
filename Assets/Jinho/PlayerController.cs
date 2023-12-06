@@ -278,6 +278,7 @@ namespace Jinho
 
             moveState = PlayerMoveState.idle;
             attackState = currentWeapon.attackState;
+            Debug.Log("진호 다녀감");
         }
 
         void Update()
