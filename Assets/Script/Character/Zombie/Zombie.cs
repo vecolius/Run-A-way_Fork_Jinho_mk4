@@ -1,4 +1,5 @@
 using Hojun;
+using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,14 +35,17 @@ namespace Hojun
 
         protected StateMachine<Zombie> stateMachine;
         protected ZombieData zombieData;
+        public HearComponent hearComponent;
+        public float hearValue;
         public ZombieData Data { get => zombieData;}
 
 
         public enum MoveEnum
         {
             IDLE,
-            WALK,
-            RUN
+            SEARCH_WALK,
+            SEARCH_RUN,
+            FIND
         }
         Dictionary<MoveEnum, IMoveStrategy> moveDict;
 
@@ -56,6 +60,7 @@ namespace Hojun
         protected void Awake()
         {
             stateMachine = new StateMachine<Zombie>(this);
+            hearComponent = GetComponent<HearComponent>();
         }
 
         public virtual void Move(GameObject target) 

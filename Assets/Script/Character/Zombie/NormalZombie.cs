@@ -14,7 +14,6 @@ namespace Hojun
         IDLE,
         WALK,
         RUN
-            //¤©¤·¤¤¤©¤©¤·¤¤
     }
 
     
@@ -22,15 +21,12 @@ namespace Hojun
 
     public class NormalZombie : Zombie, IMoveAble
     {
-        //fdsfdsf
         Vector3 myvec;
 
         public new void Awake()
         {
             myvec = gameObject.transform.localPosition;
-            //asdqwe
-            //fdsfds
-            //fsfsd
+
             base.Awake();
             stateMachine = new StateMachine<Zombie>(this);
             stateMachine.AddState(MoveState.IDLE, new IdleState(stateMachine));
@@ -39,7 +35,7 @@ namespace Hojun
         // Start is called before the first frame update
         void Start()
         {
-            //¸Ô¾ú´ç
+            
         }
 
         // Update is called once per frame

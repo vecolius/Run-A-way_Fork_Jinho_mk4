@@ -1,3 +1,4 @@
+using Hojun;
 using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
@@ -26,12 +27,9 @@ namespace Jaeyoung
                 {
                     foreach (Collider zombie in coll)
                     {
-                        if (zombie.TryGetComponent<TestTarget>(out TestTarget zom))
+                        if (zombie.TryGetComponent<Zombie>(out Zombie zom))
                         {
-                            if (zom.HearStrategy == null)
-                                continue;
-
-                            // zom.hearValue¸¦ ¼¼ÆÃ.
+                            zom.hearValue = zom.hearComponent.Hear(this.gameObject);
                         }
                     }
 

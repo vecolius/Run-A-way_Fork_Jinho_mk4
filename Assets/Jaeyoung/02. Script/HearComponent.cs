@@ -13,7 +13,7 @@ namespace Jaeyoung
 
         public float Hear(GameObject target)
         {
-            float soundSize = target.GetComponent<TestBoom>().soundAreaSize;
+            float soundSize = target.GetComponent<SoundComponent>().soundAreaSize;
             float resultDistance = (soundSize - Vector3.Distance(transform.position, target.transform.position));
 
             return resultDistance;
