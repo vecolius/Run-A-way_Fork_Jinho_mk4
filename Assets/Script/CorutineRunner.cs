@@ -13,7 +13,10 @@ public class CorutineRunner : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;    
+        instance = this;
+
+
+        Debug.Log("test");
     }
 
     public static Coroutine Start(IEnumerator coroutine)
