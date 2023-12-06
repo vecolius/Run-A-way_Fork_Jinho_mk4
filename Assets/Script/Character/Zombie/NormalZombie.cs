@@ -22,6 +22,8 @@ namespace Hojun
 
         public new void Awake()
         {
+
+            //fsfsd
             base.Awake();
             stateMachine = new StateMachine<Zombie>(this);
             stateMachine.AddState(MoveState.IDLE, new IdleState(stateMachine));
