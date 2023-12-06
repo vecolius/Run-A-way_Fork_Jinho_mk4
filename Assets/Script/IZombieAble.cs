@@ -6,20 +6,6 @@ using UnityEngine;
 namespace Hojun 
 {
 
-
-    public interface IHearStrategy
-    {
-        public GameObject Owner { get;}
-        public void Hear();
-
-    }
-
-    public interface IHearable
-    {
-        public IHearStrategy HearStrategy { get; set; }
-        public void Hear();
-    }
-
     public interface IMoveStrategy 
     {
         public GameObject Owner { get;}
@@ -32,7 +18,11 @@ namespace Hojun
         public void Move(GameObject target);
     }
 
+    public interface IHearStrategy
+    {
+        public void Hear( GameObject target );
 
+    }
 
 
 }

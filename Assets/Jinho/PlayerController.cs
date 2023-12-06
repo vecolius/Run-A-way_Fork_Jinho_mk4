@@ -13,7 +13,7 @@ namespace Jinho_Player
     {
         void Fire();
     }
-    public enum MoveState
+    public enum PlayerMoveState
     {
         idle,
         walk,
@@ -43,7 +43,7 @@ namespace Jinho_Player
         public void Moving()
         {
             if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-                player.moveState = MoveState.walk;
+                player.moveState = PlayerMoveState.walk;
         }
     }
     public class Walk : IMoveStrategy
@@ -57,7 +57,7 @@ namespace Jinho_Player
         {
             Vector3 vec = Vector3.zero;
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
-                player.moveState = MoveState.run;
+                player.moveState = PlayerMoveState.run;
 
             if (Input.GetKey(KeyCode.A))
             {
@@ -81,7 +81,7 @@ namespace Jinho_Player
             }
 
             if(vec == Vector3.zero)
-                player.moveState = MoveState.idle;
+                player.moveState = PlayerMoveState.idle;
             player.transform.Translate(vec.normalized * player.state.MoveSpeed * Time.deltaTime);
         }
     }
@@ -99,7 +99,7 @@ namespace Jinho_Player
                 player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.2f) * Time.deltaTime);
             }
             if(Input.GetKeyUp(KeyCode.LeftShift))
-                player.moveState= MoveState.walk;
+                player.moveState= PlayerMoveState.walk;
         }
     }
     #endregion
@@ -158,18 +158,18 @@ namespace Jinho_Player
         public PlayerState state;
         [SerializeField]public Weapon weapon;
 
-        public MoveState moveState;
+        public PlayerMoveState moveState;
         public AttackState attackState;
-        Dictionary<MoveState, IMoveStrategy> moveDic;
+        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;
         void Start()
         {
             state = new PlayerState();
 
-            moveDic = new Dictionary<MoveState, IMoveStrategy>();
-            moveDic.Add(MoveState.idle, new Idle(this));
-            moveDic.Add(MoveState.walk, new Walk(this));
-            moveDic.Add(MoveState.run, new Run(this));
-            moveState = MoveState.idle;
+            moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
+            moveDic.Add(PlayerMoveState.idle, new Idle(this));
+            moveDic.Add(PlayerMoveState.walk, new Walk(this));
+            moveDic.Add(PlayerMoveState.run, new Run(this));
+            moveState = PlayerMoveState.idle;
         }
 
         void Update()

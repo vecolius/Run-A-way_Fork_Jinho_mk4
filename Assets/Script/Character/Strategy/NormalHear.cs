@@ -10,8 +10,6 @@ namespace Hojun
         private GameObject owner;
         public GameObject Owner  => owner;
 
-
-
         public NormalHear( GameObject owner ) 
         {
             this.owner = owner;
@@ -22,6 +20,11 @@ namespace Hojun
 
 
 
+        }
+
+        public void Hear(GameObject target)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
