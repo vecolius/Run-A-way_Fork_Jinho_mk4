@@ -109,18 +109,55 @@ namespace Jinho
     }
     #endregion
     #region AttackStrategy_class
-    public class GunAttackStrategy : IAttackStrategy
+    public class AttackStrategy : IAttackStrategy
     {
-        PlayerController player = null;
-        public GunAttackStrategy(object owner)
+        protected PlayerController player = null;
+        protected KeyCode keycode;
+        public AttackStrategy(object owner)
         {
             player = (PlayerController)owner;
         }
-        public void Attack()
+
+        public virtual void Attack()
+        {
+            
+        }
+        protected void WeaponChange()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                keycode = KeyCode.Alpha1;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                keycode = KeyCode.Alpha2;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                keycode = KeyCode.Alpha3;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                keycode = KeyCode.Alpha4;
+            }
+            if (player.currentWeapon == player.weaponSlot[player.SlotGetToKey(keycode)]) 
+                return;
+
+            //무기 교체 애니
+            player.currentWeapon = player.weaponSlot[player.SlotGetToKey(keycode)];
+            player.attackState = player.currentWeapon.attackState;
+        }
+    }
+    public class GunAttackStrategy : AttackStrategy
+    {
+        public GunAttackStrategy(object owner) : base(owner)
+        {
+        }
+        public override void Attack()
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.weaponSlot[0].Fire();
+                player.currentWeapon.Fire();
                 //주무기 발사 애니
             }
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -129,36 +166,26 @@ namespace Jinho
             }
         }
     }
-    public class MeleeAttackStrategy : IAttackStrategy
+    public class MeleeAttackStrategy : AttackStrategy
     {
-        PlayerController player = null;
-        public MeleeAttackStrategy(object owner)
+        public MeleeAttackStrategy(object owner) : base(owner)
         {
-            player = (PlayerController)owner;
         }
-        public void Attack()
+        public override void Attack()
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 player.currentWeapon.Fire();
                 //근접 공격 애니
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                //무기 교체 애니
-                player.currentWeapon = player.weaponSlot[0];
-                player.attackState = player.currentWeapon.attackState;
-            }
         }
     }
-    public class GranadeAttackStrategy : IAttackStrategy
+    public class GranadeAttackStrategy : AttackStrategy
     {
-        PlayerController player = null;
-        public GranadeAttackStrategy(object owner)
+        public GranadeAttackStrategy(object owner) : base(owner)
         {
-            player = (PlayerController)owner;
         }
-        public void Attack()
+        public override void Attack()
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -231,6 +258,7 @@ namespace Jinho
         public PlayerAttackState attackState;                       //현재 attack전력
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack 전략 dictionary
+        Dictionary<KeyCode, int> weaponSlotDic;                     //입력한 KeyCode에 따라 slot을 반환하는 dic
         void Start()
         {
             state = new PlayerState();
@@ -240,19 +268,38 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.walk, new Walk(this));
             moveDic.Add(PlayerMoveState.run, new Run(this));
 
+            attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
             attackDic.Add(PlayerAttackState.gun, new GunAttackStrategy(this));
             attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
             attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
 
+            SetSlotDic();
+            currentWeapon = weaponSlot[0];
+
             moveState = PlayerMoveState.idle;
-            attackState = PlayerAttackState.gun;
+            attackState = currentWeapon.attackState;
         }
 
         void Update()
         {
             moveDic[moveState]?.Moving();
             if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
-                currentWeapon?.Fire();
+            {
+                //currentWeapon?.Fire();
+                attackDic[attackState]?.Attack();
+            }
+        }
+        public int SlotGetToKey(KeyCode keycode)
+        {
+            return weaponSlotDic[keycode];
+        }
+        void SetSlotDic()   //weaponSlotDic을 입력하는 함수
+        {
+            weaponSlotDic = new Dictionary<KeyCode, int>();
+            weaponSlotDic.Add(KeyCode.Alpha1, 0);
+            weaponSlotDic.Add(KeyCode.Alpha2, 1);
+            weaponSlotDic.Add(KeyCode.Alpha3, 2);
+            weaponSlotDic.Add(KeyCode.Alpha4, 3);
         }
     }
 }
