@@ -27,7 +27,6 @@ namespace Hojun
         public override void Enter()
         {
             aniCompo.SetBool("Walk" , true);
-            ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.MoveEnum.WALK);
         }
 
         public override void Exit()
@@ -43,7 +42,6 @@ namespace Hojun
             // 거기서 던져준 enum이 넘어가야할 상태를 뜻 함
             // 그냥 그거 매칭해서 각각의 상태가 넘어가야할 곳 을 정해서 필요한 값만
             // 넘어가면 문제 없을 듯
-
 
         }
 

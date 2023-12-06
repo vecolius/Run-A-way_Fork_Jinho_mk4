@@ -8,7 +8,16 @@ namespace Hojun
     public interface IStateMachine
     {
         object GetOwner();
-        void SetState(MoveState stateName);
+        void SetState(ZombieState stateName);
+    }
+
+
+    public enum ZombieState
+    {
+        IDLE,
+        SEARCH_WALK,
+        SEARCH_RUN,
+        FIND
     }
 
     public enum MoveState
@@ -23,22 +32,34 @@ namespace Hojun
     {
         public T owner = null;
         public State curState;
+<<<<<<< Updated upstream
         public Dictionary<MoveState, State> stateDic;
+=======
+
+>>>>>>> Stashed changes
 
         public StateMachine(T owner)
         {
             this.owner = owner;
+<<<<<<< Updated upstream
             stateDic = new Dictionary<MoveState, State>();
+=======
+>>>>>>> Stashed changes
         }
 
-        public void AddState(MoveState stateName, State state)
+        public void AddState(ZombieState stateName, State state)
         {
+<<<<<<< Updated upstream
             if (stateDic.ContainsKey(stateName))
                 return;
 
             stateDic.Add(stateName, state);
             state.Init(this);
 
+=======
+
+        
+>>>>>>> Stashed changes
         }
 
         public object GetOwner()
@@ -46,6 +67,7 @@ namespace Hojun
             return owner;
         }
 
+<<<<<<< Updated upstream
         public void SetState(MoveState stateName)
         {
             if (stateDic.ContainsKey(stateName))
@@ -58,6 +80,19 @@ namespace Hojun
                 curState.Enter();
 
             }
+=======
+        public void SetState(Hojun.ZombieState stateName)
+        {
+        //    if (moveDic.ContainsKey(stateName))
+        //    {
+        //        if (curState != null)
+        //        {
+        //            curState.Exit();
+        //        }
+        //        curState = moveDic[stateName];
+        //        curState.Enter();
+        //    }
+>>>>>>> Stashed changes
         }
 
         public void Update()

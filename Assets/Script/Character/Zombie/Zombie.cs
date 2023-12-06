@@ -29,29 +29,40 @@ namespace Hojun
     }
 
 
-    public abstract class Zombie : Character, IMoveAble 
+    public abstract class Zombie : Character, IZombieAble
     {
 
         protected StateMachine<Zombie> stateMachine;
         protected ZombieData zombieData;
         public ZombieData Data { get => zombieData;}
 
-
-        public enum MoveEnum
+        public virtual float HearValue 
         {
-            IDLE,
-            WALK,
-            RUN
+            get 
+            {
+                return hearValue;
+            }
+            set 
+            {
+                hearValue = value;
+            }
         }
-        Dictionary<MoveEnum, IMoveStrategy> moveDict;
+        float hearValue;
 
-        public IMoveStrategy GetMoveDict(MoveEnum move)
+        Dictionary<ZombieState, IMoveStrategy> zombieSt;
+        public IMoveStrategy GetMoveDict(ZombieState move)
         {
-            return moveDict[move];
+            return zombieSt[move];
         }
-
+        
         public IMoveStrategy MoveStrategy { get => moveStrtegy; set { moveStrtegy = value; } }
         IMoveStrategy moveStrtegy;
+
+
+
+        //public IHearStrategy HearStrategy { get => hearStrategy; set { hearStrategy = value; } }
+        //IHearStrategy hearStrategy;
+        
 
         protected void Awake()
         {
@@ -62,6 +73,7 @@ namespace Hojun
         {
             MoveStrategy.Move(target);
         }
+
     }
 
 
