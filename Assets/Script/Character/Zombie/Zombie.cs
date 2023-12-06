@@ -39,6 +39,8 @@ namespace Hojun
         public float hearValue;
         public ZombieData Data { get => zombieData;}
 
+        public Transform traceTarget;
+        public Vector3 destination = Vector3.negativeInfinity;
 
         public enum MoveEnum
         {
@@ -54,8 +56,8 @@ namespace Hojun
             return moveDict[move];
         }
 
-        public IMoveStrategy MoveStrategy { get => moveStrtegy; set { moveStrtegy = value; } }
-        IMoveStrategy moveStrtegy;
+        public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
+        IMoveStrategy moveStrategy;
 
         protected void Awake()
         {
@@ -63,10 +65,15 @@ namespace Hojun
             hearComponent = GetComponent<HearComponent>();
         }
 
-        public virtual void Move(GameObject target) 
+
+
+        public virtual void Move() 
         {
-            MoveStrategy.Move(target);
+
         }
+
+
+
     }
 
 
