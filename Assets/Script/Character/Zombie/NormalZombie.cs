@@ -16,12 +16,17 @@ namespace Hojun
         RUN
     }
 
+    
+
 
     public class NormalZombie : Zombie, IMoveAble
     {
 
+        Vector3 myvec;
+
         public new void Awake()
         {
+            myvec = gameObject.transform.localPosition;
 
             //fsfsd
             base.Awake();
