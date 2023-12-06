@@ -14,6 +14,7 @@ namespace Hojun
         IDLE,
         WALK,
         RUN
+            //qwefoihqwegfoihqwfpoijh
     }
 
     
