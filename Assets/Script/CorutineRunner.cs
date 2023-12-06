@@ -8,7 +8,7 @@ public class CorutineRunner : MonoBehaviour
 {
 
     private static CorutineRunner instance;
-    private static List<Coroutine> runingCo = new List<Coroutine>();
+    private List<Coroutine> runingCo = new List<Coroutine>();
     
 
     private void Awake()
@@ -22,14 +22,14 @@ public class CorutineRunner : MonoBehaviour
         //fdsffdsfds
     }
 
-    public static Coroutine Start(IEnumerator coroutine)
+    public Coroutine StartCorutine(IEnumerator coroutine)
     {
         var corutineData = instance.StartCoroutine(coroutine);
         runingCo.Add(corutineData);
         return corutineData;
     }
 
-    public static void Stop(Coroutine coroutine)
+    public void Stop(Coroutine coroutine)
     {
 
         var runItem = runingCo.Find(run => run == coroutine);
@@ -37,12 +37,12 @@ public class CorutineRunner : MonoBehaviour
         instance.StopCoroutine(runItem);
     }
 
-    public static void OneFrame(Action e) 
+    public void OneFrame(Action e) 
     {
         instance.StartCoroutine(One(e));
     }
 
-    static IEnumerator One(Action myFunc)
+    public IEnumerator One(Action myFunc)
     {
 
         yield return null;

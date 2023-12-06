@@ -32,7 +32,23 @@ namespace Hojun
         public void Move(GameObject target);
     }
 
+<<<<<<< Updated upstream
+=======
+    //public interface IHearAble 
+    //{
+    //    public IHearStrategy HearStrategy { get; set; }
 
+    //    public float GetHearValue(GameObject target);
+    //}
+
+    //public interface IHearStrategy
+    //{
+    //    public float Hear( GameObject target );
+    //}
+
+    public interface IZombieAble : IMoveAble
+    {
+>>>>>>> Stashed changes
 
 
 }
