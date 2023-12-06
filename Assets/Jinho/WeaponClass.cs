@@ -121,8 +121,6 @@ namespace Jinho
         public int totalBullet;            //내가 가지고 있는 총알의 합계
         public Transform firePos;          //총알 발사 위치
         public GameObject bullet;          //날아갈 총알 GameObject
-
-        public bool isSetData;
         void Awake()
         {
             SetWeapon();
@@ -141,7 +139,6 @@ namespace Jinho
                     weapon = new Handgun(weaponName, image, damage, maxBullet, bulletCount, maxTotalBullet, totalBullet, firePos, attackState, bullet);
                     break;
             }
-            isSetData = weapon != null;
         }
         private void OnTriggerEnter(Collider other)
         {

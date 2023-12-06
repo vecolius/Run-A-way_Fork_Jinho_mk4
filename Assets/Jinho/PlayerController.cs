@@ -160,10 +160,7 @@ namespace Jinho
                 player.currentWeapon.Fire();
                 //주무기 발사 애니
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-
-            }
+            WeaponChange();
         }
     }
     public class MeleeAttackStrategy : AttackStrategy
@@ -178,6 +175,7 @@ namespace Jinho
                 player.currentWeapon.Fire();
                 //근접 공격 애니
             }
+            WeaponChange();
         }
     }
     public class GranadeAttackStrategy : AttackStrategy
@@ -192,10 +190,7 @@ namespace Jinho
                 player.currentWeapon.Fire();
                 //수류탄 추척 애니
             }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                //무기 교체 애니
-            }
+            WeaponChange();
         }
     }
     #endregion
