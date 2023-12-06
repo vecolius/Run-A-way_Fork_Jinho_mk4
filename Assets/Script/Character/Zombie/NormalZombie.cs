@@ -21,7 +21,7 @@ namespace Hojun
 
     public class NormalZombie : Zombie, IMoveAble
     {
-
+        //fdsfdsf
         Vector3 myvec;
 
         public new void Awake()
@@ -45,6 +45,10 @@ namespace Hojun
         {
             stateMachine.Update();
         }
+
+
+
+
     }
 
 
