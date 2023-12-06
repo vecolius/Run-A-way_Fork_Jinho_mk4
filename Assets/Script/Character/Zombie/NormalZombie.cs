@@ -27,6 +27,7 @@ namespace Hojun
         public new void Awake()
         {
             myvec = gameObject.transform.localPosition;
+            //asdqwe
             //fdsfds
             //fsfsd
             base.Awake();
