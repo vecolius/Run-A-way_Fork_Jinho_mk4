@@ -27,7 +27,7 @@ namespace Hojun
         public new void Awake()
         {
             myvec = gameObject.transform.localPosition;
-
+            //fdsfds
             //fsfsd
             base.Awake();
             stateMachine = new StateMachine<Zombie>(this);
