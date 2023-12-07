@@ -43,9 +43,11 @@ namespace Jinho
         public Idle(object owner)
         { 
             player = (PlayerController)owner;
+
         }
         public void Moving()
         {
+            player.animator.SetFloat("Blend", 0f);
             if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
                 player.moveState = PlayerMoveState.walk;
         }
@@ -66,22 +68,24 @@ namespace Jinho
             if (Input.GetKey(KeyCode.A))
             {
                 vec += Vector3.left;
+                player.animator.SetFloat("Blend", 0.2f);
 
             }
             if (Input.GetKey(KeyCode.W))
             {
                 vec += Vector3.forward;
-                player.animator.SetBool("Front", true);
+                player.animator.SetFloat("Blend", 0.8f);
             }
             player.animator.SetBool("Front", true);
             if (Input.GetKey(KeyCode.D))
             {
                 vec += Vector3.right;
-
+                player.animator.SetFloat("Blend", 0.4f);
             }
             if (Input.GetKey(KeyCode.S))
             {
                 vec += Vector3.back;
+                player.animator.SetFloat("Blend", 0.6f);
 
             }
 
@@ -102,7 +106,7 @@ namespace Jinho
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {
                 player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.2f) * Time.deltaTime);
-
+                player.animator.SetFloat("Blend", 1f);
             }
             if(Input.GetKeyUp(KeyCode.LeftShift))
                 player.moveState= PlayerMoveState.walk;
