@@ -13,15 +13,6 @@ namespace Jaeyoung
         const float ChaseValue = 2.0f;
         const float DetectiveValue = 1.0f;
 
-
-        public float Hear(GameObject target)
-        {
-            float soundSize = target.GetComponent<SoundComponent>().soundAreaSize;
-            float resultDistance = (soundSize - Vector3.Distance(transform.position, target.transform.position));
-
-            return resultDistance;
-        }
-
         void IHearAble.Hear(GameObject soundOwner)
         {
             float soundSize = soundOwner.GetComponent<SoundComponent>().soundAreaSize;
