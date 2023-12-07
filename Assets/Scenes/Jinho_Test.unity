@@ -818,7 +818,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4feea0e1f937cf34abaa6054066f158f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimPos: {x: 0, y: 0, z: 0}
   testAimObj: {fileID: 1862755353535512360, guid: 4b0249287fbab984ba900fe88e2bae32, type: 3}
 --- !u!1001 &7233024482972641154
 PrefabInstance:

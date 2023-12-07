@@ -143,7 +143,10 @@ namespace Jinho
         public Granade(WeaponData weaponData) : base(weaponData)
         {
         }
-
+        public override void Fire()
+        {
+            
+        }
     }
     public class WeaponClass : MonoBehaviour
     {
@@ -156,7 +159,7 @@ namespace Jinho
         }
         public WeaponType weaponType;
         public Weapon weapon = null;
-        public WeaponData weaponData;
+        public WeaponData weaponData = null;
         void Awake()
         {
             SetWeapon();
