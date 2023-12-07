@@ -1,4 +1,5 @@
 using Hojun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
@@ -11,9 +12,30 @@ namespace Jaeyoung
     {
         public float soundAreaSize;
         public float time;
+        public event Action soundAction;
+
+
 
         private void OnEnable()
         {
+            soundAction += ActiveSound;
+        }
+
+
+        public void Update()
+        {
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                Debug.Log("abdcd");
+                soundAction();
+            }
+        }
+
+
+        public void ActiveSound()
+        {
+
             Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);
 
             if (coll.Length > 0)
@@ -24,6 +46,7 @@ namespace Jaeyoung
                         zom.Hear(this.gameObject);
                 }
             }
+
         }
 
         private void OnDrawGizmos()

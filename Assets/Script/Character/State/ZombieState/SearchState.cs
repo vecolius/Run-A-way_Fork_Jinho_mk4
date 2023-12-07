@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Hojun
 {
@@ -11,50 +12,60 @@ namespace Hojun
 
         Zombie ownerZombie;
         Animator aniCompo;
+        NavMeshAgent agent;
+        public float runHearValue = 30f;
 
-        public float walkHearValue = 10f;
-        public float runHearValue = 20f;
+
 
 
         public SearchState(IStateMachine sm) : base(sm)
         {
-            GameObject owner = (GameObject)sm.GetOwner();
-
-            if( owner.TryGetComponent<Zombie>( out ownerZombie ) ) 
+            ownerZombie = owner.GetComponent<Zombie>();
+            agent = owner.GetComponent<NavMeshAgent>();
+            if(ownerZombie == null) 
             {
+                Debug.Log("ERROR");
             }
-            else
-                Debug.Log("Don't have Zombie Compo");
-            
+
         }
 
         public override void Enter()
         {
-            aniCompo.SetBool("Walk" , true);
-            ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.IDLE);
+            //aniCompo.SetBool("Walk" , true);
+            agent.enabled = true;
+            ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.WALK);
+            ownerZombie.Move();
+
+            Debug.Log("searchEnter");
         }
 
         public override void Exit()
         {
-            aniCompo.SetBool("Walk" , false);
+            //aniCompo.SetBool("Walk" , false);
+            agent.enabled = false;
         }
 
         public override void Update()
         {
 
-            if( ownerZombie.hearValue <= walkHearValue && ownerZombie.hearValue >= runHearValue ) 
-            {
-                Debug.Log("walk");
-                ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.WALK);
-            }
-            else if ( ownerZombie.hearValue <= runHearValue )
-            {
+            Debug.Log("check");
+            
+            Debug.Log(ownerZombie.traceTarget);
+            Debug.Log(ownerZombie.destination);
 
+
+            if (ownerZombie.hearValue >= runHearValue)
+            {
                 Debug.Log("Run");
+                agent.speed = ownerZombie.zombieData.Speed * 1.4f;
                 ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.RUN);
             }
+            else
+            {
+                agent.speed = ownerZombie.zombieData.Speed;
+                Debug.Log("Walk");
+            }
 
-            ownerZombie.Move();
         }
 
     }

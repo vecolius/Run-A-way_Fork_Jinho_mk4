@@ -5,43 +5,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class WalkStrategy : IMoveStrategy
+public class SearchStrategy : IMoveStrategy
 {
 
     public GameObject Owner => owner.gameObject;
     Zombie owner;
     NavMeshAgent agent;
 
-    public WalkStrategy(Zombie owner)
+    public SearchStrategy(Zombie owner)
     {
         this.owner = owner;
 
         agent = owner.GetComponent<NavMeshAgent>();
-        if (null != agent) 
+        if (null == agent) 
         {
-            Debug.Log("agent is null check this error");
+            Debug.Log("agent is null, check this error");
         }
-
+        
     }
 
     public void Move(GameObject target)
     {
         agent.SetDestination(target.transform.position);
+        Debug.Log("target class");
     }
 
     public void Move(Vector3 target)
     {
         agent.SetDestination(target);
-
         float temp = Vector3.Distance(owner.transform.position, target);
 
-        if(temp >= 10)
-        {
-
-            //check гр ╟м
-            Debug.Log("maybe this line bug?");
-            owner.destination = Vector3.negativeInfinity;
-        }
+        Debug.Log("target vector3");
     }
 
 }

@@ -30,19 +30,8 @@ namespace Hojun
     }
 
 
-    public abstract class Zombie : Character, IMoveAble
-    {
-
-        protected StateMachine<Zombie> stateMachine;
-        protected ZombieData zombieData;
-        public HearComponent hearComponent;
-
-        public float hearValue;
-
-        public ZombieData Data { get => zombieData;}
-
-        public Transform traceTarget;
-        public Vector3 destination = Vector3.negativeInfinity;
+    public abstract class Zombie : Character, IMoveAble 
+    { 
 
         public enum ZombieState
         {
@@ -57,7 +46,23 @@ namespace Hojun
             WALK,
             RUN
         }
-        Dictionary<ZombieMove, IMoveStrategy> moveDict;
+    
+
+        protected StateMachine<Zombie> stateMachine;
+        public ZombieData zombieData;
+        public HearComponent hearComponent;
+
+        public float hearValue;
+
+        public ZombieData Data { get => zombieData;}
+
+        public Transform traceTarget;
+        public Vector3 destination;
+
+
+        protected Dictionary<ZombieMove, IMoveStrategy> moveDict = new Dictionary<ZombieMove, IMoveStrategy>();
+        protected Dictionary<ZombieState, State> stateDict = new Dictionary<ZombieState, State>();
+
 
         public IMoveStrategy GetMoveDict(ZombieMove move)
         {
@@ -71,6 +76,7 @@ namespace Hojun
         {
             stateMachine = new StateMachine<Zombie>(this);
             hearComponent = GetComponent<HearComponent>();
+            zombieData = new ZombieData(50,10,20);
         }
 
 
@@ -93,6 +99,9 @@ namespace Hojun
 
             throw new System.NotImplementedException();
         }
+
+
+
     }
 
 

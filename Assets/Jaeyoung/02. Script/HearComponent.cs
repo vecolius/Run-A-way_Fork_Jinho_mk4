@@ -18,7 +18,7 @@ namespace Jaeyoung
             float soundSize = soundOwner.GetComponent<SoundComponent>().soundAreaSize;
             float resultDistance = (soundSize - Vector3.Distance(transform.position, soundOwner.transform.position));
 
-            if(TryGetComponent<Zombie>( out  Zombie owner)) 
+            if(gameObject.TryGetComponent<Zombie>( out  Zombie owner )) 
             {
                 owner.hearValue = resultDistance;
             }

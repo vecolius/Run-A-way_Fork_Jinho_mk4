@@ -2,6 +2,7 @@ using Hojun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class IdleState : Hojun.State
 {
@@ -47,20 +48,26 @@ public class IdleState : Hojun.State
 
     public override void Enter()
     {
-        animator.SetBool("Idle" , true);
+        //animator.SetBool("Idle" , true);
+
+        
     }
 
     public override void Exit() 
     {
-        animator.SetBool("Idle" , false);
+        //animator.SetBool("Idle" , false);
     }
 
     public override void Update() 
     {
 
-        if (ownerZombie.hearValue <= HearSoundWalk && ownerZombie.hearValue <= HearSoundRun)
-        {
+        Debug.Log("not bug");
+        Debug.Log(ownerZombie.hearValue);
 
+
+        if (ownerZombie.hearValue >= 0.1f)
+        {
+            stateMachine.SetState(Zombie.ZombieState.SEARCH);
         }
 
 
