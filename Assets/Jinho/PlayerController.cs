@@ -292,8 +292,6 @@ namespace Jinho
 
             moveState = PlayerMoveState.idle;
             attackState = currentWeapon.attackState;
-            //asdf1231asdf123asdf123 hhehe hoho ^o^)/ // ㅇ,으아아아아//
-            //히히 진호 다녀감
         }
 
         void Update()
