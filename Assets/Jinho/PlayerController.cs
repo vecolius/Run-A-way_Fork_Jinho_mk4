@@ -20,6 +20,7 @@ namespace Jinho
         walk,
         run,
         dead,
+        jump
     }
     public enum PlayerAttackState
     {
@@ -47,9 +48,17 @@ namespace Jinho
         }
         public void Moving()
         {
-            player.animator.SetFloat("Blend", 0f);
+            player.animator.SetFloat("WalkType", 0f);
             if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
                 player.moveState = PlayerMoveState.walk;
+
+            if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
+            {
+                player.animator.SetTrigger("Jump");
+                player.animator.SetFloat("JumpType", 0f);   //그냥 여기서 짬푸
+                player.moveState = PlayerMoveState.jump;
+            }
+
         }
     }
     public class Walk : IMoveStrategy
@@ -68,28 +77,35 @@ namespace Jinho
             if (Input.GetKey(KeyCode.A))
             {
                 vec += Vector3.left;
-                player.animator.SetFloat("Blend", 0.2f);
+                player.animator.SetFloat("WalkType", 0.2f);
 
             }
             if (Input.GetKey(KeyCode.W))
             {
                 vec += Vector3.forward;
-                player.animator.SetFloat("Blend", 0.8f);
+                player.animator.SetFloat("WalkType", 0.8f);
             }
             player.animator.SetBool("Front", true);
             if (Input.GetKey(KeyCode.D))
             {
                 vec += Vector3.right;
-                player.animator.SetFloat("Blend", 0.4f);
+                player.animator.SetFloat("WalkType", 0.4f);
             }
             if (Input.GetKey(KeyCode.S))
             {
                 vec += Vector3.back;
-                player.animator.SetFloat("Blend", 0.6f);
-
+                player.animator.SetFloat("WalkType", 0.6f);
             }
 
-            if(vec == Vector3.zero)
+            if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
+            {
+                player.moveState = PlayerMoveState.jump;
+                player.animator.SetTrigger("Jump");
+                player.animator.SetFloat("JumpType", 1f);   
+            }
+
+
+            if (vec == Vector3.zero)
                 player.moveState = PlayerMoveState.idle;
             player.transform.Translate(vec.normalized * player.state.MoveSpeed * Time.deltaTime);
         }
@@ -106,23 +122,36 @@ namespace Jinho
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {
                 player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.2f) * Time.deltaTime);
-                player.animator.SetFloat("Blend", 1f);
+                player.animator.SetFloat("WalkType", 1f);
+                if (Input.GetKey(KeyCode.Space) && player.isGrounded)
+                {
+                    player.moveState = PlayerMoveState.jump;
+                    player.animator.SetTrigger("Jump");
+                    player.animator.SetFloat("JumpType", 1f);
+                }
             }
             if(Input.GetKeyUp(KeyCode.LeftShift))
                 player.moveState= PlayerMoveState.walk;
+
         }
     }
     public class Jump : IMoveStrategy
     {
         PlayerController player = null;
+        
         public Jump(object owner)
         {
-            player = ( PlayerController)owner;
+            player = (PlayerController)owner;
         }
+
         public void Moving()
         {
+            player.isGrounded = false;
+        }
+
 
         }
+
     }
     #endregion
     #region AttackStrategy_class
@@ -260,60 +289,70 @@ namespace Jinho
             }
         }
     }
-    public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
+{
+    public PlayerState state;                                   //player의 기본state
+    public Weapon[] weaponSlot = new Weapon[4];                 //weapon slot
+    public Weapon currentWeapon = null;                         //현재 들고있는 weapon
+
+    public PlayerMoveState moveState;                           //현재 move전략
+    public PlayerAttackState attackState;                       //현재 attack전력
+    Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
+    Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack 전략 dictionary
+    Dictionary<KeyCode, int> weaponSlotDic;                     //입력한 KeyCode에 따라 slot을 반환하는 dic
+
+    public Animator animator;
+    public bool isGrounded = true;
+    void Start()
     {
-        public PlayerState state;                                   //player의 기본state
-        public Weapon[] weaponSlot = new Weapon[4];                 //weapon slot
-        public Weapon currentWeapon = null;                         //현재 들고있는 weapon
+        state = new PlayerState();
 
-        public PlayerMoveState moveState;                           //현재 move전략
-        public PlayerAttackState attackState;                       //현재 attack전력
-        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
-        Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack 전략 dictionary
-        Dictionary<KeyCode, int> weaponSlotDic;                     //입력한 KeyCode에 따라 slot을 반환하는 dic
+        moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
+        moveDic.Add(PlayerMoveState.idle, new Idle(this));
+        moveDic.Add(PlayerMoveState.walk, new Walk(this));
+        moveDic.Add(PlayerMoveState.run, new Run(this));
+        moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
-        public Animator animator;
-        void Start()
+        attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
+        attackDic.Add(PlayerAttackState.gun, new GunAttackStrategy(this));
+        attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
+        attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
+
+        SetSlotDic();
+        currentWeapon = weaponSlot[0];
+
+        moveState = PlayerMoveState.idle;
+        //attackState = currentWeapon.attackState;
+    }
+
+    void Update()
+    {
+        moveDic[moveState]?.Moving();
+        if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
         {
-            state = new PlayerState();
-
-            moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
-            moveDic.Add(PlayerMoveState.idle, new Idle(this));
-            moveDic.Add(PlayerMoveState.walk, new Walk(this));
-            moveDic.Add(PlayerMoveState.run, new Run(this));
-
-            attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
-            attackDic.Add(PlayerAttackState.gun, new GunAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
-
-            SetSlotDic();
-            currentWeapon = weaponSlot[0];
-
-            moveState = PlayerMoveState.idle;
-            attackState = currentWeapon.attackState;
-        }
-
-        void Update()
-        {
-            moveDic[moveState]?.Moving();
-            if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
-            {
-                //currentWeapon?.Fire();
-                attackDic[attackState]?.Attack();
-            }
-        }
-        public int SlotGetToKey(KeyCode keycode)
-        {
-            return weaponSlotDic[keycode];
-        }
-        void SetSlotDic()   //weaponSlotDic을 입력하는 함수
-        {
-            weaponSlotDic = new Dictionary<KeyCode, int>();
-            weaponSlotDic.Add(KeyCode.Alpha1, 0);
-            weaponSlotDic.Add(KeyCode.Alpha2, 1);
-            weaponSlotDic.Add(KeyCode.Alpha3, 2);
-            weaponSlotDic.Add(KeyCode.Alpha4, 3);
+            //currentWeapon?.Fire();
+            attackDic[attackState]?.Attack();
         }
     }
-}
+    public int SlotGetToKey(KeyCode keycode)
+    {
+        return weaponSlotDic[keycode];
+    }
+    void SetSlotDic()   //weaponSlotDic을 입력하는 함수
+    {
+        weaponSlotDic = new Dictionary<KeyCode, int>();
+        weaponSlotDic.Add(KeyCode.Alpha1, 0);
+        weaponSlotDic.Add(KeyCode.Alpha2, 1);
+        weaponSlotDic.Add(KeyCode.Alpha3, 2);
+        weaponSlotDic.Add(KeyCode.Alpha4, 3);
+    }
+
+    public void Landing()
+    {
+        Debug.Log("착지!");
+        isGrounded = true;
+        moveState = PlayerMoveState.idle;
+
+    }
+}   
+
