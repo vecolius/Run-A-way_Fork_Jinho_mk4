@@ -6,13 +6,13 @@ namespace Hojun
 {
 
 
-    public class WalkState : State
+    public class SearchState : State
     {
 
         Zombie ownerZombie;
         Animator aniCompo;
 
-        public WalkState(IStateMachine sm) : base(sm)
+        public SearchState(IStateMachine sm) : base(sm)
         {
             GameObject owner = (GameObject)sm.GetOwner();
 
