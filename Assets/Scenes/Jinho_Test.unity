@@ -330,6 +330,7 @@ MonoBehaviour:
   moveState: 0
   attackState: 0
   animator: {fileID: 1199165453}
+  isGrounded: 1
 --- !u!95 &1199165453 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 95279625000418924, guid: af169be12f376ce46a3e6b4bee8b8ffe, type: 3}
