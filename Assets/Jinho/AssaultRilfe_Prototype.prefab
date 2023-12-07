@@ -200,6 +200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 0
+  attackState: 0
+  weaponName: "\uC2E4\uD5D8\uC6A9 \uB77C\uC774\uD50C"
   image: {fileID: 0}
   damage: 1
   maxBullet: 30

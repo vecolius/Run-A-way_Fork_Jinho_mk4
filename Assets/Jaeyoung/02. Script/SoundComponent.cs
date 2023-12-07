@@ -1,3 +1,4 @@
+using Hojun;
 using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
@@ -11,31 +12,16 @@ namespace Jaeyoung
         public float soundAreaSize;
         public float time;
 
-        private void Start()
+        private void OnEnable()
         {
-            StartCoroutine(Boom());
-        }
+            Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);
 
-        IEnumerator Boom()
-        {
-            while (true)
+            if (coll.Length > 0)
             {
-                Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);
-
-                if (coll.Length > 0)
+                foreach (Collider zombie in coll)
                 {
-                    foreach (Collider zombie in coll)
-                    {
-                        if (zombie.TryGetComponent<TestTarget>(out TestTarget zom))
-                        {
-                            if (zom.HearStrategy == null)
-                                continue;
-
-                            // zom.hearValue¸¦ ¼¼ÆÃ.
-                        }
-                    }
-
-                    yield return new WaitForSeconds(time);
+                    if (zombie.TryGetComponent<IHearAble>(out IHearAble zom))
+                        zom.Hear(this.gameObject);
                 }
             }
         }

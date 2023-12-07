@@ -5,27 +5,7 @@ using UnityEngine;
 
 namespace Hojun
 {
-    public class NormalHear : IHearStrategy
-    {
-        private GameObject owner;
-        public GameObject Owner  => owner;
-
-        public NormalHear( GameObject owner ) 
-        {
-            this.owner = owner;
-        }
-
-        public void Hear()
-        {
 
 
-
-        }
-
-        public void Hear(GameObject target)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
 }
 
