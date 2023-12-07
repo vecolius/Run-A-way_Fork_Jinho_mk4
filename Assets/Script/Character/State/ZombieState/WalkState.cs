@@ -28,18 +28,16 @@ namespace Hojun
         {
             aniCompo.SetBool("Walk" , true);
             ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieState.SEARCH_WALK);
+            ownerZombie.Move();
         }
 
         public override void Exit()
         {
-
             aniCompo.SetBool("Walk" , false);
         }
 
         public override void Update()
         {
-
-            Debug.Log("fdsfds");
 
 
 

@@ -30,7 +30,7 @@ namespace Hojun
     }
 
 
-    public abstract class Zombie : Character, IMoveAble 
+    public abstract class Zombie : Character, IMoveAble
     {
 
         protected StateMachine<Zombie> stateMachine;
@@ -74,8 +74,10 @@ namespace Hojun
 
         }
 
-
-
+        public void Hear(GameObject soundOwner)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
 

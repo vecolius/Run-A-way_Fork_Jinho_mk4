@@ -20,10 +20,8 @@ namespace Jaeyoung
             {
                 foreach (Collider zombie in coll)
                 {
-                    if (zombie.TryGetComponent<Zombie>(out Zombie zom))
-                    {
-                        zom.hearValue = zom.hearComponent.Hear(this.gameObject);
-                    }
+                    if (zombie.TryGetComponent<IHearAble>(out IHearAble zom))
+                        zom.Hear(this.gameObject);
                 }
             }
         }

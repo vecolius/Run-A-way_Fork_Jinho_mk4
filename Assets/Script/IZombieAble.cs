@@ -19,11 +19,19 @@ namespace Hojun
         public void Move();
     }
 
-    public interface IHearStrategy
+    public interface IHearAble
     {
-        public void Hear( GameObject target );
 
+        public void Hear(GameObject soundOwner);
     }
+
+
+
+    //public interface IHearStrategy
+    //{
+    //    public void Hear( GameObject target );
+
+    //}
 
 
 }

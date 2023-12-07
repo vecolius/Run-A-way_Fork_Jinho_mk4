@@ -10,7 +10,7 @@ namespace Hojun
 {
 
 
-    public class NormalZombie : Zombie, IMoveAble
+    public class NormalZombie : Zombie
     {
         Vector3 myvec;
 
@@ -35,7 +35,10 @@ namespace Hojun
             stateMachine.Update();
         }
 
+        public override void Move()
+        {
 
+        }
 
 
     }
