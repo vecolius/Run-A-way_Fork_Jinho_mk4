@@ -291,6 +291,7 @@ namespace Jinho
     public class PlayerController : MonoBehaviour
     {
         public PlayerState state;                                   //player의 기본state
+        public GameObject[] weaponObjSlot = new GameObject[4];
         public Weapon[] weaponSlot = new Weapon[4];                 //weapon slot
         public Weapon currentWeapon = null;                         //현재 들고있는 weapon
 

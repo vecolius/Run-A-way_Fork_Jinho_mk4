@@ -106,7 +106,7 @@ namespace Jinho
 
         public override void Fire()
         {
-            
+            Debug.Log("»ñ°Ç »§!!");
         }
         public override void Reload()
         {
@@ -121,7 +121,7 @@ namespace Jinho
 
         public override void Fire()
         {
-            
+            Debug.Log("±ÇÃÑ »§¾ß!!!");
         }
         public override void Reload()
         {
@@ -135,7 +135,7 @@ namespace Jinho
         }
         public override void Fire()
         {
-            
+            Debug.Log("Ä® ¼­°Æ!!!!");
         }
     }
     public class Granade : Weapon
@@ -145,7 +145,7 @@ namespace Jinho
         }
         public override void Fire()
         {
-            
+            Debug.Log("¼ö·ùÅº ÅõÃ´~");
         }
     }
     public class WeaponClass : MonoBehaviour
@@ -156,6 +156,7 @@ namespace Jinho
             Shotgun,
             Handgun,
             Sword,
+            Granade,
         }
         public WeaponType weaponType;
         public Weapon weapon = null;
@@ -180,15 +181,38 @@ namespace Jinho
                 case WeaponType.Sword:
                     weapon = new Sword(weaponData);
                     break;
+                case WeaponType.Granade:
+                    weapon = new Granade(weaponData);
+                    break;
             }
+        }
+        void SetPlayerSlot(PlayerController player)
+        {
+            switch(weaponType)
+            {
+                case WeaponType.Rifle:
+                case WeaponType.Shotgun:
+                    player.weaponSlot[0] = weapon;
+                    player.weaponObjSlot[0] = gameObject;
+                    break;
+                case WeaponType.Handgun:
+                case WeaponType.Sword:
+                    player.weaponSlot[1] = weapon;
+                    player.weaponObjSlot[1] = gameObject;
+                    break;
+                case WeaponType.Granade:
+                    player.weaponSlot[3] = weapon;
+                    player.weaponObjSlot[3] = gameObject;
+                    break;
+            }
+            gameObject.SetActive(false);
         }
         private void OnTriggerEnter(Collider other)
         {
             if(other.TryGetComponent(out PlayerController player))
             {
-                player.weaponSlot[0] = weapon;
+                SetPlayerSlot(player);
                 player.currentWeapon = player.weaponSlot[0];
-                gameObject.SetActive(false);
             }
         }
     }
