@@ -36,22 +36,24 @@ namespace Hojun
         protected StateMachine<Zombie> stateMachine;
         protected ZombieData zombieData;
         public HearComponent hearComponent;
+
         public float hearValue;
+
         public ZombieData Data { get => zombieData;}
 
         public Transform traceTarget;
         public Vector3 destination = Vector3.negativeInfinity;
 
-        public enum MoveEnum
+        public enum ZombieState
         {
             IDLE,
             SEARCH_WALK,
             SEARCH_RUN,
             FIND
         }
-        Dictionary<MoveEnum, IMoveStrategy> moveDict;
+        Dictionary<ZombieState, IMoveStrategy> moveDict;
 
-        public IMoveStrategy GetMoveDict(MoveEnum move)
+        public IMoveStrategy GetMoveDict(ZombieState move)
         {
             return moveDict[move];
         }

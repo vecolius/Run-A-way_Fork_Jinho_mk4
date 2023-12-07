@@ -9,15 +9,6 @@ using UnityEditor;
 namespace Hojun 
 {
 
-    public enum MoveState
-    {
-        IDLE,
-        WALK,
-        RUN
-    }
-
-    
-
 
     public class NormalZombie : Zombie, IMoveAble
     {
@@ -29,7 +20,7 @@ namespace Hojun
 
             base.Awake();
             stateMachine = new StateMachine<Zombie>(this);
-            stateMachine.AddState(MoveState.IDLE, new IdleState(stateMachine));
+            stateMachine.AddState(Zombie.ZombieState.IDLE, new IdleState(stateMachine));
         }
 
         // Start is called before the first frame update
