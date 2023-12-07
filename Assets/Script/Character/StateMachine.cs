@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Hojun.Zombie;
 
 namespace Hojun
 {
@@ -8,7 +9,7 @@ namespace Hojun
     public interface IStateMachine
     {
         object GetOwner();
-        void SetState(MoveState stateName);
+        void SetState(ZombieState stateName);
     }
 
     public class StateMachine<T> : IStateMachine where T : class
@@ -16,16 +17,16 @@ namespace Hojun
         public T owner = null;
         public State curState;
 
-        public Dictionary<Hojun.MoveState, State> moveDic;
+        public Dictionary<ZombieState, State> moveDic;
 
 
         public StateMachine(T owner)
         {
             this.owner = owner;
-            moveDic = new Dictionary<Hojun.MoveState, State>();
+            moveDic = new Dictionary<ZombieState, State>();
         }
 
-        public void AddState(MoveState stateName, State state)
+        public void AddState(ZombieState stateName, State state)
         {
             if (moveDic.ContainsKey(stateName))
                 return;
@@ -43,7 +44,7 @@ namespace Hojun
             return owner;
         }
 
-        public void SetState(Hojun.MoveState stateName)
+        public void SetState(ZombieState stateName)
         {
             if (moveDic.ContainsKey(stateName))
             {

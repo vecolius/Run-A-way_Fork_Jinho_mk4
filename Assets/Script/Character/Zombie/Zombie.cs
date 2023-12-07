@@ -1,4 +1,5 @@
 using Hojun;
+using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,38 +30,53 @@ namespace Hojun
     }
 
 
-    public abstract class Zombie : Character, IMoveAble 
+    public abstract class Zombie : Character, IMoveAble
     {
 
         protected StateMachine<Zombie> stateMachine;
         protected ZombieData zombieData;
+        public HearComponent hearComponent;
+
+        public float hearValue;
+
         public ZombieData Data { get => zombieData;}
 
+        public Transform traceTarget;
+        public Vector3 destination = Vector3.negativeInfinity;
 
-        public enum MoveEnum
+        public enum ZombieState
         {
             IDLE,
-            WALK,
-            RUN
+            SEARCH_WALK,
+            SEARCH_RUN,
+            FIND
         }
-        Dictionary<MoveEnum, IMoveStrategy> moveDict;
+        Dictionary<ZombieState, IMoveStrategy> moveDict;
 
-        public IMoveStrategy GetMoveDict(MoveEnum move)
+        public IMoveStrategy GetMoveDict(ZombieState move)
         {
             return moveDict[move];
         }
 
-        public IMoveStrategy MoveStrategy { get => moveStrtegy; set { moveStrtegy = value; } }
-        IMoveStrategy moveStrtegy;
+        public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
+        IMoveStrategy moveStrategy;
 
         protected void Awake()
         {
             stateMachine = new StateMachine<Zombie>(this);
+            hearComponent = GetComponent<HearComponent>();
         }
 
-        public virtual void Move(GameObject target) 
+
+
+        public virtual void Move() 
         {
-            MoveStrategy.Move(target);
+
+        }
+
+        public void Hear(GameObject soundOwner)
+        {
+            throw new System.NotImplementedException();
         }
     }
 

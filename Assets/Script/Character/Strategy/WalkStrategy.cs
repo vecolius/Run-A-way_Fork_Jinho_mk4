@@ -3,30 +3,42 @@ using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class WalkStrategy : IMoveStrategy
 {
 
-
     public GameObject Owner => owner.gameObject;
-    
     Zombie owner;
-    
+    NavMeshAgent agent;
 
     public WalkStrategy(Zombie owner)
     {
         this.owner = owner;
-    }
 
+        agent = owner.GetComponent<NavMeshAgent>();
+        if (null != agent) 
+        {
+            Debug.Log("agent is null check this error");
+        }
+
+    }
 
     public void Move(GameObject target)
     {
-
-        //TODO_LIST navimeshAgent 사용해서 target의 위치로 갈 것 걷는 거니까 속도  *0.7 정도 하면 좋을 듯 
-        owner.transform.Translate( owner.transform.forward * owner.Data.Speed);
-        
+        agent.SetDestination(target.transform.position);
     }
 
+    public void Move(Vector3 target)
+    {
+        agent.SetDestination(target);
 
+        float temp = Vector3.Distance(owner.transform.position, target);
+
+        if(temp >= 10)
+        {
+            owner.destination = Vector3.negativeInfinity;
+        }
+    }
 
 }
