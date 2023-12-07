@@ -348,7 +348,6 @@ namespace Jinho
 
         public void Landing()
         {
-            Debug.Log("ÂøÁö!");
             isGrounded = true;
             moveState = PlayerMoveState.idle;
 
