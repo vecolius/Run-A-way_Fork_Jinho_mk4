@@ -21,7 +21,7 @@ public class bullet : MonoBehaviour
     {
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
     }
-    public void SetBulletData(Weapon weapon, float damage)
+    public void SetBulletData(Weapon weapon)
     {
         parentWeapon = weapon;
         damage = parentWeapon.damage;

@@ -209,7 +209,7 @@ MonoBehaviour:
   maxTotalBullet: 150
   totalBullet: 150
   firePos: {fileID: 78075886800523468}
-  bullet: {fileID: 0}
+  bullet: {fileID: 7233024481384809248, guid: 4eefa936c47806246969aca9484bf1d4, type: 3}
 --- !u!1 &76654897319928155
 GameObject:
   m_ObjectHideFlags: 0

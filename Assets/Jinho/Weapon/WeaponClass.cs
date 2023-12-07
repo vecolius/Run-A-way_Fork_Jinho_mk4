@@ -7,7 +7,7 @@ namespace Jinho
 {
     public class Weapon
     {
-        protected WeaponClass weaponData;
+        protected WeaponData weaponData;
         public string name;         //총기 이름
         public Sprite image;        //총기 종류 이미지
         public PlayerAttackState attackState;   //공격 방식
@@ -39,10 +39,10 @@ namespace Jinho
 
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
-        public Weapon(WeaponClass weaponData)
+        public Weapon(WeaponData weaponData)
         {
             this.weaponData = weaponData;
-            this.name = weaponData.name;
+            this.name = weaponData.weaponName;
             this.image = weaponData.image;
             this.attackState = weaponData.attackState;
             this.damage = weaponData.damage;
@@ -59,7 +59,7 @@ namespace Jinho
     }
     public class Rifle : Weapon
     {
-        public Rifle(WeaponClass weaponData) : base(weaponData)
+        public Rifle(WeaponData weaponData) : base(weaponData)
         {
         }
 
@@ -74,7 +74,7 @@ namespace Jinho
     }
     public class Shotgun : Weapon
     {
-        public Shotgun(WeaponClass weaponData) : base(weaponData)
+        public Shotgun(WeaponData weaponData) : base(weaponData)
         {
         }
 
@@ -89,7 +89,7 @@ namespace Jinho
     }
     public class Handgun : Weapon
     {
-        public Handgun(WeaponClass weaponData) : base(weaponData)
+        public Handgun(WeaponData weaponData) : base(weaponData)
         {
         }
 
@@ -104,12 +104,38 @@ namespace Jinho
     }
     public class Sword : Weapon
     {
-        public Sword(WeaponClass weaponData) : base(weaponData)
+        public Sword(WeaponData weaponData) : base(weaponData)
         {
         }
         public override void Fire()
         {
             
+        }
+    }
+    public class WeaponData
+    {
+        public string weaponName;          //무기 이름
+        public Sprite image;               //총기 종류 이미지
+        public float damage;               //총 대미지
+        public int maxBullet;              //장전되는 총알 양
+        public int bulletCount;            //현재 총에 들어있는 총알 양
+        public int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
+        public int totalBullet;            //내가 가지고 있는 총알의 합계
+        public Transform firePos;          //총알 발사 위치
+        public GameObject bullet;          //날아갈 총알 GameObject
+        public PlayerAttackState attackState;
+        public WeaponData(string name, Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState,GameObject bullet)
+        {
+            weaponName = name;
+            this.image = image;
+            this.damage = damage;
+            this.maxBullet = maxBullet;
+            this.bulletCount = bulletCount;
+            this.maxTotalBullet = maxTotalBullet;
+            this.totalBullet = totalBullet;
+            this.firePos = firePos;
+            this.bullet = bullet;
+            this.attackState = attackState;
         }
     }
     public class WeaponClass : MonoBehaviour
@@ -122,18 +148,9 @@ namespace Jinho
             Sword,
         }
         public WeaponType weaponType;
-        public PlayerAttackState attackState;
         public Weapon weapon = null;
 
-        public string weaponName;          //무기 이름
-        public Sprite image;               //총기 종류 이미지
-        public float damage;               //총 대미지
-        public int maxBullet;              //장전되는 총알 양
-        public int bulletCount;            //현재 총에 들어있는 총알 양
-        public int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
-        public int totalBullet;            //내가 가지고 있는 총알의 합계
-        public Transform firePos;          //총알 발사 위치
-        public GameObject bullet;          //날아갈 총알 GameObject
+        public WeaponData weaponData;
         void Awake()
         {
             SetWeapon();
@@ -143,16 +160,16 @@ namespace Jinho
             switch (weaponType)
             {
                 case WeaponType.Rifle:
-                    weapon = new Rifle(this);
+                    weapon = new Rifle(weaponData);
                     break;
                 case WeaponType.Shotgun:
-                    weapon = new Shotgun(this);
+                    weapon = new Shotgun(weaponData);
                     break;
                 case WeaponType.Handgun:
-                    weapon = new Handgun(this);
+                    weapon = new Handgun(weaponData);
                     break;
                 case WeaponType.Sword:
-                    weapon = new Sword(this);
+                    weapon = new Sword(weaponData);
                     break;
             }
         }
