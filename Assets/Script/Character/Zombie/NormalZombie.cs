@@ -9,10 +9,6 @@ using UnityEditor;
 namespace Hojun 
 {
 
-<<<<<<< Updated upstream
-
-    public class NormalZombie : Zombie
-=======
     public enum MoveState
     {
         IDLE,
@@ -20,7 +16,6 @@ namespace Hojun
         RUN
     }
     public class NormalZombie : Zombie, IMoveAble
->>>>>>> Stashed changes
     {
         Vector3 myvec;
 
