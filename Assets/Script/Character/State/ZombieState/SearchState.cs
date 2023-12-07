@@ -12,6 +12,10 @@ namespace Hojun
         Zombie ownerZombie;
         Animator aniCompo;
 
+        public float walkHearValue = 10f;
+        public float runHearValue = 20f;
+
+
         public SearchState(IStateMachine sm) : base(sm)
         {
             GameObject owner = (GameObject)sm.GetOwner();
@@ -27,8 +31,7 @@ namespace Hojun
         public override void Enter()
         {
             aniCompo.SetBool("Walk" , true);
-            ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieState.SEARCH_WALK);
-            ownerZombie.Move();
+            ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.IDLE);
         }
 
         public override void Exit()
@@ -39,14 +42,19 @@ namespace Hojun
         public override void Update()
         {
 
+            if( ownerZombie.hearValue <= walkHearValue && ownerZombie.hearValue >= runHearValue ) 
+            {
+                Debug.Log("walk");
+                ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.WALK);
+            }
+            else if ( ownerZombie.hearValue <= runHearValue )
+            {
 
+                Debug.Log("Run");
+                ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.RUN);
+            }
 
-            // TODOLIST 재영이형 Heara 구현된거 return  바탕으로 분기점 나눌 것
-            // 어떻게 나눌 것 이냐.
-            // 거기서 던져준 enum이 넘어가야할 상태를 뜻 함
-            // 그냥 그거 매칭해서 각각의 상태가 넘어가야할 곳 을 정해서 필요한 값만
-            // 넘어가면 문제 없을 듯
-
+            ownerZombie.Move();
         }
 
     }

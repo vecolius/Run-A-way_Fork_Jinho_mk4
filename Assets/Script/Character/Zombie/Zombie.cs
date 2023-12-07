@@ -47,13 +47,19 @@ namespace Hojun
         public enum ZombieState
         {
             IDLE,
-            SEARCH_WALK,
-            SEARCH_RUN,
+            SEARCH,
             FIND
         }
-        Dictionary<ZombieState, IMoveStrategy> moveDict;
 
-        public IMoveStrategy GetMoveDict(ZombieState move)
+        public enum ZombieMove
+        {
+            IDLE,
+            WALK,
+            RUN
+        }
+        Dictionary<ZombieMove, IMoveStrategy> moveDict;
+
+        public IMoveStrategy GetMoveDict(ZombieMove move)
         {
             return moveDict[move];
         }
@@ -68,14 +74,23 @@ namespace Hojun
         }
 
 
-
         public virtual void Move() 
         {
+            if (traceTarget != null)
+                moveStrategy.Move(traceTarget.gameObject);
 
+            else if(destination != Vector3.negativeInfinity)
+                MoveStrategy.Move(destination);
         }
 
         public void Hear(GameObject soundOwner)
         {
+
+            // hear
+            // TODOLIST
+            // movestrategy가 사용할 변수인 tractarget , destination 셋팅 해 주기
+            // 해당 정보는 soundOwner에서 추출해서 정해줄 것
+
             throw new System.NotImplementedException();
         }
     }

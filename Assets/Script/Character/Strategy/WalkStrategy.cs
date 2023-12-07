@@ -37,6 +37,9 @@ public class WalkStrategy : IMoveStrategy
 
         if(temp >= 10)
         {
+
+            //check гр ╟м
+            Debug.Log("maybe this line bug?");
             owner.destination = Vector3.negativeInfinity;
         }
     }
