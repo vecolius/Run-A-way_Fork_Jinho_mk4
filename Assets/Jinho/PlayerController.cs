@@ -66,22 +66,23 @@ namespace Jinho
             if (Input.GetKey(KeyCode.A))
             {
                 vec += Vector3.left;
-                //왼쪽으로 이동 애니
+
             }
             if (Input.GetKey(KeyCode.W))
             {
                 vec += Vector3.forward;
-                //정면으로 이동 애니
+                player.animator.SetBool("Front", true);
             }
+            player.animator.SetBool("Front", true);
             if (Input.GetKey(KeyCode.D))
             {
                 vec += Vector3.right;
-                //오른쪽으로 이동 애니
+
             }
             if (Input.GetKey(KeyCode.S))
             {
                 vec += Vector3.back;
-                //뒤로 이동 애니
+
             }
 
             if(vec == Vector3.zero)
@@ -101,7 +102,7 @@ namespace Jinho
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {
                 player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.2f) * Time.deltaTime);
-                //달리기 애니
+
             }
             if(Input.GetKeyUp(KeyCode.LeftShift))
                 player.moveState= PlayerMoveState.walk;
@@ -254,6 +255,8 @@ namespace Jinho
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack 전략 dictionary
         Dictionary<KeyCode, int> weaponSlotDic;                     //입력한 KeyCode에 따라 slot을 반환하는 dic
+
+        public Animator animator;
         void Start()
         {
             state = new PlayerState();
