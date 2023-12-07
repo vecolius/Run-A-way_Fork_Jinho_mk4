@@ -12,28 +12,18 @@ namespace Jaeyoung
         public float soundAreaSize;
         public float time;
 
-        private void Start()
+        private void OnEnable()
         {
-            StartCoroutine(Boom());
-        }
+            Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);
 
-        IEnumerator Boom()
-        {
-            while (true)
+            if (coll.Length > 0)
             {
-                Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);
-
-                if (coll.Length > 0)
+                foreach (Collider zombie in coll)
                 {
-                    foreach (Collider zombie in coll)
+                    if (zombie.TryGetComponent<Zombie>(out Zombie zom))
                     {
-                        if (zombie.TryGetComponent<Zombie>(out Zombie zom))
-                        {
-                            zom.hearValue = zom.hearComponent.Hear(this.gameObject);
-                        }
+                        zom.hearValue = zom.hearComponent.Hear(this.gameObject);
                     }
-
-                    yield return new WaitForSeconds(time);
                 }
             }
         }
