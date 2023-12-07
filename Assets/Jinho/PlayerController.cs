@@ -330,9 +330,52 @@ public class PlayerController : MonoBehaviour
         moveDic[moveState]?.Moving();
         if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
         {
+<<<<<<< HEAD
             //currentWeapon?.Fire();
             attackDic[attackState]?.Attack();
+=======
+            state = new PlayerState();
+
+            moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
+            moveDic.Add(PlayerMoveState.idle, new Idle(this));
+            moveDic.Add(PlayerMoveState.walk, new Walk(this));
+            moveDic.Add(PlayerMoveState.run, new Run(this));
+
+            attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
+            attackDic.Add(PlayerAttackState.gun, new GunAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
+
+            SetSlotDic();
+            currentWeapon = weaponSlot[0];
+
+            moveState = PlayerMoveState.idle;
+            //attackState = currentWeapon.attackState;
         }
+
+        void Update()
+        {
+            moveDic[moveState]?.Moving();
+            if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
+            {
+                //currentWeapon?.Fire();
+                attackDic[attackState]?.Attack();
+            }
+        }
+        public int SlotGetToKey(KeyCode keycode)
+        {
+            return weaponSlotDic[keycode];
+        }
+        void SetSlotDic()   //weaponSlotDic을 입력하는 함수
+        {
+            weaponSlotDic = new Dictionary<KeyCode, int>();
+            weaponSlotDic.Add(KeyCode.Alpha1, 0);
+            weaponSlotDic.Add(KeyCode.Alpha2, 1);
+            weaponSlotDic.Add(KeyCode.Alpha3, 2);
+            weaponSlotDic.Add(KeyCode.Alpha4, 3);
+>>>>>>> Player
+        }
+
     }
     public int SlotGetToKey(KeyCode keycode)
     {
