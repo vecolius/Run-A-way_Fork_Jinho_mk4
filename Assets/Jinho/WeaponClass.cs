@@ -102,6 +102,16 @@ namespace Jinho
             
         }
     }
+    public class Sword : Weapon
+    {
+        public Sword(WeaponClass weaponData) : base(weaponData)
+        {
+        }
+        public override void Fire()
+        {
+            
+        }
+    }
     public class WeaponClass : MonoBehaviour
     {
         public enum WeaponType
@@ -109,6 +119,7 @@ namespace Jinho
             Rifle,
             Shotgun,
             Handgun,
+            Sword,
         }
         public WeaponType weaponType;
         public PlayerAttackState attackState;
@@ -139,6 +150,9 @@ namespace Jinho
                     break;
                 case WeaponType.Handgun:
                     weapon = new Handgun(this);
+                    break;
+                case WeaponType.Sword:
+                    weapon = new Sword(this);
                     break;
             }
         }
