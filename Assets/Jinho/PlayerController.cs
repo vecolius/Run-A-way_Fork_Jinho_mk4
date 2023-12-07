@@ -112,6 +112,18 @@ namespace Jinho
                 player.moveState= PlayerMoveState.walk;
         }
     }
+    public class Jump : IMoveStrategy
+    {
+        PlayerController player = null;
+        public Jump(object owner)
+        {
+            player = ( PlayerController)owner;
+        }
+        public void Moving()
+        {
+
+        }
+    }
     #endregion
     #region AttackStrategy_class
     public class AttackStrategy : IAttackStrategy
