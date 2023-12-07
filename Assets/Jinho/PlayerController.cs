@@ -31,12 +31,6 @@ namespace Jinho
         granade,
     }
     #endregion
-    public class Job
-    {
-        public string name;
-        public float maxHp;
-        public float moveSpeed;
-    }
     #region MoveStrategy_Class
     public class Idle : IMoveStrategy
     {
@@ -238,6 +232,13 @@ namespace Jinho
         }
     }
     #endregion
+    #region PlayerState_Class
+    public class Job
+    {
+        public string name;
+        public float maxHp;
+        public float moveSpeed;
+    }
     public class PlayerState
     {
         public Job job;
@@ -287,7 +288,7 @@ namespace Jinho
             }
         }
     }
-
+    #endregion
     public class PlayerController : MonoBehaviour
     {
         public PlayerState state;                                   //player¿« ±‚∫ªstate
