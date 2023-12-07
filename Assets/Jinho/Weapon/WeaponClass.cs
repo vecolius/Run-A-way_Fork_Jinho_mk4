@@ -91,11 +91,13 @@ namespace Jinho
 
         public override void Fire()
         {
-            Debug.Log("라이플 빵!");
+            //Debug.Log("라이플 빵!");
+            
         }
         public override void Reload()
         {
-            Debug.Log("라이플 재장전~");
+            //Debug.Log("라이플 재장전~");
+            //Debug.Log("라이플 재장전~");
         }
     }
     public class Shotgun : Weapon
@@ -162,7 +164,7 @@ namespace Jinho
         public WeaponData weaponData = null;
         void Awake()
         {
-            SetWeapon();
+            //SetWeapon();
         }
         void SetWeapon()
         {

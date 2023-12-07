@@ -24,11 +24,14 @@ namespace Jinho
     }
     public enum PlayerAttackState
     {
-        gun,
+        Rifle,
+        Shotgun,
+        Handgun,
         melee,
         sub,
         heal,
         granade,
+    // 총 타입 세분화 됨 (라이플, 샷건, 권총)
     }
     #endregion
     public class Job
@@ -192,21 +195,65 @@ namespace Jinho
             player.attackState = player.currentWeapon.attackState;
         }
     }
-    public class GunAttackStrategy : AttackStrategy
+   
+
+    public class RifleAttackStrategy : AttackStrategy
     {
-        public GunAttackStrategy(object owner) : base(owner)
+        public RifleAttackStrategy(object owner) : base(owner)
         {
+
+        }
+
+        public override void Attack()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+
+                player.animator.SetTrigger("Shot");
+                // player.currentWeapon.Fire();
+
+                //주무기 발사 애니
+            }
+           // WeaponChange();
+        }
+    }
+
+    public class ShotgunAttackStrategy : AttackStrategy
+    {
+        public ShotgunAttackStrategy(object owner) : base(owner)
+        {
+
+        }
+
+        public override void Attack()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                player.animator.SetTrigger("Shot");
+            }
+            // WeaponChange();
+        }
+    }
+
+    public class HandgunAttackStrategy : AttackStrategy
+    {
+        public HandgunAttackStrategy(object owner) : base(owner)
+        {
+
         }
         public override void Attack()
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
-                //주무기 발사 애니
+                player.animator.SetTrigger("Shot");
             }
-            WeaponChange();
+            // WeaponChange();
         }
+
     }
+
+
+
     public class MeleeAttackStrategy : AttackStrategy
     {
         public MeleeAttackStrategy(object owner) : base(owner)
@@ -313,11 +360,14 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
             attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
-            attackDic.Add(PlayerAttackState.gun, new GunAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.Rifle, new RifleAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.Shotgun, new ShotgunAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.Handgun, new HandgunAttackStrategy(this));
             attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
             attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
 
             SetSlotDic();
+            weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             currentWeapon = weaponSlot[0];
 
             moveState = PlayerMoveState.idle;
