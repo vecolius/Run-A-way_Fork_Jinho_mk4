@@ -28,6 +28,9 @@ public class bullet : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        
+        //if(other.TryGetComponent(out IHitable hit))
+        {
+
+        }
     }
 }

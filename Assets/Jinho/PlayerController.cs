@@ -315,5 +315,6 @@ namespace Jinho
             weaponSlotDic.Add(KeyCode.Alpha3, 2);
             weaponSlotDic.Add(KeyCode.Alpha4, 3);
         }
+
     }
 }

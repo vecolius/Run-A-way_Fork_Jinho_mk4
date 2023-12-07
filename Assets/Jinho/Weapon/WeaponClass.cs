@@ -5,6 +5,32 @@ using UnityEngine;
 
 namespace Jinho
 {
+    public class WeaponData
+    {
+        public string weaponName;          //무기 이름
+        public Sprite image;               //총기 종류 이미지
+        public float damage;               //총 대미지
+        public int maxBullet;              //장전되는 총알 양
+        public int bulletCount;            //현재 총에 들어있는 총알 양
+        public int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
+        public int totalBullet;            //내가 가지고 있는 총알의 합계
+        public Transform firePos;          //총알 발사 위치
+        public GameObject bullet;          //날아갈 총알 GameObject
+        public PlayerAttackState attackState;
+        public WeaponData(string name, Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState, GameObject bullet)
+        {
+            weaponName = name;
+            this.image = image;
+            this.damage = damage;
+            this.maxBullet = maxBullet;
+            this.bulletCount = bulletCount;
+            this.maxTotalBullet = maxTotalBullet;
+            this.totalBullet = totalBullet;
+            this.firePos = firePos;
+            this.bullet = bullet;
+            this.attackState = attackState;
+        }
+    }
     public class Weapon
     {
         protected WeaponData weaponData;
@@ -112,31 +138,12 @@ namespace Jinho
             
         }
     }
-    public class WeaponData
+    public class Granade : Weapon
     {
-        public string weaponName;          //무기 이름
-        public Sprite image;               //총기 종류 이미지
-        public float damage;               //총 대미지
-        public int maxBullet;              //장전되는 총알 양
-        public int bulletCount;            //현재 총에 들어있는 총알 양
-        public int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
-        public int totalBullet;            //내가 가지고 있는 총알의 합계
-        public Transform firePos;          //총알 발사 위치
-        public GameObject bullet;          //날아갈 총알 GameObject
-        public PlayerAttackState attackState;
-        public WeaponData(string name, Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState,GameObject bullet)
+        public Granade(WeaponData weaponData) : base(weaponData)
         {
-            weaponName = name;
-            this.image = image;
-            this.damage = damage;
-            this.maxBullet = maxBullet;
-            this.bulletCount = bulletCount;
-            this.maxTotalBullet = maxTotalBullet;
-            this.totalBullet = totalBullet;
-            this.firePos = firePos;
-            this.bullet = bullet;
-            this.attackState = attackState;
         }
+
     }
     public class WeaponClass : MonoBehaviour
     {
@@ -149,7 +156,6 @@ namespace Jinho
         }
         public WeaponType weaponType;
         public Weapon weapon = null;
-
         public WeaponData weaponData;
         void Awake()
         {
