@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Jinho
 {
+    /*
     [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Object/Weapon Data", order = int.MaxValue)]
     public class WeaponData : ScriptableObject
     {
@@ -195,6 +196,7 @@ namespace Jinho
             }
         }
     }
+    */
     public class WeaponClass : MonoBehaviour
     {
         public LayerMask enemyLayer;
