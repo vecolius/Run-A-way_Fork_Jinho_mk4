@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static Hojun.Zombie;
 
 public class IdleState : Hojun.State
 {
@@ -33,7 +34,6 @@ public class IdleState : Hojun.State
 
     public IdleState(IStateMachine sm) : base(sm)
     {
-
         ownerZombie = owner.GetComponent<Zombie>();
 
         if (ownerZombie == null)
@@ -49,8 +49,7 @@ public class IdleState : Hojun.State
     public override void Enter()
     {
         //animator.SetBool("Idle" , true);
-
-        
+        ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(ZombieMove.IDLE);
     }
 
     public override void Exit() 
@@ -62,15 +61,10 @@ public class IdleState : Hojun.State
     {
 
         Debug.Log("not bug");
-        Debug.Log(ownerZombie.hearValue);
 
-
-        if (ownerZombie.hearValue >= 0.1f)
-        {
+        if ( ownerZombie.HearValue >= 0.1f)
             stateMachine.SetState(Zombie.ZombieState.SEARCH);
-        }
-
-
+        
     }
 
 

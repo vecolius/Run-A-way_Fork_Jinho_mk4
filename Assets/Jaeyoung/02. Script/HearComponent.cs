@@ -13,17 +13,41 @@ namespace Jaeyoung
         const float ChaseValue = 2.0f;
         const float DetectiveValue = 1.0f;
 
-        void IHearAble.Hear(GameObject soundOwner)
+        float resultDistance;
+        GameObject soundOwner;
+        Vector3 soundArea;
+
+        public GameObject SoundOwner 
+        {
+            get 
+            {
+                return soundOwner;
+            }
+            set
+            {
+                soundOwner = value;
+                soundArea = value.transform.position;
+            }
+        }
+        
+        public Vector3 SoundArea 
+        {
+            get { return soundArea; }
+        }
+
+        public float ResultDistance 
+        {
+            get
+            {
+                return resultDistance;
+            }    
+        }
+
+        public void Hear(GameObject soundOwner)
         {
             float soundSize = soundOwner.GetComponent<SoundComponent>().soundAreaSize;
-            float resultDistance = (soundSize - Vector3.Distance(transform.position, soundOwner.transform.position));
-
-            if(gameObject.TryGetComponent<Zombie>( out  Zombie owner )) 
-            {
-                owner.hearValue = resultDistance;
-            }
-
-
+            resultDistance = (soundSize - Vector3.Distance(transform.position, soundOwner.transform.position));
+            SoundOwner = soundOwner;
         }
     }
 }

@@ -8,14 +8,15 @@ using UnityEngine.AI;
 public class SearchStrategy : IMoveStrategy
 {
 
-    public GameObject Owner => owner.gameObject;
-    Zombie owner;
+    public GameObject Owner => ownerZombie.gameObject;
+    Zombie ownerZombie;
     NavMeshAgent agent;
 
     public SearchStrategy(Zombie owner)
     {
-        this.owner = owner;
 
+        
+        this.ownerZombie = owner;
         agent = owner.GetComponent<NavMeshAgent>();
         if (null == agent) 
         {
@@ -24,18 +25,20 @@ public class SearchStrategy : IMoveStrategy
         
     }
 
-    public void Move(GameObject target)
+    public void Move()
     {
-        agent.SetDestination(target.transform.position);
-        Debug.Log("target class");
-    }
 
-    public void Move(Vector3 target)
-    {
-        agent.SetDestination(target);
-        float temp = Vector3.Distance(owner.transform.position, target);
+        Debug.Log("searchstrategy on 찾기 시작");
 
-        Debug.Log("target vector3");
+        agent.SetDestination(ownerZombie.SoundTraceArea);
+
+        agent.speed = 10f;
+        if(ownerZombie.HearValue <= ownerZombie.RunHearValue)
+        {
+            Debug.Log("달리는 중");
+            agent.speed = ownerZombie.zombieData.Speed * 1.4f;
+        }
+
     }
 
 }

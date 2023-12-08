@@ -16,19 +16,21 @@ namespace Hojun
 
         public new void Awake()
         {
+        
             base.Awake();
-            stateMachine.AddState(Zombie.ZombieState.IDLE, new IdleState(stateMachine));
-            stateMachine.AddState(Zombie.ZombieState.SEARCH , new SearchState(stateMachine) );
-            stateMachine.SetState(Zombie.ZombieState.IDLE);
-            moveDict.Add(ZombieMove.WALK , new SearchStrategy(this) );
+
+
+            moveDict.Add(ZombieMove.SEARCH, new SearchStrategy(this));
+            moveDict.Add(ZombieMove.IDLE, new IdleStrategy(this));
             
+            stateMachine.AddState(Zombie.ZombieState.IDLE, new IdleState(stateMachine));
+            stateMachine.AddState(Zombie.ZombieState.SEARCH, new SearchState(stateMachine));
 
+            stateMachine.SetState(Zombie.ZombieState.IDLE);
+            //MoveStrategy = moveDict[ZombieMove.IDLE];
+        
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-        }
 
         // Update is called once per frame
         void Update()

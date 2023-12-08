@@ -27,7 +27,6 @@ namespace Hojun
 
         public Dictionary<ZombieState, State> stateDict;
 
-
         public StateMachine(T owner)
         {
             this.owner = owner;
@@ -43,8 +42,6 @@ namespace Hojun
             stateDict.Add(stateName, state);
             state.Init(this);
         }
-
-
 
 
 

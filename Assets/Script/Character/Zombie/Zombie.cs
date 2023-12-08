@@ -26,7 +26,6 @@ namespace Hojun
         public float Speed { get => speed;}
         public bool IsDead { get => isDead;}
         public float Attack { get => attack;}
-
     }
 
 
@@ -43,22 +42,47 @@ namespace Hojun
         public enum ZombieMove
         {
             IDLE,
-            WALK,
+            SEARCH,
             RUN
         }
-    
+
+
+        [SerializeField]
+        float runHearValue;
+        public float RunHearValue { get => runHearValue; }
 
         protected StateMachine<Zombie> stateMachine;
         public ZombieData zombieData;
-        public HearComponent hearComponent;
 
-        public float hearValue;
+
+        public bool IsFindPlayer 
+        {
+            get
+            {
+                return isFind;
+            }
+        }
+        bool isFind;
+
+        public float HearValue 
+        {
+            get => hearComponent.ResultDistance;
+              
+        }
+        public GameObject SoundTraceTarget
+        {
+            get => hearComponent.SoundOwner;
+        }
+        public Vector3 SoundTraceArea
+        { 
+            get => hearComponent.SoundArea;
+        }
+
+        [SerializeField]
+        HearComponent hearComponent;
+
 
         public ZombieData Data { get => zombieData;}
-
-        public Transform traceTarget;
-        public Vector3 destination;
-
 
         protected Dictionary<ZombieMove, IMoveStrategy> moveDict = new Dictionary<ZombieMove, IMoveStrategy>();
         protected Dictionary<ZombieState, State> stateDict = new Dictionary<ZombieState, State>();
@@ -74,32 +98,15 @@ namespace Hojun
 
         protected void Awake()
         {
-            stateMachine = new StateMachine<Zombie>(this);
             hearComponent = GetComponent<HearComponent>();
             zombieData = new ZombieData(50,10,20);
+            stateMachine = new StateMachine<Zombie>(this);
         }
-
 
         public virtual void Move() 
         {
-            if (traceTarget != null)
-                moveStrategy.Move(traceTarget.gameObject);
-
-            else if(destination != Vector3.negativeInfinity)
-                MoveStrategy.Move(destination);
+            moveStrategy.Move();
         }
-
-        public void Hear(GameObject soundOwner)
-        {
-
-            // hear
-            // TODOLIST
-            // movestrategy가 사용할 변수인 tractarget , destination 셋팅 해 주기
-            // 해당 정보는 soundOwner에서 추출해서 정해줄 것
-
-            throw new System.NotImplementedException();
-        }
-
 
 
     }

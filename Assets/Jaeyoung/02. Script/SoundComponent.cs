@@ -27,7 +27,6 @@ namespace Jaeyoung
 
             if (Input.GetKey(KeyCode.A))
             {
-                Debug.Log("abdcd");
                 soundAction();
             }
         }

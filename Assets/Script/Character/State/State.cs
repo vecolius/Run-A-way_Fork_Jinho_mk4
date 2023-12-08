@@ -15,6 +15,7 @@ namespace Hojun
 
         public State(IStateMachine sm)
         {
+
             owner = ((Zombie)sm.GetOwner()).gameObject;
 
             if (owner == null)
