@@ -1,7 +1,9 @@
 using Jinho;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Jinho
 {
@@ -13,6 +15,7 @@ namespace Jinho
     interface IAttackStrategy
     {
         void Attack();
+  
     }
     public enum PlayerMoveState
     {
@@ -24,11 +27,14 @@ namespace Jinho
     }
     public enum PlayerAttackState
     {
-        gun,
+        Rifle,
+        Shotgun,
+        Handgun,
         melee,
         sub,
         heal,
         granade,
+    // ì´ íƒ€ì… ì„¸ë¶„í™” ë¨ (ë¼ì´í”Œ, ìƒ·ê±´, ê¶Œì´)
     }
     #endregion
     #region MoveStrategy_Class
@@ -49,7 +55,7 @@ namespace Jinho
             if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
             {
                 player.animator.SetTrigger("Jump");
-                player.animator.SetFloat("JumpType", 0f);   //±×³É ¿©±â¼­ Â«Çª
+                player.animator.SetFloat("JumpType", 0f);   //ê·¸ëƒ¥ ì—¬ê¸°ì„œ ì§¬í‘¸
                 player.moveState = PlayerMoveState.jump;
             }
 
@@ -151,6 +157,8 @@ namespace Jinho
     {
         protected PlayerController player = null;
         protected KeyCode keycode;
+      
+
         public AttackStrategy(object owner)
         {
             player = (PlayerController)owner;
@@ -158,8 +166,19 @@ namespace Jinho
 
         public virtual void Attack()
         {
+
+        }    
+
+        public virtual void BasicMotion()
+        {
+           
+        }
+
+        public virtual void OtherMotion()
+        {
             
         }
+
         protected void WeaponChange()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -181,26 +200,83 @@ namespace Jinho
             if (player.currentWeapon == player.weaponSlot[player.SlotGetToKey(keycode)]) 
                 return;
 
-            //¹«±â ±³Ã¼ ¾Ö´Ï
+            //ë¬´ê¸° êµì²´ ì• ë‹ˆ
             player.currentWeapon = player.weaponSlot[player.SlotGetToKey(keycode)];
             player.attackState = player.currentWeapon.attackState;
         }
     }
-    public class GunAttackStrategy : AttackStrategy
+   
+
+    public class RifleAttackStrategy : AttackStrategy
     {
-        public GunAttackStrategy(object owner) : base(owner)
+        public RifleAttackStrategy(object owner) : base(owner)
         {
+
+        }
+
+        public override void Attack()
+        {
+           
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                player.animator.SetTrigger("Shut");
+               
+                Debug.Log("ì–´íƒ ì‹œì‘");
+            }
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                OtherMotion();
+                Debug.Log("ì–´íƒ ë");
+            }
+
+            else if (Input.GetKey(KeyCode.R))
+            {
+                player.animator.SetTrigger("Reload");
+                Debug.Log("ì´ì œ ì¥ì „ ëœë‹¤ ã… ");
+            }
+
+        }
+
+
+    }
+
+    public class ShotgunAttackStrategy : AttackStrategy
+    {
+        public ShotgunAttackStrategy(object owner) : base(owner)
+        {
+
+        }
+
+        public override void Attack()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                //player.animator.SetTrigger("Shot");
+
+            }
+            // WeaponChange();
+        }
+    }
+
+    public class HandgunAttackStrategy : AttackStrategy
+    {
+        public HandgunAttackStrategy(object owner) : base(owner)
+        {
+
         }
         public override void Attack()
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Use();
-                //ÁÖ¹«±â ¹ß»ç ¾Ö´Ï
+                //player.animator.SetTrigger("Shot");
             }
-            WeaponChange();
+            // WeaponChange();
         }
+
     }
+
+
+
     public class MeleeAttackStrategy : AttackStrategy
     {
         public MeleeAttackStrategy(object owner) : base(owner)
@@ -210,10 +286,8 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Use();
-                //±ÙÁ¢ °ø°İ ¾Ö´Ï
             }
-            WeaponChange();
+            //WeaponChange();
         }
     }
     public class GranadeAttackStrategy : AttackStrategy
@@ -225,10 +299,9 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Use();
-                //¼ö·ùÅº ÃßÃ´ ¾Ö´Ï
+
             }
-            WeaponChange();
+            //WeaponChange();
         }
     }
     #endregion
@@ -291,21 +364,22 @@ namespace Jinho
     #endregion
     public class PlayerController : MonoBehaviour
     {
-        public PlayerState state;                                   //playerÀÇ ±âº»state
+        public PlayerState state;                                   //playerì˜ ê¸°ë³¸state
         public GameObject[] weaponObjSlot = new GameObject[4];
         public Weapon[] weaponSlot = new Weapon[4];                 //weapon slot
-        public Weapon currentWeapon = null;                         //ÇöÀç µé°íÀÖ´Â weapon
+        public Weapon currentWeapon = null;                         //í˜„ì¬ ë“¤ê³ ìˆëŠ” weapon
 
-        public PlayerMoveState moveState;                           //ÇöÀç moveÀü·«
-        public PlayerAttackState attackState;                       //ÇöÀç attackÀü·Â
-        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move Àü·« dictionary
-        Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack Àü·« dictionary
-        Dictionary<KeyCode, int> weaponSlotDic;                     //ÀÔ·ÂÇÑ KeyCode¿¡ µû¶ó slotÀ» ¹İÈ¯ÇÏ´Â dic
+        public PlayerMoveState moveState;                           //í˜„ì¬ moveì „ëµ
+        public PlayerAttackState attackState;                       //í˜„ì¬ attackì „ë ¥
+        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move ì „ëµ dictionary
+        Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack ì „ëµ dictionary
+        Dictionary<KeyCode, int> weaponSlotDic;                     //ì…ë ¥í•œ KeyCodeì— ë”°ë¼ slotì„ ë°˜í™˜í•˜ëŠ” dic
 
         public Animator animator;
         public bool isGrounded = true;
         void Start()
         {
+         
             state = new PlayerState();
 
             moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
@@ -315,11 +389,14 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
             attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
-            attackDic.Add(PlayerAttackState.gun, new GunAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.Rifle, new RifleAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.Shotgun, new ShotgunAttackStrategy(this));
+            attackDic.Add(PlayerAttackState.Handgun, new HandgunAttackStrategy(this));
             attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
             attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
 
             SetSlotDic();
+            weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             currentWeapon = weaponSlot[0];
 
             moveState = PlayerMoveState.idle;
@@ -329,17 +406,17 @@ namespace Jinho
         void Update()
         {
             moveDic[moveState]?.Moving();
-            if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
-            {
-                //currentWeapon?.Fire();
-                attackDic[attackState]?.Attack();
-            }
+            attackDic[attackState]?.Attack();
+
+            
+
+
         }
         public int SlotGetToKey(KeyCode keycode)
         {
             return weaponSlotDic[keycode];
         }
-        void SetSlotDic()   //weaponSlotDicÀ» ÀÔ·ÂÇÏ´Â ÇÔ¼ö
+        void SetSlotDic()   //weaponSlotDicì„ ì…ë ¥í•˜ëŠ” í•¨ìˆ˜
         {
             weaponSlotDic = new Dictionary<KeyCode, int>();
             weaponSlotDic.Add(KeyCode.Alpha1, 0);

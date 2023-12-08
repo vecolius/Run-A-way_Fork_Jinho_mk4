@@ -8,15 +8,15 @@ namespace Jinho
     [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Object/Weapon Data", order = int.MaxValue)]
     public class WeaponData : ScriptableObject
     {
-        public string weaponName;          //¹«±â ÀÌ¸§
-        public Sprite image;               //ÃÑ±â Á¾·ù ÀÌ¹ÌÁö
-        public float damage;               //ÃÑ ´ë¹ÌÁö
-        public int maxBullet;              //ÀåÀüµÇ´Â ÃÑ¾Ë ¾ç
-        public int bulletCount;            //ÇöÀç ÃÑ¿¡ µé¾îÀÖ´Â ÃÑ¾Ë ¾ç
-        public int maxTotalBullet;         //ÃÖ´ë·Î ³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
-        public int totalBullet;            //³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
-        public Transform firePos;          //ÃÑ¾Ë ¹ß»ç À§Ä¡
-        public GameObject bullet;          //³¯¾Æ°¥ ÃÑ¾Ë GameObject
+        public string weaponName;          //ë¬´ê¸° ì´ë¦„
+        public Sprite image;               //ì´ê¸° ì¢…ë¥˜ ì´ë¯¸ì§€
+        public float damage;               //ì´ ëŒ€ë¯¸ì§€
+        public int maxBullet;              //ì¥ì „ë˜ëŠ” ì´ì•Œ ì–‘
+        public int bulletCount;            //í˜„ì¬ ì´ì— ë“¤ì–´ìˆëŠ” ì´ì•Œ ì–‘
+        public int maxTotalBullet;         //ìµœëŒ€ë¡œ ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
+        public int totalBullet;            //ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
+        public Transform firePos;          //ì´ì•Œ ë°œì‚¬ ìœ„ì¹˜
+        public GameObject bullet;          //ë‚ ì•„ê°ˆ ì´ì•Œ GameObject
         public PlayerAttackState attackState;
 
         public PlayerController player;
@@ -37,12 +37,12 @@ namespace Jinho
     public class Weapon
     {
         protected WeaponData weaponData;
-        public string name;         //ÃÑ±â ÀÌ¸§
-        public Sprite image;        //ÃÑ±â Á¾·ù ÀÌ¹ÌÁö
-        public PlayerAttackState attackState;   //°ø°İ ¹æ½Ä
-        public float damage;        //ÃÑ ´ë¹ÌÁö
-        public int maxBullet;       //ÀåÀüµÇ´Â ÃÑ¾Ë ¾ç
-        int bulletCount;            //ÇöÀç ÃÑ¿¡ µé¾îÀÖ´Â ÃÑ¾Ë ¾ç
+        public string name;         //ì´ê¸° ì´ë¦„
+        public Sprite image;        //ì´ê¸° ì¢…ë¥˜ ì´ë¯¸ì§€
+        public PlayerAttackState attackState;   //ê³µê²© ë°©ì‹
+        public float damage;        //ì´ ëŒ€ë¯¸ì§€
+        public int maxBullet;       //ì¥ì „ë˜ëŠ” ì´ì•Œ ì–‘
+        int bulletCount;            //í˜„ì¬ ì´ì— ë“¤ì–´ìˆëŠ” ì´ì•Œ ì–‘
         public int BulletCount
         {
             get { return bulletCount; }
@@ -53,8 +53,8 @@ namespace Jinho
                 if(bulletCount < 0 ) bulletCount = 0;
             }
         }
-        int maxTotalBullet;         //ÃÖ´ë·Î ³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
-        int totalBullet;            //³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
+        int maxTotalBullet;         //ìµœëŒ€ë¡œ ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
+        int totalBullet;            //ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
         public int TotalBullet
         {
             get { return  totalBullet; }
@@ -66,8 +66,8 @@ namespace Jinho
             }
         }
 
-        public Transform firePos;   //ÃÑ¾Ë ¹ß»ç À§Ä¡
-        public GameObject bullet;   //³¯¾Æ°¥ ÃÑ¾Ë GameObject
+        public Transform firePos;   //ì´ì•Œ ë°œì‚¬ ìœ„ì¹˜
+        public GameObject bullet;   //ë‚ ì•„ê°ˆ ì´ì•Œ GameObject
         public Weapon(WeaponData weaponData)
         {
             this.weaponData = weaponData;
@@ -110,12 +110,11 @@ namespace Jinho
         public override void Use()
         {
             base.Use();
-            Debug.Log("¶óÀÌÇÃ »§!");
-            
+            Debug.Log("ë¼ì´í”Œ ë¹µ!");  
         }
         public override void Reload()
         {
-            Debug.Log("¶óÀÌÇÃ ÀçÀåÀü~");
+            Debug.Log("ë¼ì´í”Œ ì¬ì¥ì „~");
             base.Reload();
         }
     }
@@ -128,7 +127,7 @@ namespace Jinho
         public override void Use()
         {
             base.Use();
-            Debug.Log("»ñ°Ç »§!!");
+            Debug.Log("ì‚¿ê±´ ë¹µ!!");
         }
         public override void Reload()
         {
@@ -144,11 +143,11 @@ namespace Jinho
         public override void Use()
         {
             base.Use();
-            Debug.Log("±ÇÃÑ »§¾ß!!!");
+            Debug.Log("ê¶Œì´ ë¹µì•¼!!!");
         }
         public override void Reload()
         {
-            Debug.Log("±ÇÃÑ ÀçÀåÀü~");
+            Debug.Log("ê¶Œì´ ì¬ì¥ì „~");
             base.Reload();
         }
     }
@@ -159,7 +158,7 @@ namespace Jinho
         }
         public override void Use()
         {
-            Debug.Log("Ä® ¼­°Æ!!!!");
+            Debug.Log("ì¹¼ ì„œê±±!!!!");
         }
     }
     public class HealKit : Weapon
@@ -188,7 +187,7 @@ namespace Jinho
         public override void Use()
         {
             base.Use();
-            Debug.Log("¼ö·ùÅº ÅõÃ´~");
+            Debug.Log("ìˆ˜ë¥˜íƒ„ íˆ¬ì²™~");
             if(BulletCount == 0)
             {
                 weaponData.player.weaponObjSlot[3] = null;
@@ -217,7 +216,7 @@ namespace Jinho
             explosion = GetComponent<ExplosionComponent>();
             SetWeaponClass();
         }
-        void SetWeaponClass()                           //weaponClass »ı¼º
+        void SetWeaponClass()                           //weaponClass ìƒì„±
         {
             switch (weaponType)
             {
@@ -260,28 +259,28 @@ namespace Jinho
                     player.weaponObjSlot[2] = gameObject;
                     break;
                 case WeaponType.Granade:
-                    if (player.weaponSlot[3] == null)   //¼ö·ùÅºÀÌ ½½·Ô¿¡ ¾øÀ¸¸é,
+                    if (player.weaponSlot[3] == null)   //ìˆ˜ë¥˜íƒ„ì´ ìŠ¬ë¡¯ì— ì—†ìœ¼ë©´,
                     {
                         player.weaponSlot[3] = weapon;
                         player.weaponObjSlot[3] = gameObject;
                     }
                     else
                     {
-                        if (player.weaponSlot[3].BulletCount != weaponData.maxBullet)   //ÀÌ¹Ì ÀÖ´Âµ¥, Åº °¹¼ö°¡ max°¡ ¾Æ´Ï¸é
+                        if (player.weaponSlot[3].BulletCount != weaponData.maxBullet)   //ì´ë¯¸ ìˆëŠ”ë°, íƒ„ ê°¯ìˆ˜ê°€ maxê°€ ì•„ë‹ˆë©´
                             player.weaponSlot[3].BulletCount++;
                         else
-                            return;                                                     //ÀÌ¹Ì ÀÖ´Âµ¥, Åº °¹¼ö°¡ maxÀÌ¸é
+                            return;                                                     //ì´ë¯¸ ìˆëŠ”ë°, íƒ„ ê°¯ìˆ˜ê°€ maxì´ë©´
                     }
                     break;
             }
             weaponData.player = player;
             gameObject.SetActive(false);
-        }   //player slot¿¡ ¹«±âÅ¸ÀÔ¿¡ ¸Â°Ô ÀúÀå
+        }   //player slotì— ë¬´ê¸°íƒ€ì…ì— ë§ê²Œ ì €ì¥
         private void OnTriggerEnter(Collider other)
         {
             if(weaponType == WeaponType.Sword && weaponData.player != null)
             {
-                if (other.gameObject.layer == enemyLayer)       //enemyLayer = Layer 11¹ø : ¸ó½ºÅÍ , (Ä®ÀÌ ¸ó½ºÅÍ¿¡ ´êÀ¸¸é)
+                if (other.gameObject.layer == enemyLayer)       //enemyLayer = Layer 11ë²ˆ : ëª¬ìŠ¤í„° , (ì¹¼ì´ ëª¬ìŠ¤í„°ì— ë‹¿ìœ¼ë©´)
                 {
                     //if (other.TryGetComponent(out IHitable hitable)) hitable.Hit(weaponData.damage);
                 }
