@@ -9,7 +9,7 @@ namespace Hojun
     public interface IStateMachine
     {
         object GetOwner();
-        void SetState(ZombieState stateName);
+        void SetState(int stateName);
     }
 
     public class StateMachine<T> : IStateMachine where T : class
@@ -25,16 +25,16 @@ namespace Hojun
         }
         State curState;
 
-        public Dictionary<ZombieState, State> stateDict;
+        public Dictionary<int, State> stateDict;
 
         public StateMachine(T owner)
         {
             this.owner = owner;
-            stateDict = new Dictionary<ZombieState, State>();
+            stateDict = new Dictionary<int, State>();
             
         }
 
-        public void AddState(ZombieState stateName, State state)
+        public void AddState(int stateName, State state)
         {
             if (stateDict.ContainsKey(stateName))
                 return;
@@ -50,7 +50,7 @@ namespace Hojun
             return owner;
         }
 
-        public void SetState(ZombieState stateName)
+        public void SetState(int stateName)
         {
             if (stateDict.ContainsKey(stateName))
             {

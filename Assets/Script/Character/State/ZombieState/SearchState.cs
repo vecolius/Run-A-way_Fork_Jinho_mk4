@@ -35,7 +35,7 @@ namespace Hojun
             //aniCompo.SetBool("Walk" , true);
             agent.enabled = true;
             ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.SEARCH);
-            ownerZombie.Move();
+            
 
             Debug.Log("searchEnter");
         }
@@ -51,7 +51,9 @@ namespace Hojun
 
             Debug.Log("search update");
 
-            if(ownerZombie.HearValue >= runHearValue)
+            ownerZombie.Move();
+
+            if (ownerZombie.HearValue >= runHearValue)
             {
                 Debug.Log("running");
                 agent.speed = ownerZombie.zombieData.Speed*1.4f;

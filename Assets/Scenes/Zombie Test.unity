@@ -215,7 +215,7 @@ Transform:
   m_GameObject: {fileID: 600608432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 10, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -334,10 +334,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: 
+  runHearValue: 0
   hearComponent: {fileID: 0}
-  hearValue: 0
-  traceTarget: {fileID: 0}
-  destination: {x: 0, y: 0, z: 0}
 --- !u!114 &638373710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,7 +586,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227901800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.54, y: 2.85, z: 0}
+  m_LocalPosition: {x: -27.1, y: 2.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

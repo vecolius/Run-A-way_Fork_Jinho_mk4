@@ -63,7 +63,7 @@ public class IdleState : Hojun.State
         Debug.Log("not bug");
 
         if ( ownerZombie.HearValue >= 0.1f)
-            stateMachine.SetState(Zombie.ZombieState.SEARCH);
+            stateMachine.SetState((int)Zombie.ZombieState.SEARCH);
         
     }
 

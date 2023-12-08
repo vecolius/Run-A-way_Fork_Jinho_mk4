@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using Hojun;
 using UnityEditor;
 using UnityEngine.AI;
+using Jaeyoung;
 
 namespace Hojun 
 {
@@ -23,14 +24,19 @@ namespace Hojun
             moveDict.Add(ZombieMove.SEARCH, new SearchStrategy(this));
             moveDict.Add(ZombieMove.IDLE, new IdleStrategy(this));
             
-            stateMachine.AddState(Zombie.ZombieState.IDLE, new IdleState(stateMachine));
-            stateMachine.AddState(Zombie.ZombieState.SEARCH, new SearchState(stateMachine));
+            stateMachine.AddState((int)Zombie.ZombieState.IDLE, new IdleState(stateMachine));
+            stateMachine.AddState((int)Zombie.ZombieState.SEARCH, new SearchState(stateMachine));
 
-            stateMachine.SetState(Zombie.ZombieState.IDLE);
+            stateMachine.SetState((int)Zombie.ZombieState.IDLE);
             //MoveStrategy = moveDict[ZombieMove.IDLE];
         
         }
 
+
+        public void Start()
+        {
+            hearComponent = gameObject.GetComponent<HearComponent>();
+        }
 
         // Update is called once per frame
         void Update()

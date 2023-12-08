@@ -79,7 +79,7 @@ namespace Hojun
         }
 
         [SerializeField]
-        HearComponent hearComponent;
+        protected HearComponent hearComponent;
 
 
         public ZombieData Data { get => zombieData;}
