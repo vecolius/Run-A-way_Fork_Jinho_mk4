@@ -17,6 +17,8 @@ namespace Jinho
         public Transform firePos;          //ÃÑ¾Ë ¹ß»ç À§Ä¡
         public GameObject bullet;          //³¯¾Æ°¥ ÃÑ¾Ë GameObject
         public PlayerAttackState attackState;
+
+        public PlayerController player;
         public WeaponData(string name, Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState, GameObject bullet)
         {
             weaponName = name;
@@ -68,19 +70,24 @@ namespace Jinho
         public Weapon(WeaponData weaponData)
         {
             this.weaponData = weaponData;
-            this.name = weaponData.weaponName;
-            this.image = weaponData.image;
-            this.attackState = weaponData.attackState;
-            this.damage = weaponData.damage;
-            this.maxBullet = weaponData.maxBullet;
+            name = weaponData.weaponName;
+            image = weaponData.image;
+            attackState = weaponData.attackState;
+            damage = weaponData.damage;
+            maxBullet = weaponData.maxBullet;
             BulletCount = weaponData.bulletCount;
-            this.maxTotalBullet = weaponData.maxTotalBullet;
+            maxTotalBullet = weaponData.maxTotalBullet;
             TotalBullet = weaponData.totalBullet;
-            this.firePos = weaponData.firePos;
-            this.bullet = weaponData.bullet;
+            firePos = weaponData.firePos;
+            bullet = weaponData.bullet;
         }
 
-        public virtual void Fire() { }
+        public virtual void Use() 
+        { 
+            if (bulletCount == 0) 
+                return;
+            BulletCount--;
+        }
         public virtual void Reload() { }
     }
     public class Rifle : Weapon
@@ -89,9 +96,11 @@ namespace Jinho
         {
         }
 
-        public override void Fire()
+        public override void Use()
         {
+            base.Use();
             Debug.Log("¶óÀÌÇÃ »§!");
+            
         }
         public override void Reload()
         {
@@ -104,8 +113,9 @@ namespace Jinho
         {
         }
 
-        public override void Fire()
+        public override void Use()
         {
+            base.Use();
             Debug.Log("»ñ°Ç »§!!");
         }
         public override void Reload()
@@ -119,8 +129,9 @@ namespace Jinho
         {
         }
 
-        public override void Fire()
+        public override void Use()
         {
+            base.Use();
             Debug.Log("±ÇÃÑ »§¾ß!!!");
         }
         public override void Reload()
@@ -133,9 +144,22 @@ namespace Jinho
         public Sword(WeaponData weaponData) : base(weaponData)
         {
         }
-        public override void Fire()
+        public override void Use()
         {
             Debug.Log("Ä® ¼­°Æ!!!!");
+        }
+    }
+    public class HealKit : Weapon
+    {
+        public float healPoint;
+        public HealKit(WeaponData weaponData) : base(weaponData) 
+        {
+            healPoint = weaponData.damage;
+        }
+        public override void Use()
+        {
+            base.Use();
+            weaponData.player.state.Hp += healPoint;
         }
     }
     public class Granade : Weapon
@@ -143,8 +167,9 @@ namespace Jinho
         public Granade(WeaponData weaponData) : base(weaponData)
         {
         }
-        public override void Fire()
+        public override void Use()
         {
+            base.Use();
             Debug.Log("¼ö·ùÅº ÅõÃ´~");
         }
     }
@@ -156,6 +181,7 @@ namespace Jinho
             Shotgun,
             Handgun,
             Sword,
+            healKit,
             Granade,
         }
         public WeaponType weaponType;
@@ -181,6 +207,9 @@ namespace Jinho
                 case WeaponType.Sword:
                     weapon = new Sword(weaponData);
                     break;
+                case WeaponType.healKit:
+                    weapon = new HealKit(weaponData);
+                    break;
                 case WeaponType.Granade:
                     weapon = new Granade(weaponData);
                     break;
@@ -200,6 +229,10 @@ namespace Jinho
                     player.weaponSlot[1] = weapon;
                     player.weaponObjSlot[1] = gameObject;
                     break;
+                case WeaponType.healKit:
+                    player.weaponSlot[2] = weapon;
+                    player.weaponObjSlot[2] = gameObject;
+                    break;
                 case WeaponType.Granade:
                     player.weaponSlot[3] = weapon;
                     player.weaponObjSlot[3] = gameObject;
@@ -212,6 +245,7 @@ namespace Jinho
             if(other.TryGetComponent(out PlayerController player))
             {
                 SetPlayerSlot(player);
+                weaponData.player = player;
                 player.currentWeapon = player.weaponSlot[0];
             }
         }

@@ -195,7 +195,7 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
+                player.currentWeapon.Use();
                 //주무기 발사 애니
             }
             WeaponChange();
@@ -210,7 +210,7 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
+                player.currentWeapon.Use();
                 //근접 공격 애니
             }
             WeaponChange();
@@ -225,7 +225,7 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
+                player.currentWeapon.Use();
                 //수류탄 추척 애니
             }
             WeaponChange();
