@@ -15,27 +15,33 @@ namespace Hojun
     public class StateMachine<T> : IStateMachine where T : class
     {
         public T owner = null;
-        public State curState;
 
-        public Dictionary<ZombieState, State> moveDic;
+        public State CurState 
+        {
+            get
+            {
+                return curState;
+            }
+        }
+        State curState;
 
+        public Dictionary<ZombieState, State> stateDict;
 
         public StateMachine(T owner)
         {
             this.owner = owner;
-            moveDic = new Dictionary<ZombieState, State>();
+            stateDict = new Dictionary<ZombieState, State>();
+            
         }
 
         public void AddState(ZombieState stateName, State state)
         {
-            if (moveDic.ContainsKey(stateName))
+            if (stateDict.ContainsKey(stateName))
                 return;
 
-            moveDic.Add(stateName, state);
+            stateDict.Add(stateName, state);
             state.Init(this);
         }
-
-
 
 
 
@@ -46,13 +52,13 @@ namespace Hojun
 
         public void SetState(ZombieState stateName)
         {
-            if (moveDic.ContainsKey(stateName))
+            if (stateDict.ContainsKey(stateName))
             {
                 if (curState != null)
                 {
                     curState.Exit();
                 }
-                curState = moveDic[stateName];
+                curState = stateDict[stateName];
                 curState.Enter();
 
             }

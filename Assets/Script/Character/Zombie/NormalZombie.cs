@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using Hojun;
 using UnityEditor;
-
+using UnityEngine.AI;
 
 namespace Hojun 
 {
@@ -17,33 +17,30 @@ namespace Hojun
     }
     public class NormalZombie : Zombie, IMoveAble
     {
-        Vector3 myvec;
+
 
         public new void Awake()
         {
-            myvec = gameObject.transform.localPosition;
-
+        
             base.Awake();
-            stateMachine = new StateMachine<Zombie>(this);
+
+
+            moveDict.Add(ZombieMove.SEARCH, new SearchStrategy(this));
+            moveDict.Add(ZombieMove.IDLE, new IdleStrategy(this));
+            
             stateMachine.AddState(Zombie.ZombieState.IDLE, new IdleState(stateMachine));
-            stateMachine.AddState(Zombie.ZombieState.SEARCH_WALK , new SearchState(stateMachine) );
+            stateMachine.AddState(Zombie.ZombieState.SEARCH, new SearchState(stateMachine));
+
+            stateMachine.SetState(Zombie.ZombieState.IDLE);
+            //MoveStrategy = moveDict[ZombieMove.IDLE];
+        
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            
-        }
 
         // Update is called once per frame
         void Update()
         {
             stateMachine.Update();
-        }
-
-        public override void Move()
-        {
-
         }
 
 

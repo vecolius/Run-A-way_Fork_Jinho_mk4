@@ -9,14 +9,14 @@ namespace Hojun
 
     public class State
     {
-        public IStateMachine sm = null;
-        public GameObject owner;
+        protected IStateMachine stateMachine = null;
+        protected GameObject owner;
 
 
         public State(IStateMachine sm)
         {
-            if(sm.GetOwner() is GameObject)
-                owner = (GameObject)sm.GetOwner();
+
+            owner = ((Zombie)sm.GetOwner()).gameObject;
 
             if (owner == null)
                 Debug.Log("ERROR");
@@ -25,7 +25,7 @@ namespace Hojun
 
         public virtual void Init(IStateMachine sm)
         {
-            this.sm = sm;
+            this.stateMachine = sm;
         }
 
         public virtual void Enter()
