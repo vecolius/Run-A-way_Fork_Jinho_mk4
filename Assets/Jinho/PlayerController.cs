@@ -1,7 +1,9 @@
 using Jinho;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Jinho
 {
@@ -13,6 +15,7 @@ namespace Jinho
     interface IAttackStrategy
     {
         void Attack();
+  
     }
     public enum PlayerMoveState
     {
@@ -160,6 +163,8 @@ namespace Jinho
     {
         protected PlayerController player = null;
         protected KeyCode keycode;
+      
+
         public AttackStrategy(object owner)
         {
             player = (PlayerController)owner;
@@ -167,8 +172,19 @@ namespace Jinho
 
         public virtual void Attack()
         {
+
+        }    
+
+        public virtual void BasicMotion()
+        {
+           
+        }
+
+        public virtual void OtherMotion()
+        {
             
         }
+
         protected void WeaponChange()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -206,16 +222,28 @@ namespace Jinho
 
         public override void Attack()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+           
+            if (Input.GetKey(KeyCode.Mouse0))
             {
-
-                player.animator.SetTrigger("Shot");
-                // player.currentWeapon.Fire();
-
-                //주무기 발사 애니
+                player.animator.SetTrigger("Shut");
+               
+                Debug.Log("어택 시작");
             }
-           // WeaponChange();
+            if (Input.GetKeyUp(KeyCode.Mouse0))
+            {
+                OtherMotion();
+                Debug.Log("어택 끝");
+            }
+
+            else if (Input.GetKey(KeyCode.R))
+            {
+                player.animator.SetTrigger("Reload");
+                Debug.Log("이제 장전 된다 ㅠ");
+            }
+
         }
+
+
     }
 
     public class ShotgunAttackStrategy : AttackStrategy
@@ -229,7 +257,8 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.animator.SetTrigger("Shot");
+                //player.animator.SetTrigger("Shot");
+
             }
             // WeaponChange();
         }
@@ -245,7 +274,7 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.animator.SetTrigger("Shot");
+                //player.animator.SetTrigger("Shot");
             }
             // WeaponChange();
         }
@@ -263,10 +292,10 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
+               // player.currentWeapon.Fire();
                 //근접 공격 애니
             }
-            WeaponChange();
+            //WeaponChange();
         }
     }
     public class GranadeAttackStrategy : AttackStrategy
@@ -278,10 +307,10 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
+                //player.currentWeapon.Fire();
                 //수류탄 추척 애니
             }
-            WeaponChange();
+            //WeaponChange();
         }
     }
     #endregion
@@ -351,6 +380,7 @@ namespace Jinho
         public bool isGrounded = true;
         void Start()
         {
+         
             state = new PlayerState();
 
             moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
@@ -377,11 +407,11 @@ namespace Jinho
         void Update()
         {
             moveDic[moveState]?.Moving();
-            if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
-            {
-                //currentWeapon?.Fire();
-                attackDic[attackState]?.Attack();
-            }
+            attackDic[attackState]?.Attack();
+
+            
+
+
         }
         public int SlotGetToKey(KeyCode keycode)
         {
