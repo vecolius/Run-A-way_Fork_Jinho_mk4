@@ -5,18 +5,21 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class WeaponData
+    [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Object/Weapon Data", order = int.MaxValue)]
+    public class WeaponData : ScriptableObject
     {
-        public string weaponName;          //¹«±â ÀÌ¸§
-        public Sprite image;               //ÃÑ±â Á¾·ù ÀÌ¹ÌÁö
-        public float damage;               //ÃÑ ´ë¹ÌÁö
-        public int maxBullet;              //ÀåÀüµÇ´Â ÃÑ¾Ë ¾ç
-        public int bulletCount;            //ÇöÀç ÃÑ¿¡ µé¾îÀÖ´Â ÃÑ¾Ë ¾ç
-        public int maxTotalBullet;         //ÃÖ´ë·Î ³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
-        public int totalBullet;            //³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
-        public Transform firePos;          //ÃÑ¾Ë ¹ß»ç À§Ä¡
-        public GameObject bullet;          //³¯¾Æ°¥ ÃÑ¾Ë GameObject
+        public string weaponName;          //ë¬´ê¸° ì´ë¦„
+        public Sprite image;               //ì´ê¸° ì¢…ë¥˜ ì´ë¯¸ì§€
+        public float damage;               //ì´ ëŒ€ë¯¸ì§€
+        public int maxBullet;              //ì¥ì „ë˜ëŠ” ì´ì•Œ ì–‘
+        public int bulletCount;            //í˜„ì¬ ì´ì— ë“¤ì–´ìˆëŠ” ì´ì•Œ ì–‘
+        public int maxTotalBullet;         //ìµœëŒ€ë¡œ ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
+        public int totalBullet;            //ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
+        public Transform firePos;          //ì´ì•Œ ë°œì‚¬ ìœ„ì¹˜
+        public GameObject bullet;          //ë‚ ì•„ê°ˆ ì´ì•Œ GameObject
         public PlayerAttackState attackState;
+
+        public PlayerController player;
         public WeaponData(string name, Sprite image, float damage, int maxBullet, int bulletCount, int maxTotalBullet, int totalBullet, Transform firePos, PlayerAttackState attackState, GameObject bullet)
         {
             weaponName = name;
@@ -34,12 +37,12 @@ namespace Jinho
     public class Weapon
     {
         protected WeaponData weaponData;
-        public string name;         //ÃÑ±â ÀÌ¸§
-        public Sprite image;        //ÃÑ±â Á¾·ù ÀÌ¹ÌÁö
-        public PlayerAttackState attackState;   //°ø°İ ¹æ½Ä
-        public float damage;        //ÃÑ ´ë¹ÌÁö
-        public int maxBullet;       //ÀåÀüµÇ´Â ÃÑ¾Ë ¾ç
-        int bulletCount;            //ÇöÀç ÃÑ¿¡ µé¾îÀÖ´Â ÃÑ¾Ë ¾ç
+        public string name;         //ì´ê¸° ì´ë¦„
+        public Sprite image;        //ì´ê¸° ì¢…ë¥˜ ì´ë¯¸ì§€
+        public PlayerAttackState attackState;   //ê³µê²© ë°©ì‹
+        public float damage;        //ì´ ëŒ€ë¯¸ì§€
+        public int maxBullet;       //ì¥ì „ë˜ëŠ” ì´ì•Œ ì–‘
+        int bulletCount;            //í˜„ì¬ ì´ì— ë“¤ì–´ìˆëŠ” ì´ì•Œ ì–‘
         public int BulletCount
         {
             get { return bulletCount; }
@@ -50,8 +53,8 @@ namespace Jinho
                 if(bulletCount < 0 ) bulletCount = 0;
             }
         }
-        int maxTotalBullet;         //ÃÖ´ë·Î ³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
-        int totalBullet;            //³»°¡ °¡Áö°í ÀÖ´Â ÃÑ¾ËÀÇ ÇÕ°è
+        int maxTotalBullet;         //ìµœëŒ€ë¡œ ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
+        int totalBullet;            //ë‚´ê°€ ê°€ì§€ê³  ìˆëŠ” ì´ì•Œì˜ í•©ê³„
         public int TotalBullet
         {
             get { return  totalBullet; }
@@ -63,25 +66,40 @@ namespace Jinho
             }
         }
 
-        public Transform firePos;   //ÃÑ¾Ë ¹ß»ç À§Ä¡
-        public GameObject bullet;   //³¯¾Æ°¥ ÃÑ¾Ë GameObject
+        public Transform firePos;   //ì´ì•Œ ë°œì‚¬ ìœ„ì¹˜
+        public GameObject bullet;   //ë‚ ì•„ê°ˆ ì´ì•Œ GameObject
         public Weapon(WeaponData weaponData)
         {
             this.weaponData = weaponData;
-            this.name = weaponData.weaponName;
-            this.image = weaponData.image;
-            this.attackState = weaponData.attackState;
-            this.damage = weaponData.damage;
-            this.maxBullet = weaponData.maxBullet;
+            name = weaponData.weaponName;
+            image = weaponData.image;
+            attackState = weaponData.attackState;
+            damage = weaponData.damage;
+            maxBullet = weaponData.maxBullet;
             BulletCount = weaponData.bulletCount;
-            this.maxTotalBullet = weaponData.maxTotalBullet;
+            maxTotalBullet = weaponData.maxTotalBullet;
             TotalBullet = weaponData.totalBullet;
-            this.firePos = weaponData.firePos;
-            this.bullet = weaponData.bullet;
+            firePos = weaponData.firePos;
+            bullet = weaponData.bullet;
         }
 
-        public virtual void Fire() { }
-        public virtual void Reload() { }
+        public virtual void Use() 
+        { 
+            if (bulletCount == 0) 
+                return;
+            BulletCount--;
+        }
+        public virtual void Reload() 
+        {
+            int needBulletCount = maxBullet - BulletCount;
+
+            if (TotalBullet >= needBulletCount)
+                BulletCount = maxBullet;
+            else
+                BulletCount += TotalBullet;
+
+            TotalBullet -= needBulletCount;
+        }
     }
     public class Rifle : Weapon
     {
@@ -89,15 +107,15 @@ namespace Jinho
         {
         }
 
-        public override void Fire()
+        public override void Use()
         {
-            //Debug.Log("¶óÀÌÇÃ »§!");
-            
+            base.Use();
+            Debug.Log("ë¼ì´í”Œ ë¹µ!");  
         }
         public override void Reload()
         {
-            //Debug.Log("¶óÀÌÇÃ ÀçÀåÀü~");
-            //Debug.Log("¶óÀÌÇÃ ÀçÀåÀü~");
+            Debug.Log("ë¼ì´í”Œ ì¬ì¥ì „~");
+            base.Reload();
         }
     }
     public class Shotgun : Weapon
@@ -106,13 +124,14 @@ namespace Jinho
         {
         }
 
-        public override void Fire()
+        public override void Use()
         {
-            
+            base.Use();
+            Debug.Log("ì‚¿ê±´ ë¹µ!!");
         }
         public override void Reload()
         {
-
+            
         }
     }
     public class Handgun : Weapon
@@ -121,13 +140,15 @@ namespace Jinho
         {
         }
 
-        public override void Fire()
+        public override void Use()
         {
-            
+            base.Use();
+            Debug.Log("ê¶Œì´ ë¹µì•¼!!!");
         }
         public override void Reload()
         {
-            
+            Debug.Log("ê¶Œì´ ì¬ì¥ì „~");
+            base.Reload();
         }
     }
     public class Sword : Weapon
@@ -135,38 +156,67 @@ namespace Jinho
         public Sword(WeaponData weaponData) : base(weaponData)
         {
         }
-        public override void Fire()
+        public override void Use()
         {
-            
+            Debug.Log("ì¹¼ ì„œê±±!!!!");
+        }
+    }
+    public class HealKit : Weapon
+    {
+        public float healPoint;
+        public HealKit(WeaponData weaponData) : base(weaponData) 
+        {
+            healPoint = weaponData.damage;
+        }
+        public override void Use()
+        {
+            base.Use();
+            weaponData.player.state.Hp += healPoint;
+            if (BulletCount == 0)
+            {
+                weaponData.player.weaponObjSlot[2] = null;
+                weaponData.player.weaponSlot[2] = null;
+            }
         }
     }
     public class Granade : Weapon
     {
-        public Granade(WeaponData weaponData) : base(weaponData)
+        public Granade(WeaponData weaponData, ExplosionComponent explosion) : base(weaponData)
         {
         }
-        public override void Fire()
+        public override void Use()
         {
-            
+            base.Use();
+            Debug.Log("ìˆ˜ë¥˜íƒ„ íˆ¬ì²™~");
+            if(BulletCount == 0)
+            {
+                weaponData.player.weaponObjSlot[3] = null;
+                weaponData.player.weaponSlot[3] = null;
+            }
         }
     }
     public class WeaponClass : MonoBehaviour
     {
+        public LayerMask enemyLayer;
         public enum WeaponType
         {
             Rifle,
             Shotgun,
             Handgun,
             Sword,
+            healKit,
+            Granade,
         }
         public WeaponType weaponType;
         public Weapon weapon = null;
         public WeaponData weaponData = null;
-        void Awake()
+        public ExplosionComponent explosion = null;
+        void Start()
         {
-            //SetWeapon();
+            explosion = GetComponent<ExplosionComponent>();
+            SetWeaponClass();
         }
-        void SetWeapon()
+        void SetWeaponClass()                           //weaponClass ìƒì„±
         {
             switch (weaponType)
             {
@@ -182,15 +232,62 @@ namespace Jinho
                 case WeaponType.Sword:
                     weapon = new Sword(weaponData);
                     break;
+                case WeaponType.healKit:
+                    weapon = new HealKit(weaponData);
+                    break;
+                case WeaponType.Granade:
+                    weapon = new Granade(weaponData, explosion);
+                    break;
             }
-        }
+        }                                           
+        void SetPlayerSlot(PlayerController player)
+        {
+            switch(weaponType)
+            {
+                case WeaponType.Rifle:
+                case WeaponType.Shotgun:
+                    player.weaponSlot[0] = weapon;
+                    player.weaponObjSlot[0] = gameObject;
+                    break;
+                case WeaponType.Handgun:
+                case WeaponType.Sword:
+                    player.weaponSlot[1] = weapon;
+                    player.weaponObjSlot[1] = gameObject;
+                    break;
+                case WeaponType.healKit:
+                    player.weaponSlot[2] = weapon;
+                    player.weaponObjSlot[2] = gameObject;
+                    break;
+                case WeaponType.Granade:
+                    if (player.weaponSlot[3] == null)   //ìˆ˜ë¥˜íƒ„ì´ ìŠ¬ë¡¯ì— ì—†ìœ¼ë©´,
+                    {
+                        player.weaponSlot[3] = weapon;
+                        player.weaponObjSlot[3] = gameObject;
+                    }
+                    else
+                    {
+                        if (player.weaponSlot[3].BulletCount != weaponData.maxBullet)   //ì´ë¯¸ ìˆëŠ”ë°, íƒ„ ê°¯ìˆ˜ê°€ maxê°€ ì•„ë‹ˆë©´
+                            player.weaponSlot[3].BulletCount++;
+                        else
+                            return;                                                     //ì´ë¯¸ ìˆëŠ”ë°, íƒ„ ê°¯ìˆ˜ê°€ maxì´ë©´
+                    }
+                    break;
+            }
+            weaponData.player = player;
+            gameObject.SetActive(false);
+        }   //player slotì— ë¬´ê¸°íƒ€ì…ì— ë§ê²Œ ì €ì¥
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent(out PlayerController player))
+            if(weaponType == WeaponType.Sword && weaponData.player != null)
             {
-                player.weaponSlot[0] = weapon;
-                player.currentWeapon = player.weaponSlot[0];
-                gameObject.SetActive(false);
+                if (other.gameObject.layer == enemyLayer)       //enemyLayer = Layer 11ë²ˆ : ëª¬ìŠ¤í„° , (ì¹¼ì´ ëª¬ìŠ¤í„°ì— ë‹¿ìœ¼ë©´)
+                {
+                    //if (other.TryGetComponent(out IHitable hitable)) hitable.Hit(weaponData.damage);
+                }
+            }
+            if(other.TryGetComponent(out PlayerController player) && weaponData.player == null)
+            {
+                SetPlayerSlot(player);
             }
         }
     }

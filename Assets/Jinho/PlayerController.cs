@@ -34,15 +34,9 @@ namespace Jinho
         sub,
         heal,
         granade,
-    // ÃÑ Å¸ÀÔ ¼¼ºĞÈ­ µÊ (¶óÀÌÇÃ, ¼¦°Ç, ±ÇÃÑ)
+    // ì´ íƒ€ì… ì„¸ë¶„í™” ë¨ (ë¼ì´í”Œ, ìƒ·ê±´, ê¶Œì´)
     }
     #endregion
-    public class Job
-    {
-        public string name;
-        public float maxHp;
-        public float moveSpeed;
-    }
     #region MoveStrategy_Class
     public class Idle : IMoveStrategy
     {
@@ -61,7 +55,7 @@ namespace Jinho
             if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
             {
                 player.animator.SetTrigger("Jump");
-                player.animator.SetFloat("JumpType", 0f);   //±×³É ¿©±â¼­ Â«Çª
+                player.animator.SetFloat("JumpType", 0f);   //ê·¸ëƒ¥ ì—¬ê¸°ì„œ ì§¬í‘¸
                 player.moveState = PlayerMoveState.jump;
             }
 
@@ -206,7 +200,7 @@ namespace Jinho
             if (player.currentWeapon == player.weaponSlot[player.SlotGetToKey(keycode)]) 
                 return;
 
-            //¹«±â ±³Ã¼ ¾Ö´Ï
+            //ë¬´ê¸° êµì²´ ì• ë‹ˆ
             player.currentWeapon = player.weaponSlot[player.SlotGetToKey(keycode)];
             player.attackState = player.currentWeapon.attackState;
         }
@@ -227,18 +221,18 @@ namespace Jinho
             {
                 player.animator.SetTrigger("Shut");
                
-                Debug.Log("¾îÅÃ ½ÃÀÛ");
+                Debug.Log("ì–´íƒ ì‹œì‘");
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
                 OtherMotion();
-                Debug.Log("¾îÅÃ ³¡");
+                Debug.Log("ì–´íƒ ë");
             }
 
             else if (Input.GetKey(KeyCode.R))
             {
                 player.animator.SetTrigger("Reload");
-                Debug.Log("ÀÌÁ¦ ÀåÀü µÈ´Ù ¤Ğ");
+                Debug.Log("ì´ì œ ì¥ì „ ëœë‹¤ ã… ");
             }
 
         }
@@ -292,8 +286,6 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-               // player.currentWeapon.Fire();
-                //±ÙÁ¢ °ø°İ ¾Ö´Ï
             }
             //WeaponChange();
         }
@@ -307,13 +299,19 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                //player.currentWeapon.Fire();
-                //¼ö·ùÅº ÃßÃ´ ¾Ö´Ï
+
             }
             //WeaponChange();
         }
     }
     #endregion
+    #region PlayerState_Class
+    public class Job
+    {
+        public string name;
+        public float maxHp;
+        public float moveSpeed;
+    }
     public class PlayerState
     {
         public Job job;
@@ -363,18 +361,19 @@ namespace Jinho
             }
         }
     }
-
+    #endregion
     public class PlayerController : MonoBehaviour
     {
-        public PlayerState state;                                   //playerÀÇ ±âº»state
+        public PlayerState state;                                   //playerì˜ ê¸°ë³¸state
+        public GameObject[] weaponObjSlot = new GameObject[4];
         public Weapon[] weaponSlot = new Weapon[4];                 //weapon slot
-        public Weapon currentWeapon = null;                         //ÇöÀç µé°íÀÖ´Â weapon
+        public Weapon currentWeapon = null;                         //í˜„ì¬ ë“¤ê³ ìˆëŠ” weapon
 
-        public PlayerMoveState moveState;                           //ÇöÀç moveÀü·«
-        public PlayerAttackState attackState;                       //ÇöÀç attackÀü·Â
-        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move Àü·« dictionary
-        Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack Àü·« dictionary
-        Dictionary<KeyCode, int> weaponSlotDic;                     //ÀÔ·ÂÇÑ KeyCode¿¡ µû¶ó slotÀ» ¹İÈ¯ÇÏ´Â dic
+        public PlayerMoveState moveState;                           //í˜„ì¬ moveì „ëµ
+        public PlayerAttackState attackState;                       //í˜„ì¬ attackì „ë ¥
+        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move ì „ëµ dictionary
+        Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack ì „ëµ dictionary
+        Dictionary<KeyCode, int> weaponSlotDic;                     //ì…ë ¥í•œ KeyCodeì— ë”°ë¼ slotì„ ë°˜í™˜í•˜ëŠ” dic
 
         public Animator animator;
         public bool isGrounded = true;
@@ -417,7 +416,7 @@ namespace Jinho
         {
             return weaponSlotDic[keycode];
         }
-        void SetSlotDic()   //weaponSlotDicÀ» ÀÔ·ÂÇÏ´Â ÇÔ¼ö
+        void SetSlotDic()   //weaponSlotDicì„ ì…ë ¥í•˜ëŠ” í•¨ìˆ˜
         {
             weaponSlotDic = new Dictionary<KeyCode, int>();
             weaponSlotDic.Add(KeyCode.Alpha1, 0);

@@ -8,29 +8,27 @@ public class bullet : MonoBehaviour
     [SerializeField] float moveSpeed;
     public float damage;
     public Weapon parentWeapon = null;
-    void Start()
+    public PlayerController player = null;
+    void OnEnable()
     {
-        Destroy(gameObject, 1.2f);
+        Invoke("BulletDestroy", 1.2f);  //총알이 불러와지면 1.2초 뒤 스스로 파괴됨
     }
-
     void Update()
-    {
-        BulletMoveing();
-    }
-    void BulletMoveing()
     {
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
     }
-    public void SetBulletData(Weapon weapon)
+    void BulletDestroy()
     {
+        Destroy(gameObject);
+    }
+    public void SetBulletData(PlayerController player, Weapon weapon)    //무기 damage 입력 함수
+    {
+        this.player = player;
         parentWeapon = weapon;
         damage = parentWeapon.damage;
     }
     void OnTriggerEnter(Collider other)
     {
-        //if(other.TryGetComponent(out IHitable hit))
-        {
-
-        }
+        //if(other.TryGetComponent(out IHitable hit)
     }
 }
