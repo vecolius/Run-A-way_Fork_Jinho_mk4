@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class WeaponData
+    [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Object/Weapon Data", order = int.MaxValue)]
+    public class WeaponData : ScriptableObject
     {
         public string weaponName;          //무기 이름
         public Sprite image;               //총기 종류 이미지
@@ -88,7 +89,17 @@ namespace Jinho
                 return;
             BulletCount--;
         }
-        public virtual void Reload() { }
+        public virtual void Reload() 
+        {
+            int needBulletCount = maxBullet - BulletCount;
+
+            if (TotalBullet >= needBulletCount)
+                BulletCount = maxBullet;
+            else
+                BulletCount += TotalBullet;
+
+            TotalBullet -= needBulletCount;
+        }
     }
     public class Rifle : Weapon
     {
@@ -105,14 +116,7 @@ namespace Jinho
         public override void Reload()
         {
             Debug.Log("라이플 재장전~");
-            int needBulletCount = maxBullet - BulletCount;
-
-            if (TotalBullet >= needBulletCount)
-                BulletCount = maxBullet;
-            else
-                BulletCount += TotalBullet;
-
-            TotalBullet -= needBulletCount;
+            base.Reload();
         }
     }
     public class Shotgun : Weapon
@@ -128,7 +132,7 @@ namespace Jinho
         }
         public override void Reload()
         {
-
+            
         }
     }
     public class Handgun : Weapon
@@ -144,7 +148,8 @@ namespace Jinho
         }
         public override void Reload()
         {
-            
+            Debug.Log("권총 재장전~");
+            base.Reload();
         }
     }
     public class Sword : Weapon
@@ -168,21 +173,32 @@ namespace Jinho
         {
             base.Use();
             weaponData.player.state.Hp += healPoint;
+            if (BulletCount == 0)
+            {
+                weaponData.player.weaponObjSlot[2] = null;
+                weaponData.player.weaponSlot[2] = null;
+            }
         }
     }
     public class Granade : Weapon
     {
-        public Granade(WeaponData weaponData) : base(weaponData)
+        public Granade(WeaponData weaponData, ExplosionComponent explosion) : base(weaponData)
         {
         }
         public override void Use()
         {
             base.Use();
             Debug.Log("수류탄 투척~");
+            if(BulletCount == 0)
+            {
+                weaponData.player.weaponObjSlot[3] = null;
+                weaponData.player.weaponSlot[3] = null;
+            }
         }
     }
     public class WeaponClass : MonoBehaviour
     {
+        public LayerMask enemyLayer;
         public enum WeaponType
         {
             Rifle,
@@ -195,11 +211,13 @@ namespace Jinho
         public WeaponType weaponType;
         public Weapon weapon = null;
         public WeaponData weaponData = null;
-        void Awake()
+        public ExplosionComponent explosion = null;
+        void Start()
         {
-            SetWeapon();
+            explosion = GetComponent<ExplosionComponent>();
+            SetWeaponClass();
         }
-        void SetWeapon()
+        void SetWeaponClass()                           //weaponClass 생성
         {
             switch (weaponType)
             {
@@ -219,10 +237,10 @@ namespace Jinho
                     weapon = new HealKit(weaponData);
                     break;
                 case WeaponType.Granade:
-                    weapon = new Granade(weaponData);
+                    weapon = new Granade(weaponData, explosion);
                     break;
             }
-        }
+        }                                           
         void SetPlayerSlot(PlayerController player)
         {
             switch(weaponType)
@@ -242,19 +260,35 @@ namespace Jinho
                     player.weaponObjSlot[2] = gameObject;
                     break;
                 case WeaponType.Granade:
-                    player.weaponSlot[3] = weapon;
-                    player.weaponObjSlot[3] = gameObject;
+                    if (player.weaponSlot[3] == null)   //수류탄이 슬롯에 없으면,
+                    {
+                        player.weaponSlot[3] = weapon;
+                        player.weaponObjSlot[3] = gameObject;
+                    }
+                    else
+                    {
+                        if (player.weaponSlot[3].BulletCount != weaponData.maxBullet)   //이미 있는데, 탄 갯수가 max가 아니면
+                            player.weaponSlot[3].BulletCount++;
+                        else
+                            return;                                                     //이미 있는데, 탄 갯수가 max이면
+                    }
                     break;
             }
+            weaponData.player = player;
             gameObject.SetActive(false);
-        }
+        }   //player slot에 무기타입에 맞게 저장
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent(out PlayerController player))
+            if(weaponType == WeaponType.Sword && weaponData.player != null)
+            {
+                if (other.gameObject.layer == enemyLayer)       //enemyLayer = Layer 11번 : 몬스터 , (칼이 몬스터에 닿으면)
+                {
+                    //if (other.TryGetComponent(out IHitable hitable)) hitable.Hit(weaponData.damage);
+                }
+            }
+            if(other.TryGetComponent(out PlayerController player) && weaponData.player == null)
             {
                 SetPlayerSlot(player);
-                weaponData.player = player;
-                player.currentWeapon = player.weaponSlot[0];
             }
         }
     }
