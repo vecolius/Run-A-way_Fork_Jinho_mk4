@@ -105,6 +105,14 @@ namespace Jinho
         public override void Reload()
         {
             Debug.Log("라이플 재장전~");
+            int needBulletCount = maxBullet - BulletCount;
+
+            if (TotalBullet >= needBulletCount)
+                BulletCount = maxBullet;
+            else
+                BulletCount += TotalBullet;
+
+            TotalBullet -= needBulletCount;
         }
     }
     public class Shotgun : Weapon
