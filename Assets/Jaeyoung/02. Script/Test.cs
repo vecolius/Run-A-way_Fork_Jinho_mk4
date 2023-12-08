@@ -8,12 +8,8 @@ public class Test : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
-            EventManager.instance.TakeMission(MissionType.Defense);
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            EventManager.instance.TakeMission(MissionType.Search);
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            EventManager.instance.TakeMission(MissionType.Breakthrough);
+            MissionManager.instance.IsFinish = true;
         else if (Input.GetKeyDown(KeyCode.Alpha0))
-            EventManager.instance.MissionOver();   
+            MissionManager.instance.MissionOver();   
     }
 }
