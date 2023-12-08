@@ -36,18 +36,21 @@ namespace Hojun
             agent.enabled = true;
             ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.SEARCH);
             
-
             Debug.Log("searchEnter");
         }
 
         public override void Exit()
         {
             //aniCompo.SetBool("Walk" , false);
-            agent.enabled = false;
         }
 
         public override void Update()
         {
+
+            if (ownerZombie.IsFindPlayer)
+            {
+                stateMachine.SetState( (int)Zombie.ZombieState.FIND );
+            }
 
             Debug.Log("search update");
 
@@ -58,6 +61,9 @@ namespace Hojun
                 Debug.Log("running");
                 agent.speed = ownerZombie.zombieData.Speed*1.4f;
             }
+
+
+
 
         }
 

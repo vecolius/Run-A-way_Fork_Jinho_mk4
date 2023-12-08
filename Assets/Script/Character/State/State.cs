@@ -7,7 +7,7 @@ using Hojun;
 namespace Hojun
 {
 
-    public class State
+    public abstract class State
     {
         protected IStateMachine stateMachine = null;
         protected GameObject owner;
@@ -28,16 +28,9 @@ namespace Hojun
             this.stateMachine = sm;
         }
 
-        public virtual void Enter()
-        {
-        }
-        public virtual void Update()
-        {
-
-        }
-        public virtual void Exit()
-        {
-        }
+        public abstract void Enter();
+        public abstract void Update();
+        public abstract void Exit();
     }
 
 

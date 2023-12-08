@@ -1,5 +1,3 @@
-using Hojun;
-using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +6,15 @@ using UnityEngine.AI;
 namespace Hojun
 {
 
-    public class SearchStrategy : IMoveStrategy
+    public class FindStrategy : IMoveStrategy
     {
-
         public GameObject Owner => ownerZombie.gameObject;
         Zombie ownerZombie;
         NavMeshAgent agent;
 
-        public SearchStrategy(Zombie owner)
-        {
 
+        public FindStrategy( Zombie owner )
+        {
 
             this.ownerZombie = owner;
             agent = owner.GetComponent<NavMeshAgent>();
@@ -31,18 +28,10 @@ namespace Hojun
         public void Move()
         {
 
-            Debug.Log("searchstrategy on 찾기 시작");
-
-            agent.SetDestination(ownerZombie.SoundTraceArea);
-
-
-            agent.speed = 10f;
-            if (ownerZombie.HearValue <= ownerZombie.RunHearValue)
-            {
-                Debug.Log("달리는 중");
-                agent.speed = ownerZombie.zombieData.Speed * 1.4f;
-            }
-
+            Debug.Log("findstrategy on");
+            // 달리는 애니메이션 추가 할 것
+            agent.SetDestination(ownerZombie.SoundTraceTarget.transform.position);
+            agent.speed = ownerZombie.zombieData.Speed * 1.4f;
 
         }
 

@@ -43,7 +43,7 @@ namespace Hojun
         {
             IDLE,
             SEARCH,
-            RUN
+            FIND
         }
 
 
@@ -62,12 +62,29 @@ namespace Hojun
                 return isFind;
             }
         }
-        bool isFind;
+        [SerializeField]
+        bool isFind = false;
+
+        
+        public GameObject Target 
+        {
+            get
+            {
+                return target;
+            }
+            set
+            {
+                target = value;
+                isFind = true;
+            }
+        }
+        [SerializeField]
+        GameObject target;
+
 
         public float HearValue 
         {
             get => hearComponent.ResultDistance;
-              
         }
         public GameObject SoundTraceTarget
         {
