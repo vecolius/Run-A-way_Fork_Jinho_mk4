@@ -14,15 +14,16 @@ namespace Jinho
 
         public void Use()
         {
+            /*
             if (weaponData.BulletCount == 0)
                 return;
             weaponData.BulletCount--;
+            */
             //총알이 나가는 효과
             GameObject bulletObj = Instantiate(bullet);
             bulletObj.transform.position = firePos.position;
             bulletObj.transform.rotation = firePos.rotation;
         }
-        //GameObject[] objs = new GameObject[1];
         public void Reload()
         {
             int needBulletCount = weaponData.maxBullet - weaponData.BulletCount;
@@ -34,5 +35,15 @@ namespace Jinho
 
             weaponData.TotalBullet -= needBulletCount;
         }
+        public void SetItem()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            
+        }
+
     }
 }

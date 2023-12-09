@@ -19,6 +19,7 @@ namespace Jinho
         public ItemType ItemType { get; }
         void Use();
         void Reload();
+        void SetItem();
     }
     public interface IAttackable : IUseable { }
     public interface IExpendable : IUseable { }
@@ -78,6 +79,11 @@ namespace Jinho
 
         public ItemType ItemType => throw new System.NotImplementedException();
 
+        public void SetItem()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Reload()
         {
             throw new System.NotImplementedException();
@@ -98,6 +104,11 @@ namespace Jinho
 
         public ItemType ItemType => throw new System.NotImplementedException();
 
+        public void SetItem()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Reload()
         {
             throw new System.NotImplementedException();
@@ -117,6 +128,11 @@ namespace Jinho
 
         public ItemType ItemType => throw new System.NotImplementedException();
 
+        public void SetItem()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Reload()
         {
             throw new System.NotImplementedException();
@@ -133,6 +149,11 @@ namespace Jinho
         public WeaponData WeaponData { get => weaponData; set { weaponData = value; } }
 
         public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void SetItem()
+        {
+            throw new System.NotImplementedException();
+        }
 
         public void Reload()
         {
@@ -154,24 +175,42 @@ namespace Jinho
     {
         ExtendableData extendableData;
         public ExtendableData ExtendableData { get => extendableData; set {  extendableData = value; } }
+
+        public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void Reload()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SetItem()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Use() 
         {
             
-        }
-        public void UseEffect()
-        {
-
         }
     }
     public class Grenade : IExpendable
     {
         ExtendableData extendableData;
         public ExtendableData ExtendableData { get => extendableData; set { extendableData = value; } }
-        public void Use()
-        {
 
+        public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void Reload()
+        {
+            throw new System.NotImplementedException();
         }
-        public void UseEffect()
+
+        public void SetItem()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Use()
         {
 
         }

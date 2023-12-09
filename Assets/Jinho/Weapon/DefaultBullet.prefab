@@ -110,5 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 355703f878f18e743aad8454cf0e577c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0
+  moveSpeed: 2
   damage: 0
+  parentWeaponData: {fileID: 0}
+  player: {fileID: 0}

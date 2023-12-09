@@ -7,7 +7,7 @@ public class bullet : MonoBehaviour
 {
     [SerializeField] float moveSpeed;
     public float damage;
-    public Weapon parentWeapon = null;
+    public WeaponData parentWeaponData = null;
     public PlayerController player = null;
     void OnEnable()
     {
@@ -21,11 +21,11 @@ public class bullet : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    public void SetBulletData(PlayerController player, Weapon weapon)    //무기 damage 입력 함수
+    public void SetBulletData(WeaponData weaponData)    //무기 damage 입력 함수
     {
-        this.player = player;
-        parentWeapon = weapon;
-        damage = parentWeapon.damage;
+        this.player = weaponData.player;
+        parentWeaponData = weaponData;
+        damage = parentWeaponData.damage;
     }
     void OnTriggerEnter(Collider other)
     {

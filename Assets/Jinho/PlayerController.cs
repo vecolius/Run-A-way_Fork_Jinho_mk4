@@ -216,7 +216,7 @@ namespace Jinho
             {
                 //총을 쏨
                 player.animator.SetTrigger("Shut");
-               
+                player.ItemUseEffect();
                 Debug.Log("어택 시작");
             }
             if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -373,6 +373,9 @@ namespace Jinho
 
         public Animator animator;
         public bool isGrounded = true;
+
+        public Transform weaponHand;
+        public GameObject weapon;
         void Start()
         {
             state = new PlayerState();
@@ -394,17 +397,23 @@ namespace Jinho
             moveState = PlayerMoveState.idle;
 
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
-            currentWeapon = weaponSlot[0];
+            currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
         }
         void Update()
         {
+            weapon.transform.position = weaponHand.position;
+            weapon.transform.rotation = weaponHand.rotation;
             moveDic[moveState]?.Moving();
             attackDic[attackState]?.Attack();
         }
-        public void ItemUseEffect() 
+        public void ItemUseEffect() //Animation Event 함수(아이템 사용)
         {
             currentWeapon.Use();
+        }
+        public void ItemUseReload()//Animation Event 함수(재장전)
+        {
+            currentWeapon.Reload();
         }
         public int SlotGetToKey(KeyCode keycode)
         {
@@ -418,11 +427,10 @@ namespace Jinho
             weaponSlotDic.Add(KeyCode.Alpha3, 2);
             weaponSlotDic.Add(KeyCode.Alpha4, 3);
         }
-        public void Landing()
+        public void Landing()   //jump했다가 착지 시,
         {
             isGrounded = true;
             moveState = PlayerMoveState.idle;
-
         }
     }   
 }
