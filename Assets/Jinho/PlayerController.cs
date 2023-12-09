@@ -180,28 +180,12 @@ namespace Jinho
         protected void WeaponChange()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                keycode = KeyCode.Alpha1;
+            { 
+               
+            
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                keycode = KeyCode.Alpha2;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                keycode = KeyCode.Alpha3;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                keycode = KeyCode.Alpha4;
-            }
-            if (player.currentWeapon == player.weaponSlot[player.SlotGetToKey(keycode)]) 
-                return;
-
-            //무기 교체 애니
-            //player.currentWeapon = player.weaponSlot[player.SlotGetToKey(keycode)];
-            //player.attackState = player.currentWeapon.attackState;
         }
+
     }
     public class RifleAttackStrategy : AttackStrategy
     {
@@ -230,6 +214,9 @@ namespace Jinho
             }
 
         }
+
+
+
 
 
     }
@@ -388,7 +375,7 @@ namespace Jinho
         public ItemType attackState;                       //현재 attack전력
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<ItemType, IAttackStrategy> attackDic;   //attack 전략 dictionary
-        Dictionary<KeyCode, int> weaponSlotDic;                     //입력한 KeyCode에 따라 slot을 반환하는 dic
+  
 
         public Animator animator;
         public bool isGrounded = true;
@@ -412,7 +399,7 @@ namespace Jinho
             attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
             attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
 
-            SetSlotDic();
+            
             moveState = PlayerMoveState.idle;
 
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
@@ -434,18 +421,8 @@ namespace Jinho
         {
             currentWeapon.Reload();
         }
-        public int SlotGetToKey(KeyCode keycode)
-        {
-            return weaponSlotDic[keycode];
-        }
-        void SetSlotDic()   //weaponSlotDic을 입력하는 함수
-        {
-            weaponSlotDic = new Dictionary<KeyCode, int>();
-            weaponSlotDic.Add(KeyCode.Alpha1, 0);
-            weaponSlotDic.Add(KeyCode.Alpha2, 1);
-            weaponSlotDic.Add(KeyCode.Alpha3, 2);
-            weaponSlotDic.Add(KeyCode.Alpha4, 3);
-        }
+       
+      
         public void Landing()   //jump했다가 착지 시,
         {
             isGrounded = true;
