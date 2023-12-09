@@ -4,19 +4,27 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using System;
+using System.Linq;
 
 
 // 플레이어 공격 부분도 같이 만들어야 하기 떄문에 구조 생각하고 연결 가능하게 만들어서 
 
 public class SceneController : DontDestroySingle<SceneController>
 {
+    // 씬 연결 ui
     [SerializeField] GameObject titleUi;
     [SerializeField] GameObject mainUi;
     [SerializeField] GameObject lobbyUi;
     [SerializeField] GameObject gameUi;
     [SerializeField] GameObject loadingUi;
 
-    //[SerializeField] G
+    //버튼 눌렀을 시 활성화 되는 창
+    [SerializeField] GameObject mainOptionImage;
+    [SerializeField] GameObject mainExplanationImage;
+    [SerializeField] GameObject lobbyChacterChoiceImage;
+    [SerializeField] GameObject lobbyProfessionChoiceButton;
+
 
     List<GameObject> totalUi= new List<GameObject>(); 
 
@@ -25,34 +33,6 @@ public class SceneController : DontDestroySingle<SceneController>
     {
         base.Awake();
     }
-
-    // 일단 구조적으로 연결가능하게 고민해 보고 힘들것 같으면 triggerEvnet 클릭을 만들어서
-    // 사용해도 됨 그게 좀 더 간단 하긴 함.
-    public void Option(string optionUi) // 메인 화면 옵션
-    {
-        
-        //OptionImage
-        //Button option;
-        //option = mainUi.GetComponentInChildren<Button>();
-
-        //optionUi
-
-        //if (optionUi
-        //    optionUi.enabled = true;
-        //else
-        //    optionUi.enabled = false;
-
-    }
-
-    public void Explanation() // 메인 화면 설명창
-    {
-        // 이것 또한 마찬가지 
-        Button explanation;
-        explanation = mainUi.GetComponentInChildren<Button>();
-
-
-    }
-
 
     private void Start()
     {
@@ -63,10 +43,33 @@ public class SceneController : DontDestroySingle<SceneController>
         totalUi.Add(lobbyUi);
         totalUi.Add(gameUi);
         totalUi.Add(loadingUi);
+ 
+    }
+    
+    public void OnClick(string buttonName) 
+    {
+        // 다른 버튼을 누르기 위해서는 다른 버튼이 true 일 때는 다른 버튼 활성화 금지!
+        // forech로 돌려도 나쁘지 않을 듯
+        switch (buttonName)
+        {
+            case "Option":
+                mainOptionImage.SetActive(!mainOptionImage.activeSelf);
+                break;
+            case "Explanation":
+                mainExplanationImage.SetActive(!mainExplanationImage.activeSelf);
+                break;
+            case "ChacterChoiceButton":
+                lobbyChacterChoiceImage.SetActive(!lobbyChacterChoiceImage.activeSelf);
+                break;
+            case "ProfessionChoiceButton":
+                lobbyProfessionChoiceButton.SetActive(!lobbyProfessionChoiceButton.activeSelf);
+                break; 
+        }
 
+            Debug.Log("버튼 눌림");
     }
 
-   
+  
     public void ChangeScene(string sceneName)
     {
         foreach (GameObject ui in totalUi) 
@@ -74,7 +77,6 @@ public class SceneController : DontDestroySingle<SceneController>
             ui.SetActive(false);
         }
 
-        // 리팩토링 해야할 듯 코드 무슨일...?
         switch (sceneName)
         {
             case "TitleScene":
@@ -121,7 +123,7 @@ public class SceneController : DontDestroySingle<SceneController>
 
     private void Update()
     {
-        Option("optionUi");
+        //Option("optionUi");
     }
 
 }
