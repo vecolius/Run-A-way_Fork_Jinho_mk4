@@ -14,16 +14,19 @@ namespace Jinho
         HealKit,
         Grenade,
     }
-    interface IUseable
+    public interface IUseable
     {
+        public ItemType ItemType { get; }
         void Use();
+        void Reload();
     }
-    interface IAttackable : IUseable { }
-    interface IExpendable : IUseable { }
+    public interface IAttackable : IUseable { }
+    public interface IExpendable : IUseable { }
     #endregion
 
     #region ItemData_Class
-    public class WeaponData
+    [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Object/Weapon Data", order = int.MaxValue)]
+    public class WeaponData : ScriptableObject
     {
         public ItemType itemType;   //아이템 타입
         public string itemName;     //아이템 이름
@@ -72,6 +75,14 @@ namespace Jinho
     {
         WeaponData weaponData;
         public WeaponData WeaponData { get => weaponData; set { weaponData = value; } }
+
+        public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void Reload()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Use()
         {
             if (WeaponData.BulletCount == 0)
@@ -84,6 +95,14 @@ namespace Jinho
     {
         WeaponData weaponData;
         public WeaponData WeaponData { get => weaponData; set { weaponData = value; } }
+
+        public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void Reload()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Use()
         {
             if (WeaponData.BulletCount == 0)
@@ -95,6 +114,14 @@ namespace Jinho
     {
         WeaponData weaponData;
         public WeaponData WeaponData { get => weaponData; set { weaponData = value; } }
+
+        public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void Reload()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Use()
         {
 
@@ -104,6 +131,14 @@ namespace Jinho
     {
         WeaponData weaponData;
         public WeaponData WeaponData { get => weaponData; set { weaponData = value; } }
+
+        public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void Reload()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Use()
         {
             if (WeaponData.BulletCount == 0)
@@ -123,6 +158,10 @@ namespace Jinho
         {
             
         }
+        public void UseEffect()
+        {
+
+        }
     }
     public class Grenade : IExpendable
     {
@@ -132,9 +171,14 @@ namespace Jinho
         {
 
         }
+        public void UseEffect()
+        {
+
+        }
     }
 
     #endregion
+
     public class Item : MonoBehaviour
     {
         void Start()

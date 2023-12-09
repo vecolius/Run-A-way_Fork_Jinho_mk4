@@ -210,14 +210,15 @@ namespace Jinho
             Granade,
         }
         public WeaponType weaponType;
-        public Weapon weapon = null;
+        //public Weapon weapon = null;
         public WeaponData weaponData = null;
         public ExplosionComponent explosion = null;
         void Start()
         {
             explosion = GetComponent<ExplosionComponent>();
-            SetWeaponClass();
+            //SetWeaponClass();
         }
+        /*
         void SetWeaponClass()                           //weaponClass 생성
         {
             switch (weaponType)
@@ -241,7 +242,8 @@ namespace Jinho
                     weapon = new Granade(weaponData, explosion);
                     break;
             }
-        }                                           
+        }                      
+        
         void SetPlayerSlot(PlayerController player)
         {
             switch(weaponType)
@@ -278,6 +280,7 @@ namespace Jinho
             weaponData.player = player;
             gameObject.SetActive(false);
         }   //player slot에 무기타입에 맞게 저장
+        */
         private void OnTriggerEnter(Collider other)
         {
             if(weaponType == WeaponType.Sword && weaponData.player != null)
@@ -289,7 +292,7 @@ namespace Jinho
             }
             if(other.TryGetComponent(out PlayerController player) && weaponData.player == null)
             {
-                SetPlayerSlot(player);
+                //SetPlayerSlot(player);
             }
         }
     }

@@ -8,11 +8,11 @@ using static UnityEngine.UI.GridLayoutGroup;
 namespace Jinho
 {
     #region Player_interface
-    interface IMoveStrategy
+    public interface IMoveStrategy
     {
         void Moving();
     }
-    interface IAttackStrategy
+    public interface IAttackStrategy
     {
         void Attack();
   
@@ -157,8 +157,6 @@ namespace Jinho
     {
         protected PlayerController player = null;
         protected KeyCode keycode;
-      
-
         public AttackStrategy(object owner)
         {
             player = (PlayerController)owner;
@@ -201,24 +199,22 @@ namespace Jinho
                 return;
 
             //무기 교체 애니
-            player.currentWeapon = player.weaponSlot[player.SlotGetToKey(keycode)];
-            player.attackState = player.currentWeapon.attackState;
+            //player.currentWeapon = player.weaponSlot[player.SlotGetToKey(keycode)];
+            //player.attackState = player.currentWeapon.attackState;
         }
     }
-   
-
     public class RifleAttackStrategy : AttackStrategy
     {
         public RifleAttackStrategy(object owner) : base(owner)
         {
 
         }
-
         public override void Attack()
         {
-           
+           //총은 꺼냈는데 공격 안하는중
             if (Input.GetKey(KeyCode.Mouse0))
             {
+                //총을 쏨
                 player.animator.SetTrigger("Shut");
                
                 Debug.Log("어택 시작");
@@ -366,20 +362,19 @@ namespace Jinho
     {
         public PlayerState state;                                   //player의 기본state
         public GameObject[] weaponObjSlot = new GameObject[4];
-        public Weapon[] weaponSlot = new Weapon[4];                 //weapon slot
-        public Weapon currentWeapon = null;                         //현재 들고있는 weapon
+        public IUseable[] weaponSlot = new IUseable[4];                 //weapon slot
+        public IUseable currentWeapon = null;                         //현재 들고있는 weapon
 
         public PlayerMoveState moveState;                           //현재 move전략
-        public PlayerAttackState attackState;                       //현재 attack전력
+        public ItemType attackState;                       //현재 attack전력
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
-        Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack 전략 dictionary
+        Dictionary<ItemType, IAttackStrategy> attackDic;   //attack 전략 dictionary
         Dictionary<KeyCode, int> weaponSlotDic;                     //입력한 KeyCode에 따라 slot을 반환하는 dic
 
         public Animator animator;
         public bool isGrounded = true;
         void Start()
         {
-         
             state = new PlayerState();
 
             moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
@@ -388,29 +383,28 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.run, new Run(this));
             moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
-            attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
-            attackDic.Add(PlayerAttackState.Rifle, new RifleAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.Shotgun, new ShotgunAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.Handgun, new HandgunAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
+            attackDic = new Dictionary<ItemType, IAttackStrategy>();
+            attackDic.Add(ItemType.rifle, new RifleAttackStrategy(this));
+            attackDic.Add(ItemType.shotgun, new ShotgunAttackStrategy(this));
+            attackDic.Add(ItemType.Handgun, new HandgunAttackStrategy(this));
+            attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
+            attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
 
             SetSlotDic();
-            weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
-            currentWeapon = weaponSlot[0];
-
             moveState = PlayerMoveState.idle;
-            //attackState = currentWeapon.attackState;
-        }
 
+            //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
+            currentWeapon = weaponSlot[0];
+            attackState = currentWeapon.ItemType;
+        }
         void Update()
         {
             moveDic[moveState]?.Moving();
             attackDic[attackState]?.Attack();
-
-            
-
-
+        }
+        public void ItemUseEffect() 
+        {
+            currentWeapon.Use();
         }
         public int SlotGetToKey(KeyCode keycode)
         {
@@ -424,7 +418,6 @@ namespace Jinho
             weaponSlotDic.Add(KeyCode.Alpha3, 2);
             weaponSlotDic.Add(KeyCode.Alpha4, 3);
         }
-
         public void Landing()
         {
             isGrounded = true;
