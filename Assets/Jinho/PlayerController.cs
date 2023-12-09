@@ -211,23 +211,21 @@ namespace Jinho
         }
         public override void Attack()
         {
-           //총은 꺼냈는데 공격 안하는중
+            player.animator.SetTrigger("Shot");
+            player.animator.SetFloat("GunType", 0.2f);
+            //총은 꺼냈는데 공격 안하는중
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 //총을 쏨
-                player.animator.SetTrigger("Shut");
-                player.ItemUseEffect();
+                player.animator.SetTrigger("Shot");
+                player.animator.SetFloat("GunType",0.4f);
                 Debug.Log("어택 시작");
             }
-            if (Input.GetKeyUp(KeyCode.Mouse0))
-            {
-                OtherMotion();
-                Debug.Log("어택 끝");
-            }
-
+           
             else if (Input.GetKey(KeyCode.R))
             {
                 player.animator.SetTrigger("Reload");
+                player.animator.SetFloat("ReloadType", 0.3f);
                 Debug.Log("이제 장전 된다 ㅠ");
             }
 
@@ -245,11 +243,22 @@ namespace Jinho
 
         public override void Attack()
         {
+            player.animator.SetTrigger("Shot");
+            player.animator.SetFloat("GunType", 0.2f);
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                //player.animator.SetTrigger("Shot");
+                player.animator.SetTrigger("Shot");
+                player.animator.SetFloat("GunType", 1f);
+                Debug.Log("어택 시작");
 
             }
+            else if (Input.GetKey(KeyCode.R))
+            {
+                player.animator.SetTrigger("Reload");
+                player.animator.SetFloat("ReloadType", 0.6f);
+                Debug.Log("이제 장전 된다 ㅠ");
+            }
+
             // WeaponChange();
         }
     }
@@ -262,11 +271,21 @@ namespace Jinho
         }
         public override void Attack()
         {
+            player.animator.SetTrigger("Shot");
+            player.animator.SetFloat("GunType", 0.2f);
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                //player.animator.SetTrigger("Shot");
+                player.animator.SetTrigger("Shot");
+                player.animator.SetFloat("GunType", 0.6f);
+                Debug.Log("어택 시작");
+
             }
-            // WeaponChange();
+            else if (Input.GetKey(KeyCode.R))
+            {
+                player.animator.SetTrigger("Reload");
+                player.animator.SetFloat("ReloadType", 1f);
+                Debug.Log("이제 장전 된다 ㅠ");
+            }
         }
 
     }
