@@ -1,6 +1,9 @@
 using Jinho;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Xml;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.UI.GridLayoutGroup;
@@ -164,7 +167,8 @@ namespace Jinho
 
         public virtual void Attack()
         {
-
+            player.animator.SetTrigger("WeaponChange");
+            player.animator.SetFloat("WeaponChangeBlendTree",0.5f);
         }    
 
         public virtual void BasicMotion()
@@ -177,14 +181,7 @@ namespace Jinho
             
         }
 
-        protected void WeaponChange()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            { 
-               
-            
-            }
-        }
+       
 
     }
     public class RifleAttackStrategy : AttackStrategy
@@ -212,12 +209,10 @@ namespace Jinho
                 player.animator.SetFloat("ReloadType", 0.3f);
                 Debug.Log("이제 장전 된다 ㅠ");
             }
+            else if(Input.GetKeyDown(KeyCode.Alpha1))
+                base.Attack();
 
         }
-
-
-
-
 
     }
 
@@ -245,8 +240,9 @@ namespace Jinho
                 player.animator.SetFloat("ReloadType", 0.6f);
                 Debug.Log("이제 장전 된다 ㅠ");
             }
-
-            // WeaponChange();
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                base.Attack();
+       
         }
     }
 
@@ -265,7 +261,6 @@ namespace Jinho
                 player.animator.SetTrigger("Shot");
                 player.animator.SetFloat("GunType", 0.6f);
                 Debug.Log("어택 시작");
-
             }
             else if (Input.GetKey(KeyCode.R))
             {
@@ -273,6 +268,12 @@ namespace Jinho
                 player.animator.SetFloat("ReloadType", 1f);
                 Debug.Log("이제 장전 된다 ㅠ");
             }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                player.animator.SetTrigger("WeaponChange");
+                player.animator.SetFloat("WeaponChangeBlendTree", 1f);
+                // 권총은 모션이 달라서 이렇게 넣어보았습니다! = 가영
+            }    
         }
 
     }
@@ -289,7 +290,7 @@ namespace Jinho
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
             }
-            //WeaponChange();
+            
         }
     }
     public class GranadeAttackStrategy : AttackStrategy
@@ -303,7 +304,7 @@ namespace Jinho
             {
 
             }
-            //WeaponChange();
+            
         }
     }
     #endregion
@@ -375,7 +376,9 @@ namespace Jinho
         public ItemType attackState;                       //현재 attack전력
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<ItemType, IAttackStrategy> attackDic;   //attack 전략 dictionary
-  
+
+        public Camera mainCamera;
+        public AimComponent Aim;
 
         public Animator animator;
         public bool isGrounded = true;
@@ -405,6 +408,9 @@ namespace Jinho
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
+
+            Aim = mainCamera.GetComponent<AimComponent>();
+            WeaponChange(-1); // 아무것도 안들고 있는 것
         }
         void Update()
         {
@@ -412,7 +418,24 @@ namespace Jinho
             weapon.transform.rotation = weaponHand.rotation;
             moveDic[moveState]?.Moving();
             attackDic[attackState]?.Attack();
+
+
+            //무기 교환 메서드! 애니메이션은 공격전략에 들어가있음! = 가영
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                WeaponChange(0);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                WeaponChange(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                WeaponChange(2);
+            }
+
         }
+
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)
         {
             currentWeapon.Use();
@@ -428,5 +451,36 @@ namespace Jinho
             isGrounded = true;
             moveState = PlayerMoveState.idle;
         }
+
+
+        public int WeaponChange(int index) // 무기 교환 메서드!
+        {
+            if (currentWeapon == null)
+            { 
+                Debug.Log("무기가 없다"); ;
+                return -1; 
+            }
+
+            if(currentWeapon == weapon.GetComponent<IUseable>())
+                weapon.SetActive(false);
+                Debug.Log("무기교체완");
+
+            weapon = weaponObjSlot[index];
+            weapon.SetActive(true);
+            currentWeapon = weapon.GetComponent<IUseable>();
+            attackState = currentWeapon.ItemType;
+            return index;
+            // 애니메이션 이벤트 부분에서 켜지는 상태가 되어야 한다 지금 좀 이상..?
+            //  weapon = weaponObjSlot[index];
+            //  weapon.SetActive(true);
+            // 이게 이벤트 함수에서 발생해야 하는 이벤트이다 어떻게 하지...?
+            // 함수를 따로 빼고 해야 하나?
+            // 진호야 모르겠어 ㅠ 
+
+        }
+
+
+
+
     }   
 }

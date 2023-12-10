@@ -268,12 +268,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponObjSlot:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 76607828996216628}
+  - {fileID: 1783817386}
+  - {fileID: 1582503762}
   - {fileID: 0}
   moveState: 0
   attackState: 0
+  mainCamera: {fileID: 2106473306}
+  Aim: {fileID: 0}
   animator: {fileID: 1199165453}
   isGrounded: 1
   weaponHand: {fileID: 1629590554}
@@ -477,6 +479,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1582503762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8583672512642781750, guid: 935a189a50fddab468cee9e848b62c00, type: 3}
+  m_PrefabInstance: {fileID: 8582934619955141460}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1629590553
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,6 +515,11 @@ Transform:
   m_Father: {fileID: 336599209}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -195, y: -80, z: 90}
+--- !u!1 &1783817386 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7913006321054128909, guid: 9e1a8871c4b242a4c9d4127d29b18ee9, type: 3}
+  m_PrefabInstance: {fileID: 7913764785493373763}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1817046640
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +935,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7868011300447188229, guid: 9e1a8871c4b242a4c9d4127d29b18ee9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7913006321054128909, guid: 9e1a8871c4b242a4c9d4127d29b18ee9, type: 3}
       propertyPath: m_Name
       value: Handgun_Prototype
@@ -1027,6 +1043,10 @@ PrefabInstance:
     - target: {fileID: 8583672512642781750, guid: 935a189a50fddab468cee9e848b62c00, type: 3}
       propertyPath: m_Name
       value: Shotgun_Prototype
+      objectReference: {fileID: 0}
+    - target: {fileID: 8645408777699815954, guid: 935a189a50fddab468cee9e848b62c00, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 935a189a50fddab468cee9e848b62c00, type: 3}
