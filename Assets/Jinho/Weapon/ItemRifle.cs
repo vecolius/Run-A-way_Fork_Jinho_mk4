@@ -9,7 +9,7 @@ namespace Jinho
         public WeaponData weaponData;
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
-
+        Transform aimPos;           //총알이 날아갈 위치
         public ItemType ItemType => weaponData.itemType;
 
         public void Use()
@@ -18,6 +18,11 @@ namespace Jinho
             if (weaponData.BulletCount == 0)
                 return;
             weaponData.BulletCount--;
+            
+            //총알이 나가는 효과
+            GameObject bulletObj = Instantiate(bullet);
+            bulletObj.GetComponent<bullet>().SetBulletData(weaponData);
+            bulletObj.GetComponent<bullet>().SetBulletVec(firePos, aimPos.position);
             */
             //총알이 나가는 효과
             GameObject bulletObj = Instantiate(bullet);
@@ -51,7 +56,7 @@ namespace Jinho
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent(out PlayerController player))
+            if (other.TryGetComponent(out PlayerController player) && weaponData.player == null)
             {
                 SetItem(player);
             }

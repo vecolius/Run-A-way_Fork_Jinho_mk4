@@ -27,8 +27,15 @@ public class bullet : MonoBehaviour
         parentWeaponData = weaponData;
         damage = parentWeaponData.damage;
     }
+    public void SetBulletVec(Transform firePos, Vector3 targetPos)
+    {
+        transform.position = firePos.position;
+        transform.rotation = firePos.rotation;
+        transform.forward = (targetPos - transform.position).normalized;
+    }
     void OnTriggerEnter(Collider other)
     {
+        BulletDestroy();
         //if(other.TryGetComponent(out IHitable hit)
     }
 }
