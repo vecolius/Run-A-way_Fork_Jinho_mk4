@@ -313,8 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47989a251abe9b74d966064e731cef17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missiontName: "\uC544\uC78D\uBA54 \uCC3E\uAE30"
-  missiontInfo: "\uAD6C\uC5ED\uC5D0\uC11C \uC544\uC78D\uBA54 \uCC3E\uAE30"
+  missiontName: "\uC544\uC774\uD15C \uCC3E\uAE30"
+  missiontInfo: "\uAD6C\uC5ED\uC5D0\uC11C \uC544\uC774\uD15C \uCC3E\uAE30"
   spawnPoint: {fileID: 6359832937333092357}
   spawnDelay: 1
   targetItem: {fileID: 6359832936633836726}

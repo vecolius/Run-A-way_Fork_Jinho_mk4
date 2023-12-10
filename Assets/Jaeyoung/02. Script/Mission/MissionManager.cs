@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,15 +12,19 @@ namespace Jaeyoung
         public List<Mission> missionList = new List<Mission>();
         private bool isFinish;
         // 델리게이트로 클리어 했을 때 이벤트 함수로써 쓸 수 있도록 만들자
+        public Action eventAction; // 이걸로 이벤트를 쓸 수 있지 않을까?
+
         public bool IsFinish
         {
             get { return isFinish; }
-            set 
+            set
             {
                 isFinish = value;
 
-                if(IsFinish)
+                if (IsFinish)
+                {
                     TakeMission();
+                }
             }
         }
         private IMissionable curMission;
