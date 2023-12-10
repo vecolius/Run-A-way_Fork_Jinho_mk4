@@ -13,6 +13,7 @@ namespace Jinho
         public void Use()
         {
             //Colldier가 꺼지고 켜짐
+            //사운드
             col.enabled = !col.enabled;
         }
         public void Reload()    //근접무기는 재장전 없음

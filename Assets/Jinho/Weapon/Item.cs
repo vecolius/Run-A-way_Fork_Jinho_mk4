@@ -60,11 +60,10 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
-        public Transform firePos;   //총알 발사 위치
-        public GameObject bullet;   //날아갈 총알 GameObject
         public PlayerController player;
     }
-    public class ExtendableData
+    [CreateAssetMenu(fileName = "ExtenableData", menuName = "Scriptable Object/Extenable Data", order = int.MaxValue)]
+    public class ExtendableData : ScriptableObject
     {
         public ItemType itemType;   //아이템 타입
         public string itemName;     //아이템 이름

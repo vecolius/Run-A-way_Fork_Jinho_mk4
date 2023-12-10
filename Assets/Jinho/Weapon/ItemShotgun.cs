@@ -27,6 +27,7 @@ namespace Jinho
                 return;
             weaponData.BulletCount--;
             */
+            //이펙트 + 사운드
             Vector3[] targetPosArray = new Vector3[9];
             SetTransform(targetPosArray);
             //총알이 나가는 효과

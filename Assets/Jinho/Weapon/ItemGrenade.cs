@@ -64,7 +64,6 @@ namespace Jinho {
             }
             GetComponent<ExplosionComponent>().Explosion(weaponData.damage, explosionRange);
             gameObject.SetActive(false);
-
         }
     }
 }

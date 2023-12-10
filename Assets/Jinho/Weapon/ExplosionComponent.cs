@@ -9,6 +9,8 @@ public class ExplosionComponent : MonoBehaviour
     public void Explosion(float damage, float explosionRange = 0) //Æø¹ß
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, explosionRange);
+        //ÀÌÆåÆ® + »ç¿îµå ¹ß»ý
+
         if(cols.Length > 0)
         {
             foreach(var col in cols)
