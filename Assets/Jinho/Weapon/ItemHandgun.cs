@@ -1,17 +1,16 @@
+using Jinho;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackable
+    public class ItemHandgun : MonoBehaviour, IAttackable
     {
         public WeaponData weaponData;
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
-
         public ItemType ItemType => weaponData.itemType;
-
         public void Use()
         {
             /*
@@ -37,25 +36,23 @@ namespace Jinho
         }
         public void SetItem(PlayerController player)
         {
-            if (player.weaponObjSlot[0] != null)
+            if (player.weaponObjSlot[1] != null)
             {
                 GameObject temp = player.weaponObjSlot[0];
                 temp.transform.position = transform.position;
                 temp.SetActive(true);
-                player.weaponObjSlot[0] = null;
+                player.weaponObjSlot[1] = null;
             }
             weaponData.player = player;
-            player.weaponObjSlot[0] = gameObject;
-            player.weaponObjSlot[0].SetActive(false);
+            player.weaponObjSlot[1] = gameObject;
+            player.weaponObjSlot[1].SetActive(false);
         }
-
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent(out PlayerController player))
+            if (other.TryGetComponent(out PlayerController player))
             {
                 SetItem(player);
             }
         }
-
     }
 }

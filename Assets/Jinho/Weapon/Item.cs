@@ -19,7 +19,7 @@ namespace Jinho
         public ItemType ItemType { get; }
         void Use();
         void Reload();
-        void SetItem();
+        void SetItem(PlayerController player);
     }
     public interface IAttackable : IUseable { }
     public interface IExpendable : IUseable { }
@@ -79,7 +79,7 @@ namespace Jinho
 
         public ItemType ItemType => throw new System.NotImplementedException();
 
-        public void SetItem()
+        public void SetItem(PlayerController player)
         {
             throw new System.NotImplementedException();
         }
@@ -104,7 +104,7 @@ namespace Jinho
 
         public ItemType ItemType => throw new System.NotImplementedException();
 
-        public void SetItem()
+        public void SetItem(PlayerController player)
         {
             throw new System.NotImplementedException();
         }
@@ -128,7 +128,7 @@ namespace Jinho
 
         public ItemType ItemType => throw new System.NotImplementedException();
 
-        public void SetItem()
+        public void SetItem(PlayerController player)
         {
             throw new System.NotImplementedException();
         }
@@ -150,7 +150,7 @@ namespace Jinho
 
         public ItemType ItemType => throw new System.NotImplementedException();
 
-        public void SetItem()
+        public void SetItem(PlayerController player)
         {
             throw new System.NotImplementedException();
         }
@@ -183,7 +183,7 @@ namespace Jinho
             throw new System.NotImplementedException();
         }
 
-        public void SetItem()
+        public void SetItem(PlayerController player)
         {
             throw new System.NotImplementedException();
         }
@@ -205,7 +205,7 @@ namespace Jinho
             throw new System.NotImplementedException();
         }
 
-        public void SetItem()
+        public void SetItem(PlayerController player)
         {
             throw new System.NotImplementedException();
         }

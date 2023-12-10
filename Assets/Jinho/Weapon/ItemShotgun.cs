@@ -4,14 +4,16 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackable
+    public class ItemShotgun : MonoBehaviour, IAttackable
     {
         public WeaponData weaponData;
         public Transform firePos;   //ÃÑ¾Ë ¹ß»ç À§Ä¡
         public GameObject bullet;   //³¯¾Æ°¥ ÃÑ¾Ë GameObject
-
         public ItemType ItemType => weaponData.itemType;
-
+        void SetTransform(Quaternion[] array)   //»ñ°Ç Àü¿ë ÃÑ¾Ë 9°³°¡ °¡¾ßÇÒ ÁËÇ¥
+        {
+            
+        }
         public void Use()
         {
             /*
@@ -19,6 +21,8 @@ namespace Jinho
                 return;
             weaponData.BulletCount--;
             */
+            Quaternion[] firePosArray = new Quaternion[9];
+            SetTransform(firePosArray);
             //ÃÑ¾ËÀÌ ³ª°¡´Â È¿°ú
             GameObject bulletObj = Instantiate(bullet);
             bulletObj.transform.position = firePos.position;
@@ -26,14 +30,8 @@ namespace Jinho
         }
         public void Reload()
         {
-            int needBulletCount = weaponData.maxBullet - weaponData.BulletCount;
-
-            if (weaponData.TotalBullet >= needBulletCount)
-                weaponData.BulletCount = weaponData.maxBullet;
-            else
-                weaponData.BulletCount += weaponData.TotalBullet;
-
-            weaponData.TotalBullet -= needBulletCount;
+            if (weaponData.BulletCount == weaponData.maxBullet) return;
+            weaponData.BulletCount += 1;
         }
         public void SetItem(PlayerController player)
         {
@@ -48,7 +46,6 @@ namespace Jinho
             player.weaponObjSlot[0] = gameObject;
             player.weaponObjSlot[0].SetActive(false);
         }
-
         private void OnTriggerEnter(Collider other)
         {
             if(other.TryGetComponent(out PlayerController player))
@@ -56,6 +53,5 @@ namespace Jinho
                 SetItem(player);
             }
         }
-
     }
 }
