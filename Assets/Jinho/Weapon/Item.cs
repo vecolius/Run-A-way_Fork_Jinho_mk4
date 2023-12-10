@@ -21,7 +21,10 @@ namespace Jinho
         void Reload();
         void SetItem(PlayerController player);
     }
-    public interface IAttackable : IUseable { }
+    public interface IAttackable : IUseable 
+    {
+        public WeaponData WeaponData { get; }
+    }
     public interface IExpendable : IUseable { }
     #endregion
 
@@ -168,6 +171,27 @@ namespace Jinho
 
         }
     }
+    public class Grenade : IAttackable
+    {
+        public WeaponData weaponData;
+        public WeaponData WeaponData => weaponData;
+        public ItemType ItemType => throw new System.NotImplementedException();
+
+        public void Reload()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SetItem(PlayerController player)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Use()
+        {
+
+        }
+    }
     #endregion
 
     #region ExtendableItemClass
@@ -193,29 +217,6 @@ namespace Jinho
             
         }
     }
-    public class Grenade : IExpendable
-    {
-        ExtendableData extendableData;
-        public ExtendableData ExtendableData { get => extendableData; set { extendableData = value; } }
-
-        public ItemType ItemType => throw new System.NotImplementedException();
-
-        public void Reload()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetItem(PlayerController player)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Use()
-        {
-
-        }
-    }
-
     #endregion
 
     public class Item : MonoBehaviour

@@ -8,6 +8,7 @@ namespace Jinho
     public class ItemHandgun : MonoBehaviour, IAttackable
     {
         public WeaponData weaponData;
+        public WeaponData WeaponData { get { return weaponData; } }
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
@@ -41,8 +42,9 @@ namespace Jinho
             {
                 GameObject temp = player.weaponObjSlot[0];
                 temp.transform.position = transform.position;
-                temp.SetActive(true);
+                temp.GetComponent<IAttackable>().WeaponData.player = null;
                 player.weaponObjSlot[1] = null;
+                temp.SetActive(true);
             }
             weaponData.player = player;
             player.weaponObjSlot[1] = gameObject;

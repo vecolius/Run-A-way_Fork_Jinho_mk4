@@ -7,6 +7,7 @@ namespace Jinho
     public class ItemMelee : MonoBehaviour, IAttackable
     {
         public WeaponData weaponData;
+        public WeaponData WeaponData { get { return weaponData; } }
         public Collider col;
         public ItemType ItemType => weaponData.itemType;
         public void Use()
@@ -24,8 +25,9 @@ namespace Jinho
             {
                 GameObject temp = player.weaponObjSlot[1];
                 temp.transform.position = transform.position;
-                temp.SetActive(true);
+                temp.GetComponent<IAttackable>().WeaponData.player = null;
                 player.weaponObjSlot[1] = null;
+                temp.SetActive(true);
             }
             weaponData.player = player;
             player.weaponObjSlot[1] = gameObject;
