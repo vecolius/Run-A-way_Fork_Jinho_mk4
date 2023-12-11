@@ -1,18 +1,24 @@
 using Jinho;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Xml;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Jinho
 {
     #region Player_interface
-    interface IMoveStrategy
+    public interface IMoveStrategy
     {
         void Moving();
     }
-    interface IAttackStrategy
+    public interface IAttackStrategy
     {
         void Attack();
+  
     }
     public enum PlayerMoveState
     {
@@ -20,22 +26,20 @@ namespace Jinho
         walk,
         run,
         dead,
+        jump
     }
     public enum PlayerAttackState
     {
-        gun,
+        Rifle,
+        Shotgun,
+        Handgun,
         melee,
         sub,
         heal,
         granade,
+    // ì´ íƒ€ì… ì„¸ë¶„í™” ë¨ (ë¼ì´í”Œ, ìƒ·ê±´, ê¶Œì´)
     }
     #endregion
-    public class Job
-    {
-        public string name;
-        public float maxHp;
-        public float moveSpeed;
-    }
     #region MoveStrategy_Class
     public class Idle : IMoveStrategy
     {
@@ -43,11 +47,21 @@ namespace Jinho
         public Idle(object owner)
         { 
             player = (PlayerController)owner;
+
         }
         public void Moving()
         {
+            player.animator.SetFloat("WalkType", 0f);
             if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
                 player.moveState = PlayerMoveState.walk;
+
+            if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
+            {
+                player.animator.SetTrigger("Jump");
+                player.animator.SetFloat("JumpType", 0f);   //ê·¸ëƒ¥ ì—¬ê¸°ì„œ ì§¬í‘¸
+                player.moveState = PlayerMoveState.jump;
+            }
+
         }
     }
     public class Walk : IMoveStrategy
@@ -66,25 +80,35 @@ namespace Jinho
             if (Input.GetKey(KeyCode.A))
             {
                 vec += Vector3.left;
-                //¿ŞÂÊÀ¸·Î ÀÌµ¿ ¾Ö´Ï
+                player.animator.SetFloat("WalkType", 0.2f);
+
             }
             if (Input.GetKey(KeyCode.W))
             {
                 vec += Vector3.forward;
-                //Á¤¸éÀ¸·Î ÀÌµ¿ ¾Ö´Ï
+                player.animator.SetFloat("WalkType", 0.8f);
             }
+            player.animator.SetBool("Front", true);
             if (Input.GetKey(KeyCode.D))
             {
                 vec += Vector3.right;
-                //¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ ¾Ö´Ï
+                player.animator.SetFloat("WalkType", 0.4f);
             }
             if (Input.GetKey(KeyCode.S))
             {
                 vec += Vector3.back;
-                //µÚ·Î ÀÌµ¿ ¾Ö´Ï
+                player.animator.SetFloat("WalkType", 0.6f);
             }
 
-            if(vec == Vector3.zero)
+            if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
+            {
+                player.moveState = PlayerMoveState.jump;
+                player.animator.SetTrigger("Jump");
+                player.animator.SetFloat("JumpType", 1f);   
+            }
+
+
+            if (vec == Vector3.zero)
                 player.moveState = PlayerMoveState.idle;
             player.transform.Translate(vec.normalized * player.state.MoveSpeed * Time.deltaTime);
         }
@@ -101,11 +125,34 @@ namespace Jinho
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {
                 player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.2f) * Time.deltaTime);
-                //´Ş¸®±â ¾Ö´Ï
+                player.animator.SetFloat("WalkType", 1f);
+                if (Input.GetKey(KeyCode.Space) && player.isGrounded)
+                {
+                    player.moveState = PlayerMoveState.jump;
+                    player.animator.SetTrigger("Jump");
+                    player.animator.SetFloat("JumpType", 1f);
+                }
             }
             if(Input.GetKeyUp(KeyCode.LeftShift))
                 player.moveState= PlayerMoveState.walk;
+
         }
+    }
+    public class Jump : IMoveStrategy
+    {
+        PlayerController player = null;
+        
+        public Jump(object owner)
+        {
+            player = (PlayerController)owner;
+        }
+
+        public void Moving()
+        {
+            player.isGrounded = false;
+        }
+
+
     }
     #endregion
     #region AttackStrategy_class
@@ -120,49 +167,119 @@ namespace Jinho
 
         public virtual void Attack()
         {
+            player.animator.SetTrigger("WeaponChange");
+            player.animator.SetFloat("WeaponChangeBlendTree",0.5f);
+        }    
+
+        public virtual void BasicMotion()
+        {
+           
+        }
+
+        public virtual void OtherMotion()
+        {
             
         }
-        protected void WeaponChange()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                keycode = KeyCode.Alpha1;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                keycode = KeyCode.Alpha2;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                keycode = KeyCode.Alpha3;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                keycode = KeyCode.Alpha4;
-            }
-            if (player.currentWeapon == player.weaponSlot[player.SlotGetToKey(keycode)]) 
-                return;
 
-            //¹«±â ±³Ã¼ ¾Ö´Ï
-            player.currentWeapon = player.weaponSlot[player.SlotGetToKey(keycode)];
-            player.attackState = player.currentWeapon.attackState;
-        }
+       
+
     }
-    public class GunAttackStrategy : AttackStrategy
+    public class RifleAttackStrategy : AttackStrategy
     {
-        public GunAttackStrategy(object owner) : base(owner)
+        public RifleAttackStrategy(object owner) : base(owner)
         {
+
         }
         public override void Attack()
         {
+            player.animator.SetTrigger("Shot");
+            player.animator.SetFloat("GunType", 0.2f);
+            //ì´ì€ êº¼ëƒˆëŠ”ë° ê³µê²© ì•ˆí•˜ëŠ”ì¤‘
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                //ì´ì„ ì¨
+                player.animator.SetTrigger("Shot");
+                player.animator.SetFloat("GunType",0.4f);
+                Debug.Log("ì–´íƒ ì‹œì‘");
+            }
+           
+            else if (Input.GetKey(KeyCode.R))
+            {
+                player.animator.SetTrigger("Reload");
+                player.animator.SetFloat("ReloadType", 0.3f);
+                Debug.Log("ì´ì œ ì¥ì „ ëœë‹¤ ã… ");
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha1))
+                base.Attack();
+
+        }
+
+    }
+
+    public class ShotgunAttackStrategy : AttackStrategy
+    {
+        public ShotgunAttackStrategy(object owner) : base(owner)
+        {
+
+        }
+
+        public override void Attack()
+        {
+            player.animator.SetTrigger("Shot");
+            player.animator.SetFloat("GunType", 0.2f);
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
-                //ÁÖ¹«±â ¹ß»ç ¾Ö´Ï
+                player.animator.SetTrigger("Shot");
+                player.animator.SetFloat("GunType", 1f);
+                Debug.Log("ì–´íƒ ì‹œì‘");
+
             }
-            WeaponChange();
+            else if (Input.GetKey(KeyCode.R))
+            {
+                player.animator.SetTrigger("Reload");
+                player.animator.SetFloat("ReloadType", 0.6f);
+                Debug.Log("ì´ì œ ì¥ì „ ëœë‹¤ ã… ");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                base.Attack();
+       
         }
     }
+
+    public class HandgunAttackStrategy : AttackStrategy
+    {
+        public HandgunAttackStrategy(object owner) : base(owner)
+        {
+
+        }
+        public override void Attack()
+        {
+            player.animator.SetTrigger("Shot");
+            player.animator.SetFloat("GunType", 0.2f);
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                player.animator.SetTrigger("Shot");
+                player.animator.SetFloat("GunType", 0.6f);
+                Debug.Log("ì–´íƒ ì‹œì‘");
+            }
+            else if (Input.GetKey(KeyCode.R))
+            {
+                player.animator.SetTrigger("Reload");
+                player.animator.SetFloat("ReloadType", 1f);
+                Debug.Log("ì´ì œ ì¥ì „ ëœë‹¤ ã… ");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                player.animator.SetTrigger("WeaponChange");
+                player.animator.SetFloat("WeaponChangeBlendTree", 1f);
+                // ê¶Œì´ì€ ëª¨ì…˜ì´ ë‹¬ë¼ì„œ ì´ë ‡ê²Œ ë„£ì–´ë³´ì•˜ìŠµë‹ˆë‹¤! = ê°€ì˜
+            }    
+        }
+
+    }
+
+
+
     public class MeleeAttackStrategy : AttackStrategy
     {
         public MeleeAttackStrategy(object owner) : base(owner)
@@ -172,10 +289,8 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
-                //±ÙÁ¢ °ø°İ ¾Ö´Ï
             }
-            WeaponChange();
+            
         }
     }
     public class GranadeAttackStrategy : AttackStrategy
@@ -187,13 +302,19 @@ namespace Jinho
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                player.currentWeapon.Fire();
-                //¼ö·ùÅº ÃßÃ´ ¾Ö´Ï
+
             }
-            WeaponChange();
+            
         }
     }
     #endregion
+    #region PlayerState_Class
+    public class Job
+    {
+        public string name;
+        public float maxHp;
+        public float moveSpeed;
+    }
     public class PlayerState
     {
         public Job job;
@@ -243,17 +364,27 @@ namespace Jinho
             }
         }
     }
+    #endregion
     public class PlayerController : MonoBehaviour
     {
-        public PlayerState state;                                   //playerÀÇ ±âº»state
-        public Weapon[] weaponSlot = new Weapon[4];                 //weapon slot
-        public Weapon currentWeapon = null;                         //ÇöÀç µé°íÀÖ´Â weapon
+        public PlayerState state;                                   //playerì˜ ê¸°ë³¸state
+        public GameObject[] weaponObjSlot = new GameObject[4];
+        public IUseable[] weaponSlot = new IUseable[4];                 //weapon slot
+        public IUseable currentWeapon = null;                         //í˜„ì¬ ë“¤ê³ ìˆëŠ” weapon
 
-        public PlayerMoveState moveState;                           //ÇöÀç moveÀü·«
-        public PlayerAttackState attackState;                       //ÇöÀç attackÀü·Â
-        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move Àü·« dictionary
-        Dictionary<PlayerAttackState, IAttackStrategy> attackDic;   //attack Àü·« dictionary
-        Dictionary<KeyCode, int> weaponSlotDic;                     //ÀÔ·ÂÇÑ KeyCode¿¡ µû¶ó slotÀ» ¹İÈ¯ÇÏ´Â dic
+        public PlayerMoveState moveState;                           //í˜„ì¬ moveì „ëµ
+        public ItemType attackState;                       //í˜„ì¬ attackì „ë ¥
+        Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move ì „ëµ dictionary
+        Dictionary<ItemType, IAttackStrategy> attackDic;   //attack ì „ëµ dictionary
+
+        public Camera mainCamera;
+        public AimComponent Aim;
+
+        public Animator animator;
+        public bool isGrounded = true;
+
+        public Transform weaponHand;
+        public GameObject weapon;
         void Start()
         {
             state = new PlayerState();
@@ -262,41 +393,94 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.idle, new Idle(this));
             moveDic.Add(PlayerMoveState.walk, new Walk(this));
             moveDic.Add(PlayerMoveState.run, new Run(this));
+            moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
-            attackDic = new Dictionary<PlayerAttackState, IAttackStrategy>();
-            attackDic.Add(PlayerAttackState.gun, new GunAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.melee, new MeleeAttackStrategy(this));
-            attackDic.Add(PlayerAttackState.granade, new GranadeAttackStrategy(this));
+            attackDic = new Dictionary<ItemType, IAttackStrategy>();
+            attackDic.Add(ItemType.rifle, new RifleAttackStrategy(this));
+            attackDic.Add(ItemType.shotgun, new ShotgunAttackStrategy(this));
+            attackDic.Add(ItemType.Handgun, new HandgunAttackStrategy(this));
+            attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
+            attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
 
-            SetSlotDic();
-            currentWeapon = weaponSlot[0];
-
+            
             moveState = PlayerMoveState.idle;
-            attackState = currentWeapon.attackState;
-            //asdf1231asdf123asdf123 hhehe hoho ^o^)/ // ¤·,À¸¾Æ¾Æ¾Æ¾Æ//
-            //È÷È÷ ÁøÈ£ ´Ù³à°¨
-        }
 
+            //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
+            currentWeapon = weapon.GetComponent<IUseable>();
+            attackState = currentWeapon.ItemType;
+
+            Aim = mainCamera.GetComponent<AimComponent>();
+            WeaponChange(-1); // ì•„ë¬´ê²ƒë„ ì•ˆë“¤ê³  ìˆëŠ” ê²ƒ
+        }
         void Update()
         {
+            weapon.transform.position = weaponHand.position;
+            weapon.transform.rotation = weaponHand.rotation;
             moveDic[moveState]?.Moving();
-            if (Input.GetKey(KeyCode.Mouse0) && currentWeapon != null)
+            attackDic[attackState]?.Attack();
+
+
+            //ë¬´ê¸° êµí™˜ ë©”ì„œë“œ! ì• ë‹ˆë©”ì´ì…˜ì€ ê³µê²©ì „ëµì— ë“¤ì–´ê°€ìˆìŒ! = ê°€ì˜
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                //currentWeapon?.Fire();
-                attackDic[attackState]?.Attack();
+                WeaponChange(0);
             }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                WeaponChange(1);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                WeaponChange(2);
+            }
+
         }
-        public int SlotGetToKey(KeyCode keycode)
+
+        public void ItemUseEffect() //Animation Event í•¨ìˆ˜(ì•„ì´í…œ ì‚¬ìš©)
         {
-            return weaponSlotDic[keycode];
+            currentWeapon.Use();
         }
-        void SetSlotDic()   //weaponSlotDicÀ» ÀÔ·ÂÇÏ´Â ÇÔ¼ö
+        public void ItemUseReload()//Animation Event í•¨ìˆ˜(ì¬ì¥ì „)
         {
-            weaponSlotDic = new Dictionary<KeyCode, int>();
-            weaponSlotDic.Add(KeyCode.Alpha1, 0);
-            weaponSlotDic.Add(KeyCode.Alpha2, 1);
-            weaponSlotDic.Add(KeyCode.Alpha3, 2);
-            weaponSlotDic.Add(KeyCode.Alpha4, 3);
+            currentWeapon.Reload();
         }
-    }
+       
+      
+        public void Landing()   //jumpí–ˆë‹¤ê°€ ì°©ì§€ ì‹œ,
+        {
+            isGrounded = true;
+            moveState = PlayerMoveState.idle;
+        }
+
+
+        public int WeaponChange(int index) // ë¬´ê¸° êµí™˜ ë©”ì„œë“œ!
+        {
+            if (currentWeapon == null)
+            { 
+                Debug.Log("ë¬´ê¸°ê°€ ì—†ë‹¤"); ;
+                return -1; 
+            }
+
+            if(currentWeapon == weapon.GetComponent<IUseable>())
+                weapon.SetActive(false);
+                Debug.Log("ë¬´ê¸°êµì²´ì™„");
+
+            weapon = weaponObjSlot[index];
+            weapon.SetActive(true);
+            currentWeapon = weapon.GetComponent<IUseable>();
+            attackState = currentWeapon.ItemType;
+            return index;
+            // ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸ ë¶€ë¶„ì—ì„œ ì¼œì§€ëŠ” ìƒíƒœê°€ ë˜ì–´ì•¼ í•œë‹¤ ì§€ê¸ˆ ì¢€ ì´ìƒ..?
+            //  weapon = weaponObjSlot[index];
+            //  weapon.SetActive(true);
+            // ì´ê²Œ ì´ë²¤íŠ¸ í•¨ìˆ˜ì—ì„œ ë°œìƒí•´ì•¼ í•˜ëŠ” ì´ë²¤íŠ¸ì´ë‹¤ ì–´ë–»ê²Œ í•˜ì§€...?
+            // í•¨ìˆ˜ë¥¼ ë”°ë¡œ ë¹¼ê³  í•´ì•¼ í•˜ë‚˜?
+            // ì§„í˜¸ì•¼ ëª¨ë¥´ê² ì–´ ã…  
+
+        }
+
+
+
+
+    }   
 }
