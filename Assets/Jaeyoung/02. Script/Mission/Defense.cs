@@ -9,14 +9,14 @@ namespace Jaeyoung
         [SerializeField] private float timeLimit;
         public float curTime;
 
+        public void Start()
+        {
+            // 이런 느낌으로 다른 미션도 수정해줘야함
+            MissionManager.instance.condition = () => { return curTime >= timeLimit; };
+        }
+
         public override void Play()
         {
-            if (curTime >= timeLimit)
-            {
-                MissionManager.instance.IsFinish = true;
-                return;
-            }
-
             curTime += Time.deltaTime;
             base.Play();
         }

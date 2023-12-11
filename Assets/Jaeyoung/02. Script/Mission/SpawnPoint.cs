@@ -9,7 +9,7 @@ namespace Jaeyoung
     {
         public List<Transform> points = new List<Transform>();
 
-        private void Start()
+        private void Awake()
         {
             for(int i = 0; i< transform.childCount; i++)
             {
