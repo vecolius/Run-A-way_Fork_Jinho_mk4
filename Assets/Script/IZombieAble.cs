@@ -32,7 +32,7 @@ namespace Hojun
     {
         public void Hit(float damage , IAttackAble attacker);
 
-        public ZombieData Data 
+        public CharacterData Data 
         {
             get;
         }
