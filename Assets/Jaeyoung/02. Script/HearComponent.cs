@@ -7,6 +7,9 @@ using static UnityEngine.GraphicsBuffer;
 
 namespace Jaeyoung
 {
+    // 231211 hojun made
+    // 들려서 찾았다는 확신할 수 있는 범위 팀원과 상의 할 것.
+
     public class HearComponent : MonoBehaviour , IHearAble
     {
         // 추격, 인식 범위 (밸런스 수정시 값 수정)

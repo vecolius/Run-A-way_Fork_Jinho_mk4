@@ -22,16 +22,16 @@ namespace Hojun
             {
                 Debug.Log("agent is null, check this error");
             }
-
+            agent.speed = ownerZombie.Speed * 1.4f;
         }
 
         public void Move()
         {
 
             Debug.Log("findstrategy on");
-            // 달리는 애니메이션 추가 할 것
+            
             agent.SetDestination(ownerZombie.SoundTraceTarget.transform.position);
-            agent.speed = ownerZombie.zombieData.Speed * 1.4f;
+            
 
         }
 

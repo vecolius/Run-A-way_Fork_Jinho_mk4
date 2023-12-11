@@ -1,42 +1,50 @@
-using Hojun;
 using Jaeyoung;
-using System.Collections;
+using Jinho;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+
+public enum CustomObjectLayer
+{
+    ZOMBIE = 0<<20,
+
+}
+
 
 namespace Hojun
 {
 
     public class ZombieData
     {
-        float hp;
-        float speed;
-        bool isDead;
-        float attack;
+        public float hp;
+        public float speed;
+        public bool isDead;
+        public float attackPoint;
+        public string zombieName;
 
         public ZombieData(float hp , float spped , float attack) 
         {
             this.hp = hp;
             this.speed = spped;
             this.isDead = false;
-            this.attack = attack;
+            this.attackPoint = attack;
         }
 
-        public float Hp { get => hp;}
-        public float Speed { get => speed;}
-        public bool IsDead { get => isDead;}
-        public float Attack { get => attack;}
     }
 
 
-    public abstract class Zombie : Character, IMoveAble 
+    public abstract class Zombie : Character, IMoveAble ,IDieable 
     { 
 
         public enum ZombieState
         {
             IDLE,
             SEARCH,
-            FIND
+            FIND,
+            DEAD,
+            ATTACK,
+            HIT
         }
 
         public enum ZombieMove
@@ -47,40 +55,64 @@ namespace Hojun
         }
 
 
+
+        DetectiveComponent detectiveCompo;
+
         [SerializeField]
         float runHearValue;
         public float RunHearValue { get => runHearValue; }
 
         protected StateMachine<Zombie> stateMachine;
-        public ZombieData zombieData;
+
+        public virtual float Hp 
+        {
+            get => zombieData.hp; set { zombieData.hp = value; } 
+        }
+
+        public virtual float Speed
+        {
+            get => zombieData.speed; set { zombieData.speed = value; }
+        }
+
+        public virtual float AttackPoint
+        {
+            get => zombieData.attackPoint; set {zombieData.attackPoint = value;  }
+        }
+        public virtual bool IsDead
+        {
+            get=> zombieData.isDead; set {  zombieData.isDead = value; }
+        }
+
+        protected ZombieData zombieData;
 
 
         public bool IsFindPlayer 
         {
             get
             {
-                return isFind;
+                if (detectiveCompo.IsFind)
+                {
+                    Target = detectiveCompo.targetObj.gameObject;
+                    return true;
+                }
+                    
+                return false;
             }
         }
-        [SerializeField]
-        bool isFind = false;
-
         
         public GameObject Target 
         {
+            protected set 
+            {
+                target = value;
+            }
             get
             {
                 return target;
             }
-            set
-            {
-                target = value;
-                isFind = true;
-            }
         }
         [SerializeField]
         GameObject target;
-
 
         public float HearValue 
         {
@@ -95,12 +127,32 @@ namespace Hojun
             get => hearComponent.SoundArea;
         }
 
+        public bool IsAttack 
+        {
+            get
+            {
+                if (detectiveCompo.IsAttack)
+                {
+                    if (Target.GetComponent<IHitAble>() != null)
+                        return true;
+                
+                }
+
+
+                return false;
+            }
+        }
+
+
         [SerializeField]
         protected HearComponent hearComponent;
 
 
         public ZombieData Data { get => zombieData;}
 
+
+
+        //protected Dictionary<AttackStrategy >
         protected Dictionary<ZombieMove, IMoveStrategy> moveDict = new Dictionary<ZombieMove, IMoveStrategy>();
         protected Dictionary<ZombieState, State> stateDict = new Dictionary<ZombieState, State>();
 
@@ -118,6 +170,7 @@ namespace Hojun
             hearComponent = GetComponent<HearComponent>();
             zombieData = new ZombieData(50,10,20);
             stateMachine = new StateMachine<Zombie>(this);
+            detectiveCompo = GetComponent<DetectiveComponent>();
         }
 
         public virtual void Move() 
@@ -125,7 +178,7 @@ namespace Hojun
             moveStrategy.Move();
         }
 
-
+        public abstract void Die();
     }
 
 

@@ -20,10 +20,45 @@ namespace Hojun
 
     public interface IHearAble
     {
-
         public void Hear(GameObject soundOwner);
     }
 
+    public interface IHitStrategy
+    {
+        public void Hit(float damage , IAttackAble attacker);
+    }
+
+    public interface IHitAble
+    {
+        public void Hit(float damage , IAttackAble attacker);
+
+        public ZombieData Data 
+        {
+            get;
+        }
+
+    }
+
+    public interface IAttackStrategy
+    {
+        
+        public float Attack( IHitAble hitObj);
+        public float GetDamage();
+    }
+
+    public interface IAttackAble 
+    {
+        public void Attack();
+        public GameObject GetAttacker();
+    }
+
+
+
+
+    public interface IDieable
+    {
+        public void Die();
+    }
 
 
     //public interface IHearStrategy

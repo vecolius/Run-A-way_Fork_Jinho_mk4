@@ -40,7 +40,7 @@ namespace Hojun
             if (ownerZombie.HearValue <= ownerZombie.RunHearValue)
             {
                 Debug.Log("달리는 중");
-                agent.speed = ownerZombie.zombieData.Speed * 1.4f;
+                agent.speed = ownerZombie.Speed * 1.4f;
             }
 
 

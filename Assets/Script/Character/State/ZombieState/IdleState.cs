@@ -51,19 +51,24 @@ namespace Hojun
 
         public override void Enter()
         {
-            //animator.SetBool("Idle" , true);
+            animator.SetInteger( "State" , (int)ZombieState.IDLE);
             ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(ZombieMove.IDLE);
         }
 
         public override void Exit()
         {
-            //animator.SetBool("Idle" , false);
+
         }
 
         public override void Update()
         {
 
             Debug.Log("not bug");
+
+
+            if (ownerZombie.IsFindPlayer)
+                stateMachine.SetState((int)Zombie.ZombieState.FIND);
+            
 
             if (ownerZombie.HearValue >= 0.1f)
                 stateMachine.SetState((int)Zombie.ZombieState.SEARCH);
