@@ -13,24 +13,51 @@ public class Player : MonoBehaviour, IAttackAble, IHitAble, IDieable
 
     public CharacterData Data => throw new System.NotImplementedException();
 
+    int killCount;
+    public int KIllCount
+    {
+        get { return killCount; }
+        set { killCount = value; }
+    }
+
+    public float Hp
+    {
+        get { return data.hp; }
+        set
+        { 
+            data.hp = value; 
+            if(data.hp <= 0)
+            {
+                Die();
+            }
+        }
+    }
+
+
     public void Attack()
     {
-        throw new System.NotImplementedException();
+        GameObject target = GetAttacker(); 
     }
 
     public void Die()
     {
-        throw new System.NotImplementedException();
+        //델리게이트를 쓰자. 뭘할지 모르니까. 
+        //죽으면 뭐함?
+        //(싱글)이면 게임오버
+        //(멀티)이면 캠 전환? 
+        //애니메이션
     }
 
     public GameObject GetAttacker()
     {
-        throw new System.NotImplementedException();
+        GameObject enemy = null;
+        return enemy;
     }
 
-    public void Hit(float damage, IAttackAble attacker)
+    public void Hit(float damage, IAttackAble attacker) 
     {
-        throw new System.NotImplementedException();
+        Hp -= damage; 
+        //+ 피격 애니메이션 
     }
 
     // Start is called before the first frame update
