@@ -55,13 +55,16 @@ namespace Jinho
             */
             //이펙트 + 사운드
             Vector3[] targetPosArray = new Vector3[9];
+            aimPos = player.Aim.aimObjPos;
             SetTransform(targetPosArray);
             //총알이 나가는 효과
             for(int i=0; i<targetPosArray.Length; i++)
             {
                 GameObject bulletObj = Instantiate(bullet);
-                bulletObj.GetComponent<Bullet>().SetBulletData(weaponData);
-                bulletObj.GetComponent<Bullet>().SetBulletVec(firePos, targetPosArray[i]);
+                Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+                bulletScript.SetBulletData(weaponData, Player);
+                bulletScript.SetBulletVec(firePos, aimPos.position);
+                bulletScript.SetBulletVec(firePos, targetPosArray[i]);
             }
         }
         public void Reload()

@@ -1,13 +1,7 @@
-using Jinho;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
-using Unity.VisualScripting;
-using UnityEngine;
 using Hojun;
-using static UnityEngine.UI.GridLayoutGroup;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Jinho
 {
@@ -207,9 +201,8 @@ namespace Jinho
                 player.animator.SetFloat("ReloadType", 0.3f);
                 Debug.Log("이제 장전 된다 ㅠ");
             }
-            else if(Input.GetKeyDown(KeyCode.Alpha1))
+            else if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4))
                 base.Attack();
-
         }
 
     }
@@ -275,9 +268,6 @@ namespace Jinho
         }
 
     }
-
-
-
     public class MeleeAttackStrategy : AttackStrategy
     {
         public MeleeAttackStrategy(object owner) : base(owner)
@@ -412,7 +402,7 @@ namespace Jinho
             attackState = currentWeapon.ItemType;
 
             Aim = mainCamera.GetComponent<AimComponent>();
-            WeaponChange(-1); // 아무것도 안들고 있는 것
+            WeaponChange(0); // 아무것도 안들고 있는 것
         }
         void Update()
         {
@@ -435,7 +425,10 @@ namespace Jinho
             {
                 WeaponChange(2);
             }
-
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                WeaponChange(3);
+            }
         }
 
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)
@@ -446,31 +439,23 @@ namespace Jinho
         {
             currentWeapon.Reload();
         }
-       
-      
-        public void Landing()   //jump했다가 착지 시,
-        {
-            isGrounded = true;
-            moveState = PlayerMoveState.idle;
-        }
-
-
         public int WeaponChange(int index) // 무기 교환 메서드!
         {
             if (currentWeapon == null)
             { 
-                Debug.Log("무기가 없다"); ;
+                Debug.Log("무기가 없다");
                 return -1; 
             }
 
-            if(currentWeapon == weapon.GetComponent<IUseable>())
+            if (currentWeapon != null)
+            {
                 weapon.SetActive(false);
-                Debug.Log("무기교체완");
-
+            }
             weapon = weaponObjSlot[index];
             weapon.SetActive(true);
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
+            Debug.Log("무기교체완");
             return index;
             // 애니메이션 이벤트 부분에서 켜지는 상태가 되어야 한다 지금 좀 이상..?
             //  weapon = weaponObjSlot[index];

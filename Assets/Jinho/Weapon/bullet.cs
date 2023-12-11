@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] float moveSpeed;
     public float damage;
     public WeaponData parentWeaponData = null;
-    public Player player = null;
+    public Jinho.Player player = null;
     Action attackAction;
 
     IHitAble target;
@@ -35,9 +35,9 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    public void SetBulletData(WeaponData weaponData)    //무기 damage 입력 함수
+    public void SetBulletData(WeaponData weaponData, Jinho.Player player)    //무기 damage 입력 함수
     {
-        //this.player = weaponData.player;
+        this.player = player;
         parentWeaponData = weaponData;
         damage = parentWeaponData.damage;
     }
