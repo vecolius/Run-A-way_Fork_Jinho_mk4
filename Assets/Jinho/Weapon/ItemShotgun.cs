@@ -34,8 +34,8 @@ namespace Jinho
             for(int i=0; i<targetPosArray.Length; i++)
             {
                 GameObject bulletObj = Instantiate(bullet);
-                bulletObj.GetComponent<bullet>().SetBulletData(weaponData);
-                bulletObj.GetComponent<bullet>().SetBulletVec(firePos, targetPosArray[i]);
+                bulletObj.GetComponent<Bullet>().SetBulletData(weaponData);
+                bulletObj.GetComponent<Bullet>().SetBulletVec(firePos, targetPosArray[i]);
             }
         }
         public void Reload()

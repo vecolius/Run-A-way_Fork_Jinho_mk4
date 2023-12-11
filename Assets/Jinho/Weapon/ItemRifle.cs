@@ -27,6 +27,8 @@ namespace Jinho
             */
             //총알이 나가는 효과
             //이펙트 + 사운드
+
+
             GameObject bulletObj = Instantiate(bullet);
             bulletObj.transform.position = firePos.position;
             bulletObj.transform.rotation = firePos.rotation;

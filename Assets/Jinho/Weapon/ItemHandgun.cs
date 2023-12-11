@@ -23,8 +23,8 @@ namespace Jinho
             //총알이 나가는 효과
             //이펙트 + 사운드
             GameObject bulletObj = Instantiate(bullet);
-            bulletObj.GetComponent<bullet>().SetBulletData(weaponData);
-            bulletObj.GetComponent<bullet>().SetBulletVec(firePos, aimPos.position);
+            bulletObj.GetComponent<Bullet>().SetBulletData(weaponData);
+            bulletObj.GetComponent<Bullet>().SetBulletVec(firePos, aimPos.position);
         }
         public void Reload()
         {
