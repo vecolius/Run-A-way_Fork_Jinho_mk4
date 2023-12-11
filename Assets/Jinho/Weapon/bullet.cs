@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] float moveSpeed;
     public float damage;
     public WeaponData parentWeaponData = null;
-    // public PlayerController player = null;
+    public Player player = null;
     Action attackAction;
 
     IHitAble target;

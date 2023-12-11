@@ -181,7 +181,7 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7913006321054128909}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
@@ -199,9 +199,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3861cc1dfb7784886f6cfe9dceac30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 0}
+  weaponData: {fileID: 11400000, guid: 442772fcfd3acaf4ba36776895ab3457, type: 2}
   firePos: {fileID: 7913764786492178657}
   bullet: {fileID: 7233024481384809248, guid: 4eefa936c47806246969aca9484bf1d4, type: 3}
+  maxBullet: 8
+  bulletCount: 8
+  maxTotalBullet: 64
+  totalBullet: 64
 --- !u!1 &7913764786492178658
 GameObject:
   m_ObjectHideFlags: 0

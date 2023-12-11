@@ -44,10 +44,10 @@ namespace Jinho
     #region MoveStrategy_Class
     public class Idle : IMoveStrategy
     {
-        PlayerController player = null;
+        Player player = null;
         public Idle(object owner)
         { 
-            player = (PlayerController)owner;
+            player = (Player)owner;
 
         }
         public void Moving()
@@ -67,10 +67,10 @@ namespace Jinho
     }
     public class Walk : IMoveStrategy
     {
-        PlayerController player = null;
+        Player player = null;
         public Walk(object owner) 
         {
-            player = (PlayerController)owner;
+            player = (Player)owner;
         }
         public void Moving()
         {
@@ -116,10 +116,10 @@ namespace Jinho
     }
     public class Run : IMoveStrategy
     {
-        PlayerController player = null;
+        Player player = null;
         public Run(object owner)
         {
-            player = (PlayerController)owner;
+            player = (Player)owner;
         }
         public void Moving()
         {
@@ -141,11 +141,11 @@ namespace Jinho
     }
     public class Jump : IMoveStrategy
     {
-        PlayerController player = null;
+        Player player = null;
         
         public Jump(object owner)
         {
-            player = (PlayerController)owner;
+            player = (Player)owner;
         }
 
         public void Moving()
@@ -159,11 +159,11 @@ namespace Jinho
     #region AttackStrategy_class
     public class AttackStrategy : IAttackStrategy
     {
-        protected PlayerController player = null;
+        protected Player player = null;
         protected KeyCode keycode;
         public AttackStrategy(object owner)
         {
-            player = (PlayerController)owner;
+            player = (Player)owner;
         }
 
         public virtual void Attack()
@@ -181,9 +181,6 @@ namespace Jinho
         {
             
         }
-
-       
-
     }
     public class RifleAttackStrategy : AttackStrategy
     {
@@ -291,7 +288,6 @@ namespace Jinho
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
             }
-            
         }
     }
     public class GranadeAttackStrategy : AttackStrategy
@@ -316,7 +312,7 @@ namespace Jinho
         public float maxHp;
         public float moveSpeed;
     }
-    public class PlayerState
+    public class PlayerData
     {
         public Job job;
         public float DefaultMoveSpeed => 3;
@@ -349,7 +345,7 @@ namespace Jinho
                     hp = MaxHp;
             }
         }
-        public PlayerState(Job job = null)
+        public PlayerData(Job job = null)
         {
             if (job == null)
             {
@@ -367,17 +363,17 @@ namespace Jinho
     }
     #endregion
 
-    public class PlayerController : MonoBehaviour , IHitAble , IDieable, IAttackAble
+    public class Player : MonoBehaviour, IHitAble , IDieable, IAttackAble
     {
-        public PlayerState state;                                   //player의 기본state
-        public GameObject[] weaponObjSlot = new GameObject[4];
-        public IUseable[] weaponSlot = new IUseable[4];                 //weapon slot
+        public PlayerData state = null;                                   //player의 기본state
+        public GameObject[] weaponObjSlot = new GameObject[4];        //현재 들고있는 weaponSlot
         public IUseable currentWeapon = null;                         //현재 들고있는 weapon
 
         public PlayerMoveState moveState;                           //현재 move전략
-        public ItemType attackState;                       //현재 attack전력
+        public ItemType attackState;                                //현재 attack전력
+
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
-        Dictionary<ItemType, IAttackStrategy> attackDic;   //attack 전략 dictionary
+        Dictionary<ItemType, IAttackStrategy> attackDic;            //attack 전략 dictionary
 
         public Camera mainCamera;
         public AimComponent Aim;
@@ -385,16 +381,16 @@ namespace Jinho
         public Animator animator;
         public bool isGrounded = true;
 
-
-
         public Transform weaponHand;
         public GameObject weapon;
 
-        public ZombieData Data => throw new NotImplementedException();
+        public CharacterData Data => throw new NotImplementedException();
+
+        CharacterData IHitAble.Data => throw new NotImplementedException();
 
         void Start()
         {
-            state = new PlayerState();
+            state = new PlayerData();
 
             moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
             moveDic.Add(PlayerMoveState.idle, new Idle(this));

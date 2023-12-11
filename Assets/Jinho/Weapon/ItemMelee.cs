@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemMelee : MonoBehaviour, IAttackable
+    public class ItemMelee : MonoBehaviour, IAttackItemable
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
+        public Player Player { get => player; set { player = value; } }
+        Player player = null;
         public Collider col;
         public ItemType ItemType => weaponData.itemType;
         public void Use()
@@ -20,23 +22,23 @@ namespace Jinho
         {
             return;
         }
-        public void SetItem(PlayerController player)
+        public void SetItem(Player player)
         {
             if (player.weaponObjSlot[1] != null)
             {
                 GameObject temp = player.weaponObjSlot[1];
                 temp.transform.position = transform.position;
-                temp.GetComponent<IAttackable>().WeaponData.player = null;
+                temp.GetComponent<IAttackItemable>().Player = null;
                 player.weaponObjSlot[1] = null;
                 temp.SetActive(true);
             }
-            weaponData.player = player;
+            this.player = player;
             player.weaponObjSlot[1] = gameObject;
             player.weaponObjSlot[1].SetActive(false);
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerController player) && weaponData.player == null)
+            if (other.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
                 col = gameObject.GetComponent<Collider>();

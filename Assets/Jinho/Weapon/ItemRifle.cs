@@ -4,15 +4,40 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackable
+    public class ItemRifle : MonoBehaviour, IAttackItemable
     {
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
+        public Player Player {  get=> player; set { player = value; } }
+        Player player = null;
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
         public ItemType ItemType => weaponData.itemType;
-
+        public int maxBullet;       //장전되는 총알 양
+        [SerializeField]int bulletCount;            //현재 총에 들어있는 총알 양
+        public int BulletCount
+        {
+            get { return bulletCount; }
+            set
+            {
+                bulletCount = value;
+                if (bulletCount > maxBullet) bulletCount = maxBullet;
+                if (bulletCount < 0) bulletCount = 0;
+            }
+        }
+        [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
+        [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
+        public int TotalBullet
+        {
+            get { return totalBullet; }
+            set
+            {
+                totalBullet = value;
+                if (totalBullet > maxTotalBullet) totalBullet = maxTotalBullet;
+                if (totalBullet < 0) totalBullet = 0;
+            }
+        }
         public void Use()
         {
             /*
@@ -35,33 +60,33 @@ namespace Jinho
         }
         public void Reload()
         {
-            int needBulletCount = weaponData.maxBullet - weaponData.BulletCount;
+            int needBulletCount = maxBullet - BulletCount;
 
-            if (weaponData.TotalBullet >= needBulletCount)
-                weaponData.BulletCount = weaponData.maxBullet;
+            if (TotalBullet >= needBulletCount)
+                BulletCount = maxBullet;
             else
-                weaponData.BulletCount += weaponData.TotalBullet;
+                BulletCount += TotalBullet;
 
-            weaponData.TotalBullet -= needBulletCount;
+            TotalBullet -= needBulletCount;
         }
-        public void SetItem(PlayerController player)
+        public void SetItem(Player player)
         {
             if (player.weaponObjSlot[0] != null)
             {
                 GameObject temp = player.weaponObjSlot[0];
                 temp.transform.position = transform.position;
-                temp.GetComponent<IAttackable>().WeaponData.player = null;
+                temp.GetComponent<IAttackItemable>().Player = null;
                 player.weaponObjSlot[0] = null;
                 temp.SetActive(true);
             }
-            weaponData.player = player;
+            this.player = player;
             player.weaponObjSlot[0] = gameObject;
             player.weaponObjSlot[0].SetActive(false);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out PlayerController player) && weaponData.player == null)
+            if (other.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
             }
