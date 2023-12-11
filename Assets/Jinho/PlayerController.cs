@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Xml;
 using Unity.VisualScripting;
 using UnityEngine;
+using Hojun;
 using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Jinho
@@ -365,7 +366,8 @@ namespace Jinho
         }
     }
     #endregion
-    public class PlayerController : MonoBehaviour
+
+    public class PlayerController : MonoBehaviour , IHitAble , IDieable, IAttackAble
     {
         public PlayerState state;                                   //player의 기본state
         public GameObject[] weaponObjSlot = new GameObject[4];
@@ -383,8 +385,13 @@ namespace Jinho
         public Animator animator;
         public bool isGrounded = true;
 
+
+
         public Transform weaponHand;
         public GameObject weapon;
+
+        public ZombieData Data => throw new NotImplementedException();
+
         void Start()
         {
             state = new PlayerState();
@@ -402,7 +409,6 @@ namespace Jinho
             attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
             attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
 
-            
             moveState = PlayerMoveState.idle;
 
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
@@ -416,9 +422,9 @@ namespace Jinho
         {
             weapon.transform.position = weaponHand.position;
             weapon.transform.rotation = weaponHand.rotation;
+
             moveDic[moveState]?.Moving();
             attackDic[attackState]?.Attack();
-
 
             //무기 교환 메서드! 애니메이션은 공격전략에 들어가있음! = 가영
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -475,12 +481,26 @@ namespace Jinho
             //  weapon.SetActive(true);
             // 이게 이벤트 함수에서 발생해야 하는 이벤트이다 어떻게 하지...?
             // 함수를 따로 빼고 해야 하나?
-            // 진호야 모르겠어 ㅠ 
+            // 진호야 모르겠어 ㅠ
 
         }
 
-
-
+        public virtual void Hit(float damage, IAttackAble attacker)
+        {
+            Debug.Log("공격 당함.");
+        }
+        public void Attack()
+        {
+            currentWeapon.Use();
+        }
+        public GameObject GetAttacker()
+        {
+            return this.gameObject;
+        }
+        public void Die()
+        {
+            throw new NotImplementedException();
+        }
 
     }   
 }

@@ -57,5 +57,7 @@ namespace Jaeyoung
             resultDistance = (soundSize - Vector3.Distance(transform.position, soundOwner.transform.position));
             SoundOwner = soundOwner;
         }
+
+
     }
 }
