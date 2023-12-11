@@ -34,7 +34,7 @@ namespace Hojun
     }
 
 
-    public abstract class Zombie : Character, IMoveAble ,IDieable 
+    public abstract class Zombie : Character, IMoveAble ,IDieable , IAttackAble 
     { 
 
         public enum ZombieState
@@ -134,8 +134,10 @@ namespace Hojun
                 if (detectiveCompo.IsAttack)
                 {
                     if (Target.GetComponent<IHitAble>() != null)
+                    {
                         return true;
-                
+                    }
+
                 }
 
 
@@ -163,6 +165,10 @@ namespace Hojun
         }
 
         public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
+
+        public abstract WeaponData WeaponData { get; }
+        public abstract ItemType ItemType { get; }
+
         IMoveStrategy moveStrategy;
 
         protected void Awake()
@@ -179,6 +185,8 @@ namespace Hojun
         }
 
         public abstract void Die();
+        public abstract void Attack();
+        public abstract GameObject GetAttacker();
     }
 
 

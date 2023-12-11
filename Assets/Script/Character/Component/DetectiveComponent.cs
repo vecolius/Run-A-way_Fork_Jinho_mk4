@@ -33,7 +33,8 @@ public class DetectiveComponent : MonoBehaviour
     {
         Collider[] coll = Physics.OverlapSphere(transform.position, radius, target);
 
-        
+        Debug.Log(coll.Length);
+
         if (coll.Length > 0)
         {
 
@@ -48,11 +49,15 @@ public class DetectiveComponent : MonoBehaviour
             else { isFind = false; }
 
             // attack distance check raycast
+
             if (Physics.Raycast(transform.position, direction, attackDistance, (int)target))
             {
                 isAttack = true;
             }
-            else { isAttack = false; }
+            else 
+            {
+                isAttack = false; 
+            }
         }
         
     }

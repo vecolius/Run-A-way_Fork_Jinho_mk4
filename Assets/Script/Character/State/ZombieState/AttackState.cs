@@ -22,7 +22,6 @@ namespace Hojun
             aniCompo = owner.GetComponent<Animator>();
             agent = owner.GetComponent<NavMeshAgent>();
 
-
         }
 
         public override void Enter()
@@ -36,15 +35,15 @@ namespace Hojun
 
         public override void Exit()
         {
-
+            agent.isStopped = false;
         }
 
         public override void Update()
         {
+            agent.isStopped = true;
 
-            agent.velocity = Vector3.zero;
-            agent.speed = 0;
-
+            
+            
             if (!ownerZombie.IsAttack)
             {
                 Debug.Log("check");

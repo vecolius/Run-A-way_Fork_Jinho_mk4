@@ -14,7 +14,7 @@ namespace Hojun
 {
 
 
-    public class NormalZombie : Zombie , IAttackAble , IHitAble
+    public class NormalZombie : Zombie 
     {
 
         public event Action dieAction;
@@ -37,7 +37,9 @@ namespace Hojun
             }
         }
 
+        public override Jinho.WeaponData WeaponData => throw new NotImplementedException();
 
+        public override Jinho.ItemType ItemType => throw new NotImplementedException();
 
         public new void Awake()
         {
@@ -104,8 +106,10 @@ namespace Hojun
         }
 
 
-        public void Attack()
+        public override void Attack()
         {
+
+            Debug.Log("normalZombie Attack Call");
 
             if(Target.TryGetComponent<IHitAble>(out IHitAble hitObj))
             {
@@ -118,11 +122,12 @@ namespace Hojun
         }
 
 
-        public GameObject GetAttacker()
+        public override GameObject GetAttacker()
         {
             return this.gameObject;
         }
 
+        
     }
 
 
