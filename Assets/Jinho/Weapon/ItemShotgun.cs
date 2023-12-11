@@ -39,6 +39,7 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
+        public Collider weaponCol;
         void SetTransform(Vector3[] array)   //»ñ°Ç Àü¿ë ÃÑ¾Ë 9°³°¡ °¡¾ßÇÒ ÁËÇ¥
         {
             for (int i = 0; i < array.Length; i++)
@@ -83,12 +84,14 @@ namespace Jinho
             }
             this.player = player;
             player.weaponObjSlot[0] = gameObject;
-            player.weaponObjSlot[0].SetActive(false);
+            //player.weaponObjSlot[0].SetActive(false);
+            weaponCol.enabled = false;
         }
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Player player) && this.player == null)
             {
+                Debug.Log("asdf");
                 SetItem(player);
             }
         }

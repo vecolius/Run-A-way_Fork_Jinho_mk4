@@ -82,7 +82,7 @@ namespace Jinho
             }
             this.player = player;
             player.weaponObjSlot[0] = gameObject;
-            player.weaponObjSlot[0].SetActive(false);
+            //player.weaponObjSlot[0].SetActive(false);
         }
 
         private void OnTriggerEnter(Collider other)

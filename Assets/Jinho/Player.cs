@@ -162,9 +162,14 @@ namespace Jinho
 
         public virtual void Attack()
         {
-            player.animator.SetTrigger("WeaponChange");
-            player.animator.SetFloat("WeaponChangeBlendTree",0.5f);
+            
         }    
+        public virtual void WeaponSwap(int index, float value = 0.5f)
+        {
+            player.animator.SetTrigger("WeaponChange");
+            player.animator.SetFloat("WeaponChangeBlendTree", 0.5f);
+            player.weaponIndex = index;
+        }
 
         public virtual void BasicMotion()
         {
@@ -201,8 +206,8 @@ namespace Jinho
                 player.animator.SetFloat("ReloadType", 0.3f);
                 Debug.Log("이제 장전 된다 ㅠ");
             }
-            else if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4))
-                base.Attack();
+            else if(Input.GetKeyDown(KeyCode.Alpha1) )
+                base.WeaponSwap(0);
         }
 
     }
@@ -232,8 +237,11 @@ namespace Jinho
                 Debug.Log("이제 장전 된다 ㅠ");
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
-                base.Attack();
-       
+                base.WeaponSwap(1);
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                base.WeaponSwap(2);
+            else if(Input.GetKeyDown(KeyCode.Alpha4))
+                base.WeaponSwap(3);
         }
     }
 
@@ -261,10 +269,17 @@ namespace Jinho
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                player.animator.SetTrigger("WeaponChange");
-                player.animator.SetFloat("WeaponChangeBlendTree", 1f);
+                base.WeaponSwap(2, 1.0f);
                 // 권총은 모션이 달라서 이렇게 넣어보았습니다! = 가영
-            }    
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                base.WeaponSwap(0, 1.0f);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                base.WeaponSwap(3, 1.0f);
+            }
         }
 
     }
@@ -373,6 +388,7 @@ namespace Jinho
 
         public Transform weaponHand;
         public GameObject weapon;
+        public int weaponIndex;
 
         public CharacterData Data => throw new NotImplementedException();
 
@@ -400,9 +416,9 @@ namespace Jinho
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
-
+            weaponIndex = 0;
             Aim = mainCamera.GetComponent<AimComponent>();
-            WeaponChange(0); // 아무것도 안들고 있는 것
+            WeaponChange(); // 아무것도 안들고 있는 것
         }
         void Update()
         {
@@ -411,6 +427,8 @@ namespace Jinho
 
             moveDic[moveState]?.Moving();
             attackDic[attackState]?.Attack();
+
+         
 
             //무기 교환 메서드! 애니메이션은 공격전략에 들어가있음! = 가영
             //if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -439,24 +457,28 @@ namespace Jinho
         {
             currentWeapon.Reload();
         }
-        public int WeaponChange(int index) // 무기 교환 메서드!
+        public void WeaponChange() // 무기 교환 메서드!
         {
-            if (currentWeapon == null)
+            if (weaponObjSlot[weaponIndex] == null)
             { 
                 Debug.Log("무기가 없다");
-                return -1; 
+                return;
             }
 
-            if (currentWeapon != null)
-            {
-                weapon.SetActive(false);
-            }
-            weapon = weaponObjSlot[index];
+            // if (currentWeapon != null)
+            // {
+            Debug.Log(weapon.name + "이게 꺼졌음");
+            GameObject tempObj = weapon;
+            weapon.SetActive(false);
+           // }
+            weapon = weaponObjSlot[weaponIndex];
+            Debug.Log(weapon.name + "이게 켜졌음");
             weapon.SetActive(true);
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
+            tempObj.SetActive(false);
             Debug.Log("무기교체완");
-            return index;
+           // return index;
             // 애니메이션 이벤트 부분에서 켜지는 상태가 되어야 한다 지금 좀 이상..?
             //  weapon = weaponObjSlot[index];
             //  weapon.SetActive(true);

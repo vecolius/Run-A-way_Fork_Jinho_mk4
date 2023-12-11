@@ -77,7 +77,7 @@ namespace Jinho
             }
             this.player = player;
             player.weaponObjSlot[1] = gameObject;
-            player.weaponObjSlot[1].SetActive(false);
+            //player.weaponObjSlot[1].SetActive(false);
         }
         private void OnTriggerEnter(Collider other)
         {

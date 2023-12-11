@@ -990,3 +990,4 @@ MonoBehaviour:
   bulletCount: 6
   maxTotalBullet: 30
   totalBullet: 30
+  weaponCol: {fileID: 8645408777699815954}
