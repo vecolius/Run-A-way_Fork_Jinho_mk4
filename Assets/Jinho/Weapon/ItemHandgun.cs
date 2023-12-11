@@ -53,6 +53,7 @@ namespace Jinho
         }
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log(other.name);
             if (other.TryGetComponent(out PlayerController player) && weaponData.player == null)
             {
                 SetItem(player);
