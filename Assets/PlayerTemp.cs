@@ -6,7 +6,7 @@ using Hojun;
 
 public class PlayerTemp : MonoBehaviour, IHitAble
 {
-    public ZombieData Data => throw new System.NotImplementedException();
+    public CharacterData Data => throw new System.NotImplementedException();
 
     public void Hit(float damage, IAttackAble attacker)
     {

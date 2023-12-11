@@ -14,26 +14,6 @@ public enum CustomObjectLayer
 
 namespace Hojun
 {
-
-    public class ZombieData
-    {
-        public float hp;
-        public float speed;
-        public bool isDead;
-        public float attackPoint;
-        public string zombieName;
-
-        public ZombieData(float hp , float spped , float attack) 
-        {
-            this.hp = hp;
-            this.speed = spped;
-            this.isDead = false;
-            this.attackPoint = attack;
-        }
-
-    }
-
-
     public abstract class Zombie : Character, IMoveAble ,IDieable 
     { 
 
@@ -83,7 +63,7 @@ namespace Hojun
             get=> zombieData.isDead; set {  zombieData.isDead = value; }
         }
 
-        protected ZombieData zombieData;
+        protected CharacterData zombieData;
 
 
         public bool IsFindPlayer 
@@ -148,7 +128,7 @@ namespace Hojun
         protected HearComponent hearComponent;
 
 
-        public ZombieData Data { get => zombieData;}
+        public CharacterData Data { get => zombieData;}
 
 
 
@@ -168,7 +148,7 @@ namespace Hojun
         protected void Awake()
         {
             hearComponent = GetComponent<HearComponent>();
-            zombieData = new ZombieData(50,10,20);
+            //zombieData = new CharacterData(50,10,20);
             stateMachine = new StateMachine<Zombie>(this);
             detectiveCompo = GetComponent<DetectiveComponent>();
         }
