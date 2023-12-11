@@ -191,7 +191,7 @@ namespace Jinho
             {
                 //총을 쏨
                 player.animator.SetTrigger("Shot");
-                player.animator.SetFloat("GunType",0.4f);
+                player.animator.SetFloat("GunType", 0.4f);
                 Debug.Log("어택 시작");
             }
            
@@ -221,7 +221,7 @@ namespace Jinho
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 player.animator.SetTrigger("Shot");
-                player.animator.SetFloat("GunType", 1f);
+                player.animator.SetFloat("GunType", 0.6f);
                 Debug.Log("어택 시작");
 
             }
@@ -250,7 +250,7 @@ namespace Jinho
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 player.animator.SetTrigger("Shot");
-                player.animator.SetFloat("GunType", 0.6f);
+                player.animator.SetFloat("GunType", 0.8f);
                 Debug.Log("어택 시작");
             }
             else if (Input.GetKey(KeyCode.R))
@@ -413,22 +413,22 @@ namespace Jinho
             attackDic[attackState]?.Attack();
 
             //무기 교환 메서드! 애니메이션은 공격전략에 들어가있음! = 가영
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                WeaponChange(0);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                WeaponChange(1);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                WeaponChange(2);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                WeaponChange(3);
-            }
+            //if (Input.GetKeyDown(KeyCode.Alpha1))
+            //{
+            //    WeaponChange(0);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha2))
+            //{
+            //    WeaponChange(1);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha3))
+            //{
+            //    WeaponChange(2);
+            //}
+            //if (Input.GetKeyDown(KeyCode.Alpha4))
+            //{
+            //    WeaponChange(3);
+            //}
         }
 
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)

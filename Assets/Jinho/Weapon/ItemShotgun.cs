@@ -63,7 +63,6 @@ namespace Jinho
                 GameObject bulletObj = Instantiate(bullet);
                 Bullet bulletScript = bulletObj.GetComponent<Bullet>();
                 bulletScript.SetBulletData(weaponData, Player);
-                bulletScript.SetBulletVec(firePos, aimPos.position);
                 bulletScript.SetBulletVec(firePos, targetPosArray[i]);
             }
         }
