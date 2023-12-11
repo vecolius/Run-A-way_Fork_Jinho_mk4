@@ -66,6 +66,7 @@ namespace Hojun
             hearComponent = gameObject.GetComponent<HearComponent>();
             dieAction = Die;
 
+            attackStrategy = new ZombieAttack();
             attackAction += Attack;
 
         }

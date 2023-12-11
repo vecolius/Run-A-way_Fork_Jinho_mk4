@@ -26,8 +26,7 @@ namespace Hojun
             {
                 Debug.Log("ERROR");
             }
-            agent.speed = ownerZombie.Speed * runSpeed;
-
+            
         }
 
 
@@ -36,6 +35,7 @@ namespace Hojun
             animator.SetInteger( "State", (int)Zombie.ZombieMove.FIND );
             animator.SetBool( "Run", true );
             ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.FIND);
+            agent.speed = ownerZombie.Speed * runSpeed;
         }
         public override void Update() 
         {
