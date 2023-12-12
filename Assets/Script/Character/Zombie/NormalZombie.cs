@@ -109,7 +109,6 @@ namespace Hojun
         public override void Attack()
         {
 
-            Debug.Log("normalZombie Attack Call");
 
             if(Target.TryGetComponent<IHitAble>(out IHitAble hitObj))
             {
