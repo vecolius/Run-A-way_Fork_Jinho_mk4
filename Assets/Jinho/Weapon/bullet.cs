@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Pool;
 
 public class Bullet : MonoBehaviour
 {
@@ -54,7 +55,6 @@ public class Bullet : MonoBehaviour
             BulletDestroy();
             target = hitObj;
         }
-
     }
 
 
