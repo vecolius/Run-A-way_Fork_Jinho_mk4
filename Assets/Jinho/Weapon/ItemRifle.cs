@@ -10,7 +10,7 @@ namespace Jinho
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
         public Player Player {  get=> player; set { player = value; } }
-        Player player = null;
+        [SerializeField] Player player = null;
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
@@ -76,14 +76,33 @@ namespace Jinho
             if (player.weaponObjSlot[0] != null)
             {
                 GameObject temp = player.weaponObjSlot[0];
-                temp.transform.position = transform.position;
-                temp.GetComponent<IAttackItemable>().Player = null;
-                player.weaponObjSlot[0] = null;
-                temp.SetActive(true);
+                Vector3 tempPos = transform.position;
+                if (player.weapon == player.weaponObjSlot[0])   //플레이어가 슬롯의 무기를 들고있을 때,
+                {
+                    player.weapon = null;
+                    player.attackState = ItemType;
+                    player.weapon = gameObject;
+                    temp.GetComponent<IAttackItemable>().Player = null;
+                }
+                else
+                {                                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
+                    player.weaponObjSlot[0] = null;
+                    temp.transform.position = tempPos;
+                    temp.GetComponent<IAttackItemable>().Player = null;
+                    temp.SetActive(true);
+                }
+            }
+            else
+            {           //플레이어의 슬롯이 비었으면
+                //player.weaponObjSlot[0].SetActive(false);
+                if (player.weapon != null)
+                {
+                    player.weapon = gameObject;
+                    player.attackState = ItemType;
+                }
             }
             this.player = player;
             player.weaponObjSlot[0] = gameObject;
-            player.weaponObjSlot[0].SetActive(false);
         }
 
         public void Interaction(GameObject interactivePlayer)
