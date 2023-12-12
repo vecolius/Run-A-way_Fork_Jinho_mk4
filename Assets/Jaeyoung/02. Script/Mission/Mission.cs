@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Jaeyoung
 {
@@ -20,13 +22,16 @@ namespace Jaeyoung
     {
         public string missiontName;
         public string missiontInfo;
+        public MissionType missionType;
         [SerializeField] protected SpawnPoint spawnPoint;
         [SerializeField] private float spawnDelay;
         private float time;
+        public UnityEvent clearEvent;
 
-        public Mission()
+
+        private void Start()
         {
-            time = 0;
+            clearEvent.Invoke();
         }
 
         public virtual void Play()
@@ -40,7 +45,7 @@ namespace Jaeyoung
 
             time = 0;
             GameObject zombie = PoolingManager.instance.PopObj(PoolingType.ZOMBIE);
-            zombie.transform.position = spawnPoint.points[Random.Range(0, spawnPoint.points.Count)].position;
+            zombie.transform.position = spawnPoint.points[UnityEngine.Random.Range(0, spawnPoint.points.Count)].position;
             zombie.SetActive(true);
             #endregion
         }

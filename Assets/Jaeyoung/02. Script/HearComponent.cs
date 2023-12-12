@@ -3,6 +3,7 @@ using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Jaeyoung
@@ -16,6 +17,16 @@ namespace Jaeyoung
         float resultDistance;
         GameObject soundOwner;
         Vector3 soundArea;
+
+        float hp;
+        Text text;
+
+        void ChangeHP(float value)
+        {
+            hp += value;
+            text.text = hp.ToString();
+        }
+
 
         public GameObject SoundOwner 
         {

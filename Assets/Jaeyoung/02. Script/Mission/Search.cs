@@ -11,6 +11,7 @@ namespace Jaeyoung
 
         private void Start()
         {
+            clearEvent.Invoke();
             targetItem.transform.position = spawnItemPoint.points[Random.Range(0, spawnItemPoint.points.Count)].position;
         }
 

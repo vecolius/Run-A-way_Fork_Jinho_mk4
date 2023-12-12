@@ -10,23 +10,7 @@ namespace Jaeyoung
         public static MissionManager instance;
         public Queue<IMissionable> missionQueue = new Queue<IMissionable>();
         public List<Mission> missionList = new List<Mission>();
-        private bool isFinish;
-        // 델리게이트로 클리어 했을 때 이벤트 함수로써 쓸 수 있도록 만들자
-        public Action eventAction; // 이걸로 이벤트를 쓸 수 있지 않을까?
-
-        public bool IsFinish
-        {
-            get { return isFinish; }
-            set
-            {
-                isFinish = value;
-
-                if (IsFinish)
-                {
-                    TakeMission();
-                }
-            }
-        }
+        public Func<bool> condition;
         private IMissionable curMission;
 
         private void Awake()
@@ -46,12 +30,15 @@ namespace Jaeyoung
 
         private void Update()
         {
+            if(condition())
+                TakeMission();
+
             curMission?.Play();
         }
 
         private void TakeMission()
         {
-            IsFinish = false;
+            //IsFinish = false;
             ((Mission)curMission)?.gameObject.SetActive(false);
 
             if (missionQueue.TryDequeue(out IMissionable mission))
