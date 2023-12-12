@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Pool;
+using Jaeyoung;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, Hojun.IAttackAble
 {
     [SerializeField] float moveSpeed;
     public float damage;
@@ -25,7 +26,6 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         //attackAction += BulletAttack;
-    
     }
 
     void Update()
@@ -34,7 +34,8 @@ public class Bullet : MonoBehaviour
     }
     void BulletDestroy()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        PoolingManager.instance.ReturnPool(gameObject);
     }
     public void SetBulletData(WeaponData weaponData, Jinho.Player player)    //무기 damage 입력 함수
     {
@@ -48,16 +49,25 @@ public class Bullet : MonoBehaviour
         transform.rotation = firePos.rotation;
         transform.forward = (targetPos - transform.position).normalized;
     }
-    void OnTriggerEnter(Collider other)
+    public void Attack()
     {
-        if (other.gameObject.TryGetComponent<IHitAble>( out IHitAble hitObj))
-        {
-            BulletDestroy();
-            target = hitObj;
-        }
+        //총알이 대미지를 줄 때?
+        return;
     }
 
-
+    public GameObject GetAttacker()
+    {
+        return gameObject;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<IHitAble>(out IHitAble hit))
+        {
+            target = hit;
+            target.Hit(damage, this);
+            BulletDestroy();
+        }
+    }
     // 내가 짜긴 했는데, 뭔가 내가 생각한 거랑 좀 다르네.. 파이팅!! 진호야 넌 할 수 있어.
     //public void Attack()
     //{

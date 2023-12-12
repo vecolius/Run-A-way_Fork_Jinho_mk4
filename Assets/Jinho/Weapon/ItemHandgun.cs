@@ -1,3 +1,4 @@
+using Jaeyoung;
 using Jinho;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemHandgun : MonoBehaviour, IAttackItemable
+    public class ItemHandgun : MonoBehaviour, IAttackItemable, Yeseul.IInteractive
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
@@ -49,7 +50,7 @@ namespace Jinho
             //총알이 나가는 효과
             //이펙트 + 사운드
             aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = Instantiate(bullet);
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
@@ -79,13 +80,16 @@ namespace Jinho
             player.weaponObjSlot[1] = gameObject;
             //player.weaponObjSlot[1].SetActive(false);
         }
-        private void OnTriggerEnter(Collider other)
+        public void Interaction(GameObject interactivePlayer)
         {
-            Debug.Log(other.name);
-            if (other.TryGetComponent(out Player player) && this.player == null)
+            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
             }
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemMelee : MonoBehaviour, IAttackItemable
+    public class ItemMelee : MonoBehaviour, IAttackItemable, Yeseul.IInteractive, Hojun.IAttackAble
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
@@ -36,14 +36,34 @@ namespace Jinho
             player.weaponObjSlot[1] = gameObject;
             player.weaponObjSlot[1].SetActive(false);
         }
-        private void OnTriggerEnter(Collider other)
+        public void Interaction(GameObject interactivePlayer)
         {
-            if (other.TryGetComponent(out Player player) && this.player == null)
+            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
                 col = gameObject.GetComponent<Collider>();
             }
-            //if(other.TryGetComponent(out IHitable hit))
+        }
+        public void Attack()
+        {
+            //공격할 때, 일어나는 효과?
+            return;
+        }
+        public GameObject GetAttacker()
+        {
+            return gameObject;
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out Player player) == this.player) 
+            {
+                Debug.Log(other.name + "은(는) 주인이다.");
+                return;
+            }
+            if(other.TryGetComponent(out Hojun.IHitAble hit))
+            {
+                hit.Hit(weaponData.damage, this);
+            }
         }
     }
 }

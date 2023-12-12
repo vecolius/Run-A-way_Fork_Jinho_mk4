@@ -5,10 +5,6 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public interface IExpendable : IUseable 
-    {
-        public ExtendableData ExtendableData { get; }
-    }
     [CreateAssetMenu(fileName = "ExtenableData", menuName = "Scriptable Object/Extenable Data", order = int.MaxValue)]
     public class ExtendableData : ScriptableObject
     {

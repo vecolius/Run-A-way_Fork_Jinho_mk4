@@ -398,7 +398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 8d656666f4267b844a83e5705a4df146, type: 2}
   firePos: {fileID: 4596499689326620836}
-  bullet: {fileID: 7233024481384809248, guid: 4eefa936c47806246969aca9484bf1d4, type: 3}
+  bullet: {fileID: 7213154079774707790, guid: 4eefa936c47806246969aca9484bf1d4, type: 3}
   maxBullet: 30
   bulletCount: 30
   maxTotalBullet: 150

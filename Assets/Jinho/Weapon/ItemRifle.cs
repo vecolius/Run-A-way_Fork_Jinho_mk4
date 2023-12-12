@@ -1,10 +1,11 @@
+using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackItemable
+    public class ItemRifle : MonoBehaviour, IAttackItemable, Yeseul.IInteractive
     {
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
@@ -54,7 +55,7 @@ namespace Jinho
             //이펙트 + 사운드
 
             aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = Instantiate(bullet);
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
@@ -82,16 +83,19 @@ namespace Jinho
             }
             this.player = player;
             player.weaponObjSlot[0] = gameObject;
-            //player.weaponObjSlot[0].SetActive(false);
+            player.weaponObjSlot[0].SetActive(false);
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void Interaction(GameObject interactivePlayer)
         {
-            if (other.TryGetComponent(out Player player) && this.player == null)
+            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
             }
         }
+        private void OnTriggerEnter(Collider other)
+        {
 
+        }
     }
 }
