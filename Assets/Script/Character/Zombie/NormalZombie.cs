@@ -85,8 +85,8 @@ namespace Hojun
 
             yield return new WaitForSeconds(deathTime);
 
-            Debug.Log("Á»ºñ ²è");
-            // objejct pool ¾²´ÂÁö destroy ¾²´ÂÁö ÆÀ¿ø°ú »óÀÇ ÇÒ °Í
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½");
+            // objejct pool ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ destroy ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
 
         }
 
