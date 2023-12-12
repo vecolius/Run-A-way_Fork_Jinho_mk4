@@ -490,7 +490,6 @@ namespace Jinho
 
         public virtual void Hit(float damage, IAttackAble attacker)
         {
-            Debug.Log("공격 당함.");
         }
         public void Attack()
         {

@@ -41,7 +41,6 @@ namespace Hojun
 
     public interface IAttackStrategy
     {
-        
         public float Attack( IHitAble hitObj);
         public float GetDamage();
     }
@@ -53,19 +52,10 @@ namespace Hojun
     }
 
 
-
-
     public interface IDieable
     {
         public void Die();
     }
-
-
-    //public interface IHearStrategy
-    //{
-    //    public void Hear( GameObject target );
-
-    //}
 
 
 }

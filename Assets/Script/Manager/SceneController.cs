@@ -8,18 +8,18 @@ using System;
 using System.Linq;
 
 
-// ÇÃ·¹ÀÌ¾î °ø°Ý ºÎºÐµµ °°ÀÌ ¸¸µé¾î¾ß ÇÏ±â ‹š¹®¿¡ ±¸Á¶ »ý°¢ÇÏ°í ¿¬°á °¡´ÉÇÏ°Ô ¸¸µé¾î¼­ 
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÎºÐµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½î¼­ 
 
 public class SceneController : DontDestroySingle<SceneController>
 {
-    // ¾À ¿¬°á ui
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ui
     [SerializeField] GameObject titleUi;
     [SerializeField] GameObject mainUi;
     [SerializeField] GameObject lobbyUi;
     [SerializeField] GameObject gameUi;
     [SerializeField] GameObject loadingUi;
 
-    //¹öÆ° ´­·¶À» ½Ã È°¼ºÈ­ µÇ´Â Ã¢
+    //ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½Ç´ï¿½ Ã¢
     [SerializeField] GameObject mainOptionImage;
     [SerializeField] GameObject mainExplanationImage;
     [SerializeField] GameObject lobbyChacterChoiceImage;
@@ -28,7 +28,7 @@ public class SceneController : DontDestroySingle<SceneController>
 
     List<GameObject> totalUi= new List<GameObject>(); 
 
-    // [SerializeField] private GameObject lobbyMultiUi; //  ¸ÖÆ¼ ÀÏ ¶§ »ç¿ë ¿¹Á¤
+    // [SerializeField] private GameObject lobbyMultiUi; //  ï¿½ï¿½Æ¼ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     private new void Awake()
     {
         base.Awake();
@@ -48,8 +48,8 @@ public class SceneController : DontDestroySingle<SceneController>
     
     public void OnClick(string buttonName) 
     {
-        // ´Ù¸¥ ¹öÆ°À» ´©¸£±â À§ÇØ¼­´Â ´Ù¸¥ ¹öÆ°ÀÌ true ÀÏ ¶§´Â ´Ù¸¥ ¹öÆ° È°¼ºÈ­ ±ÝÁö!
-        // forech·Î µ¹·Áµµ ³ª»ÚÁö ¾ÊÀ» µí
+        // ï¿½Ù¸ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ true ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½Æ° È°ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½!
+        // forechï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         switch (buttonName)
         {
             case "Option":
@@ -66,7 +66,7 @@ public class SceneController : DontDestroySingle<SceneController>
                 break; 
         }
 
-            Debug.Log("¹öÆ° ´­¸²");
+            Debug.Log("ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½");
     }
 
   
@@ -99,7 +99,7 @@ public class SceneController : DontDestroySingle<SceneController>
                 loadingUi.SetActive(true);
                 break;
             //case "LobbyMultiScene":
-            //  ¸ÖÆ¼ ÀÏ ¶§ »ç¿ë ¿¹Á¤
+            //  ï¿½ï¿½Æ¼ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             //    break;
         }
 
@@ -117,7 +117,7 @@ public class SceneController : DontDestroySingle<SceneController>
     public void OnApplicationQuit()
     {
         Application.Quit();
-        //Debug.Log("°ÔÀÓ Á¾·á"); ÀÛµ¿ È®ÀÎ
+        //Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½"); ï¿½Ûµï¿½ È®ï¿½ï¿½
     }
 
 

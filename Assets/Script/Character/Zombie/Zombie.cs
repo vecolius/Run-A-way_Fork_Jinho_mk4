@@ -14,7 +14,27 @@ public enum CustomObjectLayer
 
 namespace Hojun
 {
-    public abstract class Zombie : Character, IMoveAble ,IDieable 
+
+    public class ZombieData
+    {
+        public float hp;
+        public float speed;
+        public bool isDead;
+        public float attackPoint;
+        public string zombieName;
+
+        public ZombieData(float hp , float spped , float attack) 
+        {
+            this.hp = hp;
+            this.speed = spped;
+            this.isDead = false;
+            this.attackPoint = attack;
+        }
+
+    }
+
+
+    public abstract class Zombie : Character, IMoveAble ,IDieable , IAttackAble 
     { 
 
         public enum ZombieState
@@ -114,8 +134,10 @@ namespace Hojun
                 if (detectiveCompo.IsAttack)
                 {
                     if (Target.GetComponent<IHitAble>() != null)
+                    {
                         return true;
-                
+                    }
+
                 }
 
 
@@ -143,6 +165,10 @@ namespace Hojun
         }
 
         public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
+
+        public abstract WeaponData WeaponData { get; }
+        public abstract ItemType ItemType { get; }
+
         IMoveStrategy moveStrategy;
 
         protected void Awake()
@@ -159,6 +185,8 @@ namespace Hojun
         }
 
         public abstract void Die();
+        public abstract void Attack();
+        public abstract GameObject GetAttacker();
     }
 
 
