@@ -206,8 +206,12 @@ namespace Jinho
                 player.animator.SetFloat("ReloadType", 0.3f);
                 Debug.Log("이제 장전 된다 ㅠ");
             }
-            else if(Input.GetKeyDown(KeyCode.Alpha1) )
-                base.WeaponSwap(0);
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                base.WeaponSwap(1);
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                base.WeaponSwap(2);
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+                base.WeaponSwap(3);
         }
 
     }
@@ -416,7 +420,6 @@ namespace Jinho
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
-            weaponIndex = 0;
             Aim = mainCamera.GetComponent<AimComponent>();
             WeaponChange(); // 아무것도 안들고 있는 것
         }

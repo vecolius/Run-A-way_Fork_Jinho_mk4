@@ -1,15 +1,16 @@
+using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackItemable
+    public class ItemRifle : MonoBehaviour, IAttackItemable, Yeseul.IInteractive
     {
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
         public Player Player {  get=> player; set { player = value; } }
-        Player player = null;
+        [SerializeField] Player player = null;
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
@@ -38,23 +39,23 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
+        public AudioClip gunFireSound;
         public void Use()
         {
-            /*
-            if (weaponData.BulletCount == 0)
+            
+            if (BulletCount == 0)
                 return;
-            weaponData.BulletCount--;
+            BulletCount--;
+
+            //이펙트 + 사운드
+            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
+            soundObj.transform.position = firePos.position;
+            soundObj.GetComponent<AudioSource>().clip = gunFireSound;
+            soundObj.SetActive(true);
             
             //총알이 나가는 효과
-            GameObject bulletObj = Instantiate(bullet);
-            bulletObj.GetComponent<bullet>().SetBulletData(weaponData);
-            bulletObj.GetComponent<bullet>().SetBulletVec(firePos, aimPos.position);
-            */
-            //총알이 나가는 효과
-            //이펙트 + 사운드
-
             aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = Instantiate(bullet);
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
@@ -72,26 +73,19 @@ namespace Jinho
         }
         public void SetItem(Player player)
         {
-            if (player.weaponObjSlot[0] != null)
-            {
-                GameObject temp = player.weaponObjSlot[0];
-                temp.transform.position = transform.position;
-                temp.GetComponent<IAttackItemable>().Player = null;
-                player.weaponObjSlot[0] = null;
-                temp.SetActive(true);
-            }
-            this.player = player;
-            player.weaponObjSlot[0] = gameObject;
-            //player.weaponObjSlot[0].SetActive(false);
+            WeaponItem.SetWeapon(player, gameObject, 0, this.player);
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void Interaction(GameObject interactivePlayer)
         {
-            if (other.TryGetComponent(out Player player) && this.player == null)
+            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
             }
         }
+        private void OnTriggerEnter(Collider other)
+        {
 
+        }
     }
 }
