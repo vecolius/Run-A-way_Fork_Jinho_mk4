@@ -10,23 +10,25 @@ namespace Jaeyoung
         private float curTime;
         public float CurTime
         {
-            get { return timeLimit; }
+            get { return curTime; }
             set
-            { 
-                timeLimit = value;
+            {
+                curTime = value;
                 // 변헀을 때 미션 설명 UI변경
             }
         }
 
-        //private void Start()
-        //{
-        //    StartCoroutine(미션 코루틴);   
-        //}
+        private void Start()
+        {
+            CurTime = 0;
+            // StartCoroutine(미션 코루틴);
+        }
         // 연출이 나온 다음에 미션이 진행되도록 코루틴 짜야함
         // 없으면 바로 시작
 
         public override void Play()
         {
+            CurTime += Time.deltaTime;
             base.Play();
         }
 
