@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 5286315680646970937}
   - component: {fileID: 5286315680646970936}
   m_Layer: 0
-  m_Name: Defense
+  m_Name: DefenseMission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

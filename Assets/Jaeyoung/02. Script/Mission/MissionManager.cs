@@ -8,10 +8,11 @@ namespace Jaeyoung
     public class MissionManager : MonoBehaviour
     {
         public static MissionManager instance;
-        public Queue<IMissionable> missionQueue = new Queue<IMissionable>();
-        public List<Mission> missionList = new List<Mission>();
+        public IMissionable curMission;
         public Func<bool> condition;
-        private IMissionable curMission;
+
+        [SerializeField] private List<Mission> missionList = new List<Mission>();
+        private Queue<IMissionable> missionQueue = new Queue<IMissionable>();
 
         private void Awake()
         {
@@ -38,12 +39,13 @@ namespace Jaeyoung
 
         private void TakeMission()
         {
-            //IsFinish = false;
             ((Mission)curMission)?.gameObject.SetActive(false);
+            ((Mission)curMission)?.clearEvent.Invoke();
 
             if (missionQueue.TryDequeue(out IMissionable mission))
             {
                 curMission = mission;
+                condition = curMission.Condition;
                 ((Mission)curMission).gameObject.SetActive(true);
             }
             else
@@ -53,6 +55,8 @@ namespace Jaeyoung
         public void MissionOver()
         {
             Debug.Log("엔딩");
+
+            this.enabled = false;
             // 엔딩
         }
     }
