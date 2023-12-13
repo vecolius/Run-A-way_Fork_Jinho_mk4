@@ -47,6 +47,9 @@ namespace Yeseul
                 {
                     IInteractive interactiveObj = FindNearestObj(cols).GetComponent<IInteractive>();
                     interactiveObj?.Interaction(this.gameObject);
+
+                    Debug.Log(interactiveObj);
+
                 }
             }
         }

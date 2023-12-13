@@ -24,7 +24,6 @@ namespace Hojun
         public IHitStrategy hitStrategy;
 
 
-
         public override float Hp 
         {
             get => zombieData.hp;
@@ -89,7 +88,6 @@ namespace Hojun
 
             Debug.Log("���� ��");
             // objejct pool ������ destroy ������ ������ ���� �� ��
-
         }
 
         public override void Die()
@@ -113,9 +111,7 @@ namespace Hojun
             if(Target.TryGetComponent<IHitAble>(out IHitAble hitObj))
             {
                 float damage = attackStrategy.GetDamage();
-
                 hitObj.Hit( damage ,this);
-            
             }
 
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Pool;
 using Jaeyoung;
+using Hojun;
 
 public class Bullet : MonoBehaviour, Hojun.IAttackAble
 {
@@ -12,7 +13,7 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
     public float damage;
     public WeaponData parentWeaponData = null;
     public Jinho.Player player = null;
-    Action attackAction;
+    Action<IHitAble> attackAction;
 
     Hojun.IHitAble target;
 
@@ -44,18 +45,9 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
         transform.rotation = firePos.rotation;
         transform.forward = (targetPos - transform.position).normalized;
     }
-    void BulletAttack()
+    void BulletAttack(IHitAble hitObj)
     {
-        if (other.gameObject.TryGetComponent<IHitAble>( out IHitAble hitObj))
-        {
-            target = hitObj;
-            BulletDestroy();
-
-        }
-        if ( ( (1<<other.gameObject.layer) & LayerManager.instance.Nature) >= 1 )
-        {   
-            BulletDestroy();
-        }
+        Debug.Log("damage");
     }
 
     public GameObject GetAttacker()
@@ -64,11 +56,27 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Hojun.IHitAble hit))
-        {
-            target = hit;
-            Attack();
-            BulletDestroy();
-        }
+
+
+        Debug.Log("collision");
+        //if (other.gameObject.TryGetComponent<IHitAble>(out IHitAble hitObj))
+        //{
+        //    target = hitObj;
+        //    Attack();
+        //    BulletDestroy();
+
+        //}
+        //if (((1 << other.gameObject.layer) & LayerManager.instance.Nature) >= 1)
+        //{
+        //    BulletDestroy();
+        //}
+
     }
+
+    public void Attack()
+    {
+        attackAction(target);
+    }
+
+
 }

@@ -46,6 +46,7 @@ namespace Jinho
         {
             return player.gameObject;
         }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Hojun.IHitAble hit))

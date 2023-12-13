@@ -11,7 +11,7 @@ namespace Jinho
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
         public Player Player { get => player; set { player = value; } }
-        [SerializeField]Player player = null;
+        public Player player = null;
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
@@ -46,9 +46,10 @@ namespace Jinho
             if (BulletCount == 0)
                 return;
             BulletCount--;
-            
+
             //이펙트 + 사운드
             //총알이 나가는 효과
+            Debug.Log(player);
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();

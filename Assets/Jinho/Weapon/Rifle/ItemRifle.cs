@@ -9,8 +9,14 @@ namespace Jinho
     {
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
-        public Player Player {  get=> player; set { player = value; } }
+        
+        public Player Player 
+        {  
+            get=> player;
+            set { player = value; }
+        }
         [SerializeField] Player player = null;
+        
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
@@ -48,17 +54,21 @@ namespace Jinho
             BulletCount--;
 
             //이펙트 + 사운드
+            /*
             GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
             soundObj.transform.position = firePos.position;
             soundObj.GetComponent<AudioSource>().clip = gunFireSound;
             soundObj.SetActive(true);
-            
+            */
             //총알이 나가는 효과
+
+
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
+            bulletObj.SetActive(true);
         }
         public void Reload()
         {

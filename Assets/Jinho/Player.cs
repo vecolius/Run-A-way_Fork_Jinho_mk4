@@ -261,13 +261,15 @@ namespace Jinho
             moveState = PlayerMoveState.idle;
 
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
+            //weapon = GameObject.Find("AssaultRilfe_Prototype 1");
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
             Aim = mainCamera.GetComponent<AimComponent>();
-            WeaponChange(); // 아무것도 안들고 있는 것
+            //WeaponChange(); // 아무것도 안들고 있는 것
         }
         void Update()
         {
+            //weapon.SetActive(true);
             weapon.transform.position = weaponHand.position;
             weapon.transform.rotation = weaponHand.rotation;
 
