@@ -984,10 +984,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 14efddf1272f8fc47a877fd5dcddacfc, type: 2}
+  player: {fileID: 0}
   firePos: {fileID: 8582934620773777896}
   bullet: {fileID: 4597972832071545081, guid: 520b650f06785b34aba545daaa072a3e, type: 3}
-  maxBullet: 6
-  bulletCount: 6
+  maxBullet: 4
+  bulletCount: 4
   maxTotalBullet: 30
   totalBullet: 30
   weaponCol: {fileID: 8645408777699815954}

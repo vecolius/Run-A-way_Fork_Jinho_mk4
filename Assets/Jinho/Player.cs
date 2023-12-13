@@ -420,7 +420,6 @@ namespace Jinho
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
-            weaponIndex = 0;
             Aim = mainCamera.GetComponent<AimComponent>();
             WeaponChange(); // 아무것도 안들고 있는 것
         }

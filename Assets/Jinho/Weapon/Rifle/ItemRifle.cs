@@ -39,21 +39,21 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
+        public AudioClip gunFireSound;
         public void Use()
         {
-            /*
-            if (weaponData.BulletCount == 0)
+            
+            if (BulletCount == 0)
                 return;
-            weaponData.BulletCount--;
+            BulletCount--;
+
+            //이펙트 + 사운드
+            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
+            soundObj.transform.position = firePos.position;
+            soundObj.GetComponent<AudioSource>().clip = gunFireSound;
+            soundObj.SetActive(true);
             
             //총알이 나가는 효과
-            GameObject bulletObj = Instantiate(bullet);
-            bulletObj.GetComponent<bullet>().SetBulletData(weaponData);
-            bulletObj.GetComponent<bullet>().SetBulletVec(firePos, aimPos.position);
-            */
-            //총알이 나가는 효과
-            //이펙트 + 사운드
-
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
@@ -73,36 +73,7 @@ namespace Jinho
         }
         public void SetItem(Player player)
         {
-            if (player.weaponObjSlot[0] != null)
-            {
-                GameObject temp = player.weaponObjSlot[0];
-                Vector3 tempPos = transform.position;
-                if (player.weapon == player.weaponObjSlot[0])   //플레이어가 슬롯의 무기를 들고있을 때,
-                {
-                    player.weapon = null;
-                    player.attackState = ItemType;
-                    player.weapon = gameObject;
-                    temp.GetComponent<IAttackItemable>().Player = null;
-                }
-                else
-                {                                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
-                    player.weaponObjSlot[0] = null;
-                    temp.transform.position = tempPos;
-                    temp.GetComponent<IAttackItemable>().Player = null;
-                    temp.SetActive(true);
-                }
-            }
-            else
-            {           //플레이어의 슬롯이 비었으면
-                //player.weaponObjSlot[0].SetActive(false);
-                if (player.weapon != null)
-                {
-                    player.weapon = gameObject;
-                    player.attackState = ItemType;
-                }
-            }
-            this.player = player;
-            player.weaponObjSlot[0] = gameObject;
+            WeaponItem.SetWeapon(player, gameObject, 0, this.player);
         }
 
         public void Interaction(GameObject interactivePlayer)

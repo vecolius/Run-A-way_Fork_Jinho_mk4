@@ -42,13 +42,13 @@ namespace Jinho
         }
         public void Use()
         {
-            /*
-            if (weaponData.BulletCount == 0)
+            
+            if (BulletCount == 0)
                 return;
-            weaponData.BulletCount--;
-            */
-            //총알이 나가는 효과
+            BulletCount--;
+            
             //이펙트 + 사운드
+            //총알이 나가는 효과
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
@@ -68,36 +68,7 @@ namespace Jinho
         }
         public void SetItem(Player player)
         {
-            if (player.weaponObjSlot[1] != null)
-            {
-                GameObject temp = player.weaponObjSlot[1];
-                Vector3 tempPos = transform.position;
-                if (player.weapon == player.weaponObjSlot[1])   //플레이어가 슬롯의 무기를 들고있을 때,
-                {
-                    player.weapon = null;
-                    player.attackState = ItemType;
-                    player.weapon = gameObject;
-                    temp.GetComponent<IAttackItemable>().Player = null;
-                }
-                else
-                {                                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
-                    player.weaponObjSlot[1] = null;
-                    temp.transform.position = tempPos;
-                    temp.GetComponent<IAttackItemable>().Player = null;
-                    temp.SetActive(true);
-                }
-            }
-            else
-            {           //플레이어의 슬롯이 비었으면
-                //player.weaponObjSlot[0].SetActive(false);
-                if (player.weapon != null)
-                {
-                    player.weapon = gameObject;
-                    player.attackState = ItemType;
-                }
-            }
-            this.player = player;
-            player.weaponObjSlot[1] = gameObject;
+            WeaponItem.SetWeapon(player, gameObject, 1, this.player);
         }
         public void Interaction(GameObject interactivePlayer)
         {
