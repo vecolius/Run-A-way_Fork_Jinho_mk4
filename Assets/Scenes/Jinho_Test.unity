@@ -287,6 +287,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4092636600628414, guid: af169be12f376ce46a3e6b4bee8b8ffe, type: 3}
   m_PrefabInstance: {fileID: 1199165448}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &362948155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 362948157}
+  - component: {fileID: 362948156}
+  m_Layer: 0
+  m_Name: LayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &362948156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362948155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4a2b5f728da20f43b01ba004147231d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &362948157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362948155}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.81, y: 2.1600003, z: -7.24}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &443084745
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,6 +576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebbc3850e58daf43854257a88852008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactiveObj: {fileID: 0}
 --- !u!135 &684231435
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -632,7 +677,7 @@ GameObject:
   - component: {fileID: 941487809}
   - component: {fileID: 941487808}
   - component: {fileID: 941487807}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -973,7 +1018,7 @@ MonoBehaviour:
   weaponObjSlot:
   - {fileID: 871504408}
   - {fileID: 868585537}
-  - {fileID: 0}
+  - {fileID: 1529200310}
   - {fileID: 0}
   moveState: 0
   attackState: 0
@@ -1213,7 +1258,7 @@ GameObject:
   - component: {fileID: 1421718136}
   - component: {fileID: 1421718135}
   - component: {fileID: 1421718134}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1408,6 +1453,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebbc3850e58daf43854257a88852008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactiveObj: {fileID: 0}
+--- !u!1 &1529200310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4597972832071545081, guid: 520b650f06785b34aba545daaa072a3e, type: 3}
+  m_PrefabInstance: {fileID: 1147156259}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1540743009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1602,7 +1653,7 @@ GameObject:
   - component: {fileID: 2046451774}
   - component: {fileID: 2046451773}
   - component: {fileID: 2046451772}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

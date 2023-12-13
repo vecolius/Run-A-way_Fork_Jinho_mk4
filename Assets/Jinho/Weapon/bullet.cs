@@ -52,8 +52,13 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<IHitAble>( out IHitAble hitObj))
         {
-            BulletDestroy();
             target = hitObj;
+            BulletDestroy();
+
+        }
+        if ( ( (1<<other.gameObject.layer) & LayerManager.instance.Nature) >= 1 )
+        {   
+            BulletDestroy();
         }
     }
 

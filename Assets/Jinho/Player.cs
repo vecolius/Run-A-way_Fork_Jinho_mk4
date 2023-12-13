@@ -2,6 +2,7 @@ using Hojun;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Gayoung;
 
 namespace Jinho
 {
@@ -13,8 +14,14 @@ namespace Jinho
     public interface IAttackStrategy
     {
         void Attack();
-  
+
     }
+
+    public interface IReLoadAble
+    {
+        void ReLoad();
+    }
+
     public enum PlayerMoveState
     {
         idle,
@@ -150,166 +157,6 @@ namespace Jinho
 
     }
     #endregion
-    #region AttackStrategy_class
-    public class AttackStrategy : IAttackStrategy
-    {
-        protected Player player = null;
-        protected KeyCode keycode;
-        public AttackStrategy(object owner)
-        {
-            player = (Player)owner;
-        }
-
-        public virtual void Attack()
-        {
-            
-        }    
-        public virtual void WeaponSwap(int index, float value = 0.5f)
-        {
-            player.animator.SetTrigger("WeaponChange");
-            player.animator.SetFloat("WeaponChangeBlendTree", 0.5f);
-            player.weaponIndex = index;
-        }
-
-        public virtual void BasicMotion()
-        {
-           
-        }
-
-        public virtual void OtherMotion()
-        {
-            
-        }
-    }
-    public class RifleAttackStrategy : AttackStrategy
-    {
-        public RifleAttackStrategy(object owner) : base(owner)
-        {
-
-        }
-        public override void Attack()
-        {
-            player.animator.SetTrigger("Shot");
-            player.animator.SetFloat("GunType", 0.2f);
-            //총은 꺼냈는데 공격 안하는중
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                //총을 쏨
-                player.animator.SetTrigger("Shot");
-                player.animator.SetFloat("GunType", 0.4f);
-                Debug.Log("어택 시작");
-            }
-           
-            else if (Input.GetKey(KeyCode.R))
-            {
-                player.animator.SetTrigger("Reload");
-                player.animator.SetFloat("ReloadType", 0.3f);
-                Debug.Log("이제 장전 된다 ㅠ");
-            }
-            else if(Input.GetKeyDown(KeyCode.Alpha1) )
-                base.WeaponSwap(0);
-        }
-
-    }
-
-    public class ShotgunAttackStrategy : AttackStrategy
-    {
-        public ShotgunAttackStrategy(object owner) : base(owner)
-        {
-
-        }
-
-        public override void Attack()
-        {
-            player.animator.SetTrigger("Shot");
-            player.animator.SetFloat("GunType", 0.2f);
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                player.animator.SetTrigger("Shot");
-                player.animator.SetFloat("GunType", 0.6f);
-                Debug.Log("어택 시작");
-
-            }
-            else if (Input.GetKey(KeyCode.R))
-            {
-                player.animator.SetTrigger("Reload");
-                player.animator.SetFloat("ReloadType", 0.6f);
-                Debug.Log("이제 장전 된다 ㅠ");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-                base.WeaponSwap(1);
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-                base.WeaponSwap(2);
-            else if(Input.GetKeyDown(KeyCode.Alpha4))
-                base.WeaponSwap(3);
-        }
-    }
-
-    public class HandgunAttackStrategy : AttackStrategy
-    {
-        public HandgunAttackStrategy(object owner) : base(owner)
-        {
-
-        }
-        public override void Attack()
-        {
-            player.animator.SetTrigger("Shot");
-            player.animator.SetFloat("GunType", 0.2f);
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                player.animator.SetTrigger("Shot");
-                player.animator.SetFloat("GunType", 0.8f);
-                Debug.Log("어택 시작");
-            }
-            else if (Input.GetKey(KeyCode.R))
-            {
-                player.animator.SetTrigger("Reload");
-                player.animator.SetFloat("ReloadType", 1f);
-                Debug.Log("이제 장전 된다 ㅠ");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                base.WeaponSwap(2, 1.0f);
-                // 권총은 모션이 달라서 이렇게 넣어보았습니다! = 가영
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                base.WeaponSwap(0, 1.0f);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                base.WeaponSwap(3, 1.0f);
-            }
-        }
-
-    }
-    public class MeleeAttackStrategy : AttackStrategy
-    {
-        public MeleeAttackStrategy(object owner) : base(owner)
-        {
-        }
-        public override void Attack()
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-            }
-        }
-    }
-    public class GranadeAttackStrategy : AttackStrategy
-    {
-        public GranadeAttackStrategy(object owner) : base(owner)
-        {
-        }
-        public override void Attack()
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-
-            }
-            
-        }
-    }
-    #endregion
     #region PlayerState_Class
     public class Job
     {
@@ -378,7 +225,7 @@ namespace Jinho
         public ItemType attackState;                                //현재 attack전력
 
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
-        Dictionary<ItemType, IAttackStrategy> attackDic;            //attack 전략 dictionary
+        Dictionary<ItemType, AttackStrategy> attackDic;            //attack 전략 dictionary
 
         public Camera mainCamera;
         public AimComponent Aim;
@@ -404,9 +251,9 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.run, new Run(this));
             moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
-            attackDic = new Dictionary<ItemType, IAttackStrategy>();
+            attackDic = new Dictionary<ItemType, AttackStrategy>();
             attackDic.Add(ItemType.rifle, new RifleAttackStrategy(this));
-            attackDic.Add(ItemType.shotgun, new ShotgunAttackStrategy(this));
+            attackDic.Add(ItemType.shotgun, new ShotGunStregy(this));
             attackDic.Add(ItemType.Handgun, new HandgunAttackStrategy(this));
             attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
             attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
@@ -426,28 +273,27 @@ namespace Jinho
             weapon.transform.rotation = weaponHand.rotation;
 
             moveDic[moveState]?.Moving();
-            attackDic[attackState]?.Attack();
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                this.animator.SetBool("Shot", true);
+                attackDic[attackState]?.Attack();
+            }
+            else
+            {
+                this.animator.SetBool("Shot", false);
+            }
 
-         
+            if ( Input.GetKey(KeyCode.R) )
+            {
+                if (attackDic[attackState] is IReLoadAble)
+                {
+                    ((IReLoadAble)attackDic[attackState]).ReLoad();
+                }
+                    
+            }
 
-            //무기 교환 메서드! 애니메이션은 공격전략에 들어가있음! = 가영
-            //if (Input.GetKeyDown(KeyCode.Alpha1))
-            //{
-            //    WeaponChange(0);
-            //}
-            //if (Input.GetKeyDown(KeyCode.Alpha2))
-            //{
-            //    WeaponChange(1);
-            //}
-            //if (Input.GetKeyDown(KeyCode.Alpha3))
-            //{
-            //    WeaponChange(2);
-            //}
-            //if (Input.GetKeyDown(KeyCode.Alpha4))
-            //{
-            //    WeaponChange(3);
-            //}
         }
+
 
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)
         {
