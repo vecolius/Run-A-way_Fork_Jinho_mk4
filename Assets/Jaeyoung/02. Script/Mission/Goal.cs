@@ -5,11 +5,18 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
+    private void Start()
+    {
+        ((Mission)MissionManager.instance.curMission).clearEvent.AddListener(() => { this.gameObject.SetActive(false); });
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.tag == "Player")
-        //    MissionManager.instance.IsFinish = true;
+        ((Breakthrough)MissionManager.instance.curMission).CurCount++;
+    }
 
-        gameObject.SetActive(false);
+    private void OnTriggerExit(Collider other)
+    {
+        ((Breakthrough)MissionManager.instance.curMission).CurCount--;
     }
 }

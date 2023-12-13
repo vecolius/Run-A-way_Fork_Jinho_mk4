@@ -1,12 +1,12 @@
 using Jinho;
-using Hojun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Pool;
+using Jaeyoung;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, Hojun.IAttackAble
 {
     [SerializeField] float moveSpeed;
     public float damage;
@@ -14,41 +14,37 @@ public class Bullet : MonoBehaviour
     public Jinho.Player player = null;
     Action attackAction;
 
-    IHitAble target;
-
+    Hojun.IHitAble target;
 
     void OnEnable()
     {
-        Invoke("BulletDestroy", 1.2f);  //ÃÑ¾ËÀÌ ºÒ·¯¿ÍÁö¸é 1.2ÃÊ µÚ ½º½º·Î ÆÄ±«µÊ
+        Invoke("BulletDestroy", 1.2f);  //ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1.2ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½ï¿½ï¿½
     }
-
     void Start()
     {
-        //attackAction += BulletAttack;
-    
+        attackAction += BulletAttack;
     }
-
     void Update()
     {
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
     }
-    void BulletDestroy()
+    void BulletDestroy()    //ï¿½Ñ¾ï¿½ï¿½ï¿½ ObjectPoolï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½
     {
-        Destroy(gameObject);
+        PoolingManager.instance.ReturnPool(gameObject);
     }
-    public void SetBulletData(WeaponData weaponData, Jinho.Player player)    //¹«±â damage ÀÔ·Â ÇÔ¼ö
+    public void SetBulletData(WeaponData weaponData, Jinho.Player player)    //ï¿½ï¿½ï¿½ï¿½ damage ï¿½Ô·ï¿½ ï¿½Ô¼ï¿½
     {
         this.player = player;
         parentWeaponData = weaponData;
         damage = parentWeaponData.damage;
     }
-    public void SetBulletVec(Transform firePos, Vector3 targetPos)
+    public void SetBulletVec(Transform firePos, Vector3 targetPos)  //Bulletï¿½ï¿½ ï¿½ï¿½Ä¡, È¸ï¿½ï¿½, ï¿½ï¿½ï¿½â°ª ï¿½ï¿½ï¿½ï¿½
     {
         transform.position = firePos.position;
         transform.rotation = firePos.rotation;
         transform.forward = (targetPos - transform.position).normalized;
     }
-    void OnTriggerEnter(Collider other)
+    void BulletAttack()
     {
         if (other.gameObject.TryGetComponent<IHitAble>( out IHitAble hitObj))
         {
@@ -62,22 +58,17 @@ public class Bullet : MonoBehaviour
         }
     }
 
-
-    // ³»°¡ Â¥±ä Çß´Âµ¥, ¹º°¡ ³»°¡ »ý°¢ÇÑ °Å¶û Á» ´Ù¸£³×.. ÆÄÀÌÆÃ!! ÁøÈ£¾ß ³Í ÇÒ ¼ö ÀÖ¾î.
-    //public void Attack()
-    //{
-    //    attackAction();
-    //}
-
-    //public void BulletAttack()
-    //{
-    //    target.Hit(damage, this);
-    //}
-
-    //public GameObject GetAttacker()
-    //{
-    //    Debug.Log("ÀÌ°Å ÇÃ·¹ÀÌ¾î ³Ñ°ÜÁà¾ß ÇÏ´Âµ¥ ÁøÈ£°¡ ÇÃ·¹ÀÌ¾î ¼öÁ¤ÇØ¾ß µÈ´Ù°í ÇØ¼­ ³»ºñ µÒ ÁøÈ£¾ß ÇØ . Áà");
-    //    return null;
-    //}
-
+    public GameObject GetAttacker()
+    {
+        return player.gameObject;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.TryGetComponent(out Hojun.IHitAble hit))
+        {
+            target = hit;
+            Attack();
+            BulletDestroy();
+        }
+    }
 }

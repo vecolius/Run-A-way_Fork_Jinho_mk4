@@ -1,3 +1,4 @@
+using Jaeyoung;
 using Jinho;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,12 +6,12 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemHandgun : MonoBehaviour, IAttackItemable
+    public class ItemHandgun : MonoBehaviour, IAttackItemable, Yeseul.IInteractive
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
         public Player Player { get => player; set { player = value; } }
-        Player player = null;
+        [SerializeField]Player player = null;
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
@@ -41,15 +42,15 @@ namespace Jinho
         }
         public void Use()
         {
-            /*
-            if (weaponData.BulletCount == 0)
+            
+            if (BulletCount == 0)
                 return;
-            weaponData.BulletCount--;
-            */
-            //총알이 나가는 효과
+            BulletCount--;
+            
             //이펙트 + 사운드
+            //총알이 나가는 효과
             aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = Instantiate(bullet);
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
@@ -67,25 +68,18 @@ namespace Jinho
         }
         public void SetItem(Player player)
         {
-            if (player.weaponObjSlot[1] != null)
-            {
-                GameObject temp = player.weaponObjSlot[0];
-                temp.transform.position = transform.position;
-                temp.GetComponent<IAttackItemable>().Player = null;
-                player.weaponObjSlot[1] = null;
-                temp.SetActive(true);
-            }
-            this.player = player;
-            player.weaponObjSlot[1] = gameObject;
-            //player.weaponObjSlot[1].SetActive(false);
+            WeaponItem.SetWeapon(player, gameObject, 1, this.player);
         }
-        private void OnTriggerEnter(Collider other)
+        public void Interaction(GameObject interactivePlayer)
         {
-            Debug.Log(other.name);
-            if (other.TryGetComponent(out Player player) && this.player == null)
+            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
             }
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+
         }
     }
 }

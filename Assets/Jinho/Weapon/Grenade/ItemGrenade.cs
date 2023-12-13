@@ -10,6 +10,7 @@ namespace Jinho {
         public WeaponData WeaponData { get => weaponData; }
         public Player Player { get => player; set { player = value; } }
         Player player = null;
+        public GameObject grenade;
         public float explosionRange;        //폭발 범위
         public ItemType ItemType { get => weaponData.itemType; }
         Vector3 endPos, startPos;           //날아갈 위치
@@ -39,14 +40,14 @@ namespace Jinho {
         }
         public void Use()
         {
-            /*
-            if (weaponData.BulletCount == 0)
+            
+            if (BulletCount == 0)
                 return;
-            weaponData.BulletCount--;
-            */
-            startPos = transform.position;
-            //endPos = weaponData.player.aimPos;
-            StartCoroutine(MoveCo());
+            BulletCount--;
+            
+            endPos = player.Aim.aimObjPos.position;
+            GameObject bulletObj = Instantiate(grenade);
+            bulletObj.GetComponent<Grenade>().SetGrenadeData(transform.position, endPos, player, explosionRange, weaponData.damage);
         }
         public void Reload()    //수류탄은 reload 없음
         {
@@ -54,42 +55,15 @@ namespace Jinho {
         }
         public void SetItem(Player player)
         {
-            if (player.weaponObjSlot[3] != null)
-            {
-                GameObject temp = player.weaponObjSlot[3];
-                temp.transform.position = transform.position;
-                temp.GetComponent<IAttackItemable>().Player = null;
-                player.weaponObjSlot[3] = null;
-                temp.SetActive(true);
-            }
-            this.player = player;
-            player.weaponObjSlot[3] = gameObject;
-            player.weaponObjSlot[3].SetActive(false);
+            WeaponItem.SetWeapon(player, gameObject, 3, this.player);
         }
-        IEnumerator MoveCo()            //포물선의 위치로 날아가는 함수
-        {
-            float timer = 0;
-            while (true)
-            {
-                timer += Time.deltaTime;
-                transform.position = Parabola(startPos, endPos, Vector3.Distance(startPos, endPos) / 2, timer);
-                yield return new WaitForEndOfFrame();
-            }
-        }
-        Vector3 Parabola(Vector3 start, Vector3 end, float height, float time)      //포물선 구하는 공식
-        {
-            Func<float, float> f = x => -4 * height * x * x + 4 * height * x;       //  y = -4ax^2 + 4ax + 0 = f(x)
-            var mid = Vector3.Lerp(start, end, time);                                     //mid = x;
-            return new Vector3(mid.x, f(time) + Mathf.Lerp(start.y, end.y, time), mid.z);
-        }
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Player player) && this.player == null)
             {
                 SetItem(player);
             }
-            GetComponent<ExplosionComponent>().Explosion(weaponData.damage, explosionRange);
-            gameObject.SetActive(false);
         }
     }
 }
