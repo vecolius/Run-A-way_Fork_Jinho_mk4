@@ -16,6 +16,7 @@ namespace Jaeyoung
     public interface IMissionable
     {
         public void Play();
+        public bool Condition();
     }
 
     public abstract class Mission : MonoBehaviour, IMissionable
@@ -27,12 +28,6 @@ namespace Jaeyoung
         [SerializeField] private float spawnDelay;
         private float time;
         public UnityEvent clearEvent;
-
-
-        private void Start()
-        {
-            clearEvent.Invoke();
-        }
 
         public virtual void Play()
         {
@@ -49,5 +44,7 @@ namespace Jaeyoung
             zombie.SetActive(true);
             #endregion
         }
+
+        public abstract bool Condition();
     }
 }

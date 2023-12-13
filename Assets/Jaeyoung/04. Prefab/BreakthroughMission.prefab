@@ -239,8 +239,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missiontName: "\uB3CC\uD30C \uBBF8\uC158"
   missiontInfo: "\uC9C0\uC815 \uC704\uCE58\uC5D0 \uB3C4\uB2EC"
+  missionType: 2
   spawnPoint: {fileID: 2281430450185352768}
   spawnDelay: 1
+  clearEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  playerCount: 0
+  curCount: 0
+  goal: {fileID: 0}
 --- !u!1 &2281430450600607081
 GameObject:
   m_ObjectHideFlags: 0
