@@ -336,7 +336,7 @@ namespace Jinho
         }
         public void WeaponChange() // 무기 교환 메서드!
         {
-            if (weaponObjSlot[weaponIndex] == null)
+            if (weaponObjSlot[WeaponIndex] == null)
             { 
                 Debug.Log("무기가 없다");
                 return;
@@ -346,7 +346,7 @@ namespace Jinho
        
             weapon.SetActive(false);
            
-            weapon = weaponObjSlot[weaponIndex];
+            weapon = weaponObjSlot[WeaponIndex];
             Debug.Log(weapon.name + "이게 켜졌음");
             weapon.SetActive(true);
             currentWeapon = weapon.GetComponent<IUseable>();
