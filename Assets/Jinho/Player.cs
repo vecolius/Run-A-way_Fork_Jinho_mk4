@@ -236,6 +236,19 @@ namespace Jinho
         public Transform weaponHand;
         public GameObject weapon;
         public int weaponIndex;
+        public event Action onWeaponChange;
+
+        public int WeaponIndex
+        {
+            get { return weaponIndex; }
+            set { 
+                
+                weaponIndex = value;
+                WeaponChange();
+                //onWeaponChange();
+
+            }
+        }
 
         public CharacterData Data => throw new NotImplementedException();
 
@@ -293,6 +306,23 @@ namespace Jinho
                     
             }
 
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                WeaponIndex = 0;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                WeaponIndex = 1;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                WeaponIndex = 2;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                WeaponIndex = 3;
+            }
+
         }
 
 
@@ -306,33 +336,24 @@ namespace Jinho
         }
         public void WeaponChange() // 무기 교환 메서드!
         {
-            if (weaponObjSlot[weaponIndex] == null)
+            if (weaponObjSlot[WeaponIndex] == null)
             { 
                 Debug.Log("무기가 없다");
                 return;
             }
 
-            // if (currentWeapon != null)
-            // {
             Debug.Log(weapon.name + "이게 꺼졌음");
-            GameObject tempObj = weapon;
+       
             weapon.SetActive(false);
-           // }
-            weapon = weaponObjSlot[weaponIndex];
+           
+            weapon = weaponObjSlot[WeaponIndex];
             Debug.Log(weapon.name + "이게 켜졌음");
             weapon.SetActive(true);
             currentWeapon = weapon.GetComponent<IUseable>();
             attackState = currentWeapon.ItemType;
-            tempObj.SetActive(false);
+     
             Debug.Log("무기교체완");
-           // return index;
-            // 애니메이션 이벤트 부분에서 켜지는 상태가 되어야 한다 지금 좀 이상..?
-            //  weapon = weaponObjSlot[index];
-            //  weapon.SetActive(true);
-            // 이게 이벤트 함수에서 발생해야 하는 이벤트이다 어떻게 하지...?
-            // 함수를 따로 빼고 해야 하나?
-            // 진호야 모르겠어 ㅠ
-
+           
         }
 
         public virtual void Hit(float damage, IAttackAble attacker)
