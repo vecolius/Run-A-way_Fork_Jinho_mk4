@@ -287,7 +287,7 @@ namespace Jinho
             weapon.transform.rotation = weaponHand.rotation;
 
             moveDic[moveState]?.Moving();
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(KeyCode.Mouse0))//마우스 클릭시 공격이 나가는 부분
             {
                 this.animator.SetBool("Shot", true);
                 attackDic[attackState]?.Attack();
@@ -297,7 +297,7 @@ namespace Jinho
                 this.animator.SetBool("Shot", false);
             }
 
-            if ( Input.GetKey(KeyCode.R) )
+            if ( Input.GetKey(KeyCode.R) ) // 재장전 부분
             {
                 if (attackDic[attackState] is IReLoadAble)
                 {
@@ -306,19 +306,19 @@ namespace Jinho
                     
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1)) // 무기 정보 [주무기]
             {
                 WeaponIndex = 0;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) // 무기 정보 [보조무기]
             {
                 WeaponIndex = 1;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) // 무기 정보 [힐]
             {
                 WeaponIndex = 2;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            else if (Input.GetKeyDown(KeyCode.Alpha4)) // 무기 정보 [수류탄]
             {
                 WeaponIndex = 3;
             }
@@ -334,7 +334,7 @@ namespace Jinho
         {
             currentWeapon.Reload();
         }
-        public void WeaponChange() // 무기 교환 메서드!
+        public void WeaponChange() // 무기 교체(실제 프리팹과 무기정보가 교체된다.)
         {
             if (weaponObjSlot[WeaponIndex] == null)
             { 
