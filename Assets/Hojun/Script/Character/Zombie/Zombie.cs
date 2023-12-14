@@ -1,5 +1,6 @@
 using Jaeyoung;
 using Jinho;
+using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -83,9 +84,8 @@ namespace Hojun
             get=> zombieData.isDead; set {  zombieData.isDead = value; }
         }
 
+        [SerializeField]
         protected CharacterData zombieData;
-
-
         public bool IsFindPlayer 
         {
             get
@@ -166,13 +166,12 @@ namespace Hojun
 
         public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
 
-        public abstract WeaponData WeaponData { get; }
-        public abstract ItemType ItemType { get; }
 
         IMoveStrategy moveStrategy;
 
         protected void Awake()
         {
+
             hearComponent = GetComponent<HearComponent>();
             //zombieData = new CharacterData(50,10,20);
             stateMachine = new StateMachine<Zombie>(this);
