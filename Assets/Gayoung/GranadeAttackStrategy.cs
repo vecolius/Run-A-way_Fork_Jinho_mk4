@@ -5,7 +5,7 @@ using Jinho;
 
 namespace Gayoung 
 {
-    public class GranadeAttackStrategy : AttackStrategy , IReLoadAble
+    public class GranadeAttackStrategy : AttackStrategy 
     {
         public GranadeAttackStrategy(object owner) : base(owner)
         {
@@ -24,11 +24,7 @@ namespace Gayoung
                 base.WeaponSwap(2);
 
         }
-        public void ReLoad()
-        {
-            //수류탄 애니메이션을 찾아서 쓸지 결정하자!
-            throw new System.NotImplementedException();
-        }
+
     }
 
 
