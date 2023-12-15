@@ -73,5 +73,10 @@ namespace Yeseoul
         {
 
         }
+
+        public float GetDamage()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

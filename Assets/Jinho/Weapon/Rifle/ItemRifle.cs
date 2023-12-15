@@ -1,3 +1,4 @@
+using Gayoung;
 using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Jinho
             get=> player;
             set { player = value; }
         }
+        public IAttackStrategy AttackStrategy => strategy;
         [SerializeField] Player player = null;
         
         public Transform firePos;   //총알 발사 위치
@@ -26,11 +28,11 @@ namespace Jinho
         [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField]int bulletCount;            //현재 총에 들어있는 총알 양
         [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
+        IAttackStrategy strategy;
 
-
-        public void OnEnable()
+        void OnEnable()
         {
-            
+            strategy = new RifleAttackStrategy(player);
 
         }
 
@@ -60,11 +62,17 @@ namespace Jinho
 
         public void Use()
         {
-            Attack();
-            
+            //Attack();
+            if (BulletCount == 0)
+                return;
+            BulletCount--;
 
-
-
+            aimPos = player.Aim.aimObjPos;
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
+            Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
+            bulletScript.SetBulletData(weaponData, Player);
+            bulletScript.SetBulletVec(firePos, aimPos.position);
+            bulletObj.SetActive(true);
             //이펙트 + 사운드
             /*
             GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
@@ -72,7 +80,6 @@ namespace Jinho
             soundObj.GetComponent<AudioSource>().clip = gunFireSound;
             soundObj.SetActive(true);
             */
-            //총알이 나가는 효과
         }
         public void Reload()
         {
