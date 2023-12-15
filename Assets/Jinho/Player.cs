@@ -167,6 +167,7 @@ namespace Jinho
     public class PlayerData
     {
         public Job job;
+
         public float DefaultMoveSpeed => 3;
         public float DefaultMaxHp => 200;
         float moveSpeed;
@@ -192,7 +193,10 @@ namespace Jinho
             { 
                 hp = value;
                 if (hp <= 0)
+                {
                     hp = 0;
+
+                }
                 if(hp > MaxHp)
                     hp = MaxHp;
             }
@@ -218,6 +222,20 @@ namespace Jinho
     public class Player : MonoBehaviour, IHitAble , IDieable
     {
         public PlayerData state = null;                                   //player의 기본state
+        public float Hp
+        {
+            get => state.Hp;
+            set
+            {
+                state.Hp = value;
+                if(state.Hp <= 0)
+                {
+                    Die();
+                }
+                if(state.Hp > state.MaxHp)
+                    state.Hp = state.MaxHp;
+            }
+        }
         public GameObject[] weaponObjSlot = new GameObject[4];        //현재 들고있는 weaponSlot
         
         public IUseable currentWeapon = null;                         //현재 들고있는 weapon
@@ -327,7 +345,6 @@ namespace Jinho
             {
                 WeaponIndex = 3;
             }
-
         }
 
 
@@ -364,6 +381,7 @@ namespace Jinho
 
         public virtual void Hit(float damage, IAttackAble attacker)
         {
+            Hp -= damage;
         }
         public float Attack()
         {
@@ -377,8 +395,11 @@ namespace Jinho
         }
         public void Die()
         {
-            throw new NotImplementedException();
+            animator.SetTrigger("Die");
         }
-
+        public void Dead()
+        {
+            gameObject.SetActive(false);
+        }
     }   
 }
