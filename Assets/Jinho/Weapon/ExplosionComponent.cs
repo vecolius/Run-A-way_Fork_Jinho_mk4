@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class ExplosionComponent : MonoBehaviour, IAttackAble
 {
-    public float explosionRange;        //Æø¹ß ¹üÀ§
-    public float damage;                //Æø¹ß ´ë¹ÌÁö
-    public GameObject effectObj;        //Æø¹ß ÀÌÆåÆ®
-    public AudioClip effectSound;       //Æø¹ß »ç¿îµå
+    public float explosionRange;        //í­ë°œ ë²”ìœ„
+    public float damage;                //í­ë°œ ëŒ€ë¯¸ì§€
+    public GameObject effectObj;        //í­ë°œ ì´í™íŠ¸
+    public AudioClip effectSound;       //í­ë°œ ì‚¬ìš´ë“œ
     public Jinho.Player player;
     Hojun.IHitAble target;
     public void Attack()
@@ -20,12 +20,12 @@ public class ExplosionComponent : MonoBehaviour, IAttackAble
     {
         return player.gameObject;
     }
-    public void Explosion(float damage, float explosionRange = 0, Jinho.Player player = null) //Æø¹ß
+    public void Explosion(float damage, float explosionRange = 0, Jinho.Player player = null) //í­ë°œ
     {
         this.damage = damage;
         this.explosionRange = explosionRange;
         this.player = player;
-        //ÀÌÆåÆ® + »ç¿îµå ¹ß»ı
+        //ì´í™íŠ¸ + ì‚¬ìš´ë“œ ë°œìƒ
         GameObject effectObj = PoolingManager.instance.PopObj(Jaeyoung.PoolingType.SOUND);
         //Destroy(effectObj);
         Destroy(gameObject, 6.0f);

@@ -17,6 +17,8 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
 
     Hojun.IHitAble target;
 
+    public Hojun.IAttackStrategy AttackStrategy => throw new NotImplementedException();
+
     void OnEnable()
     {
         Invoke("BulletDestroy", 1.2f);  //1.2sec -> return ObjectPool
