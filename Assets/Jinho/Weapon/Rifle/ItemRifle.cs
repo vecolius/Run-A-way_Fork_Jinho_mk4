@@ -28,7 +28,7 @@ namespace Jinho
         [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField]int bulletCount;            //현재 총에 들어있는 총알 양
         [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
-        IAttackStrategy strategy;
+        [SerializeField]IAttackStrategy strategy;
 
         void OnEnable()
         {
@@ -62,17 +62,20 @@ namespace Jinho
 
         public void Use()
         {
+            Debug.Log("라이플 발사");
             //Attack();
+            /*
             if (BulletCount == 0)
                 return;
             BulletCount--;
-
+            */
+            Debug.Log("라이플 총알 생성");
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
-            bulletObj.SetActive(true);
+            //bulletObj.SetActive(true);
             //이펙트 + 사운드
             /*
             GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);

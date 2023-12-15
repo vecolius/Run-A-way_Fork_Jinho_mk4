@@ -13,11 +13,6 @@ namespace Hojun
             throw new System.NotImplementedException();
         }
 
-        public float Attack()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public float GetDamage()
         {
             Debug.Log("getdamage call 이거 수정 할것 return 값 상수임 데미지 안변함");

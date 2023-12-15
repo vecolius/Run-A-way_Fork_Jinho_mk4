@@ -2031,7 +2031,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106473304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.92, y: 2.304, z: -1.05}
+  m_LocalPosition: {x: 1.19, y: 2.354, z: -2.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2253,6 +2253,10 @@ PrefabInstance:
     - target: {fileID: 8022281220903625774, guid: 6214b93b9c0d71143a504192f76422b1, type: 3}
       propertyPath: m_Name
       value: Melee_FireAxe
+      objectReference: {fileID: 0}
+    - target: {fileID: 8049021722346097440, guid: 6214b93b9c0d71143a504192f76422b1, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6214b93b9c0d71143a504192f76422b1, type: 3}
