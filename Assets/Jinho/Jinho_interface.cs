@@ -25,7 +25,7 @@ namespace Jinho
         void Reload();
         void SetItem(Player player);
     }
-    public interface IAttackItemable : IUseable , IAttackAble
+    public interface IAttackItemable : IUseable
     {
         public WeaponData WeaponData { get; }
     }

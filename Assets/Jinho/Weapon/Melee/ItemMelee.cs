@@ -21,11 +21,11 @@ namespace Jinho
         }
         public void Use()
         {
-            //Colldier°¡ ²¨Áö°í ÄÑÁü
-            //»ç¿îµå
+            //Colldierê°€ êº¼ì§€ê³  ì¼œì§
+            //ì‚¬ìš´ë“œ
             col.enabled = !col.enabled;
         }
-        public void Reload()    //±ÙÁ¢¹«±â´Â ÀçÀåÀü ¾øÀ½
+        public void Reload()    //ê·¼ì ‘ë¬´ê¸°ëŠ” ì¬ì¥ì „ ì—†ìŒ
         {
             return;
         }
@@ -43,7 +43,7 @@ namespace Jinho
         }
         public void Attack()
         {
-            //°ø°İÇÒ ¶§, ÀÏ¾î³ª´Â È¿°ú?
+            //ê³µê²©í•  ë•Œ, ì¼ì–´ë‚˜ëŠ” íš¨ê³¼?
             return;
         }
         public GameObject GetAttacker()
@@ -54,7 +54,7 @@ namespace Jinho
         {
             if (other.TryGetComponent(out Player player) == this.player) 
             {
-                Debug.Log(other.name + "Àº(´Â) ÁÖÀÎÀÌ´Ù.");
+                Debug.Log(other.name + "ì€(ëŠ”) ì£¼ì¸ì´ë‹¤.");
                 return;
             }
             if(other.TryGetComponent(out Hojun.IHitAble hit))
