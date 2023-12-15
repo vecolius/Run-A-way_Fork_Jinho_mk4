@@ -65,7 +65,6 @@ namespace Hojun
 
             Debug.Log("not bug");
 
-
             if (ownerZombie.IsFindPlayer)
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);
             

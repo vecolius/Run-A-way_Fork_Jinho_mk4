@@ -82,5 +82,20 @@ namespace Jinho
         {
 
         }
+
+        public void Attack()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public GameObject GetAttacker()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public float GetDamage()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

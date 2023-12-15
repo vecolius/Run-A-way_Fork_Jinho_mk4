@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hojnun;
+using Hojun;
 
 namespace Jinho
 {
@@ -22,7 +24,7 @@ namespace Jinho
         void Reload();
         void SetItem(Player player);
     }
-    public interface IAttackItemable : IUseable
+    public interface IAttackItemable : IUseable , IAttackAble
     {
         public WeaponData WeaponData { get; }
     }

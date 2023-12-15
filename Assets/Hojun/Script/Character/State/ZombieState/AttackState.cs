@@ -43,7 +43,6 @@ namespace Hojun
             agent.isStopped = true;
 
             
-            
             if (!ownerZombie.IsAttack)
             {
                 Debug.Log("check");

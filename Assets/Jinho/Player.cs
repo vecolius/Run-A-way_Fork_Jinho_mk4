@@ -215,10 +215,11 @@ namespace Jinho
     }
     #endregion
 
-    public class Player : MonoBehaviour, IHitAble , IDieable, IAttackAble
+    public class Player : MonoBehaviour, IHitAble , IDieable
     {
         public PlayerData state = null;                                   //player의 기본state
         public GameObject[] weaponObjSlot = new GameObject[4];        //현재 들고있는 weaponSlot
+        
         public IUseable currentWeapon = null;                         //현재 들고있는 weapon
 
         public PlayerMoveState moveState;                           //현재 move전략
@@ -236,8 +237,10 @@ namespace Jinho
         public Transform weaponHand;
         public GameObject weapon;
         public int weaponIndex;
+        
         public event Action onWeaponChange;
-
+        public event Action attackAction;
+        
         public int WeaponIndex
         {
             get { return weaponIndex; }
@@ -299,7 +302,7 @@ namespace Jinho
 
             if ( Input.GetKey(KeyCode.R) ) // 재장전 부분
             {
-                if (attackDic[attackState] is IReLoadAble)
+                if (currentWeapon is IReLoadAble)
                 {
                     ((IReLoadAble)attackDic[attackState]).ReLoad();
                 }
@@ -359,9 +362,11 @@ namespace Jinho
         public virtual void Hit(float damage, IAttackAble attacker)
         {
         }
-        public void Attack()
+        public float Attack()
         {
             currentWeapon.Use();
+
+            return 0f;
         }
         public GameObject GetAttacker()
         {

@@ -65,5 +65,15 @@ namespace Jinho {
                 SetItem(player);
             }
         }
+
+        public void Attack()
+        {
+            throw new NotImplementedException();
+        }
+
+        public GameObject GetAttacker()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

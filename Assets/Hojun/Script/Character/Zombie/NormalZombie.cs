@@ -15,7 +15,6 @@ using Photon.Realtime;
 namespace Hojun 
 {
 
-
     public class NormalZombie : Zombie 
     {
 
@@ -28,13 +27,13 @@ namespace Hojun
 
         public override float Hp 
         {
-            get => zombieData.hp;
+            get =>base.Hp;
             set
             {
                 if (value <= 0)
                     stateMachine.SetState( (int)Zombie.ZombieState.DEAD );
                 
-                zombieData.hp = value;
+                base.Hp = value;
             }
         }
 
@@ -60,7 +59,7 @@ namespace Hojun
         public void Start()
         {
             hearComponent = gameObject.GetComponent<HearComponent>();
-            dieAction = Die;
+            dieAction += () => { StartCoroutine( DieCo() ); };
 
             attackStrategy = new ZombieAttack();
             attackAction += Attack;
@@ -72,8 +71,6 @@ namespace Hojun
             stateMachine.Update();
         }
 
-
-
         IEnumerator DieCo()
         {
             float deathTime = 3.0f;
@@ -84,38 +81,35 @@ namespace Hojun
             // objejct pool ������ destroy ������ ������ ���� �� ��
         }
 
-
-
         public override void Die()
         {
             dieAction();
         }
 
-        public void Hit(float damage, IAttackAble attacker)
+        public void OnTriggerEnter(Collider other)
         {
-            if (Target != null)
-                Target = attacker.GetAttacker();
-
-            Debug.Log("hit");
-        }
-
-
-        public override void Attack()
-        {
-            if(Target.TryGetComponent<IHitAble>(out IHitAble hitObj))
+            
+            if(other.TryGetComponent<IAttackAble>(out IAttackAble attack))
             {
-                float damage = attackStrategy.GetDamage();
-                hitObj.Hit( damage ,this);
+                Hit( attack.GetDamage() , attack);
             }
 
         }
 
-        public override GameObject GetAttacker()
+        public override void Hit(float damage, IAttackAble attacker)
         {
-            return this.gameObject;
+            Hp -= damage;
         }
 
-        
+        public override float GetDamage()
+        {
+            return AttackPoint;
+        }
+
+        public override void Attack()
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

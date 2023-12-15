@@ -35,7 +35,7 @@ namespace Hojun
     }
 
 
-    public abstract class Zombie : Character, IMoveAble ,IDieable , IAttackAble 
+    public abstract class Zombie : Character, IMoveAble ,IDieable , IAttackAble , IHitAble
     { 
 
         public enum ZombieState
@@ -85,7 +85,7 @@ namespace Hojun
         }
 
         [SerializeField]
-        protected CharacterData zombieData;
+        private CharacterData zombieData;
         public bool IsFindPlayer 
         {
             get
@@ -192,8 +192,15 @@ namespace Hojun
         }
 
         public abstract void Die();
+        public abstract void Hit(float damage, IAttackAble attacker);
+
+        public GameObject GetAttacker()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public abstract float GetDamage();
         public abstract void Attack();
-        public abstract GameObject GetAttacker();
     }
 
 

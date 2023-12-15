@@ -21,14 +21,11 @@ namespace Hojun
             animator = owner.GetComponent<Animator>();
             agent = owner.GetComponent<NavMeshAgent>();
 
-
             if (ownerZombie == null)
             {
                 Debug.Log("ERROR");
             }
-            
         }
-
 
         public override void Enter()
         {
@@ -41,7 +38,6 @@ namespace Hojun
         {
             if (ownerZombie.IsAttack)
             {
-                Debug.Log("attack");
                 stateMachine.SetState((int)Zombie.ZombieState.ATTACK);
                 return;
             }
