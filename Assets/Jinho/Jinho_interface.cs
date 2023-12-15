@@ -20,6 +20,7 @@ namespace Jinho
     {
         public ItemType ItemType { get; }
         public Player Player { get; set; }
+        public IAttackStrategy AttackStrategy { get; }
         void Use();
         void Reload();
         void SetItem(Player player);

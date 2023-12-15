@@ -224,6 +224,7 @@ namespace Jinho
 
         public PlayerMoveState moveState;                           //현재 move전략
         public ItemType attackState;                                //현재 attack전력
+        public IAttackStrategy attackStrategy = null;
 
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<ItemType, AttackStrategy> attackDic;            //attack 전략 dictionary
@@ -293,7 +294,8 @@ namespace Jinho
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 this.animator.SetBool("Shot", true);
-                attackDic[attackState]?.Attack();
+                //attackDic[attackState]?.Attack();
+                attackStrategy?.Attack();
             }
             else
             {
@@ -353,6 +355,7 @@ namespace Jinho
             Debug.Log(weapon.name + "이게 켜졌음");
             weapon.SetActive(true);
             currentWeapon = weapon.GetComponent<IUseable>();
+            attackStrategy = currentWeapon.AttackStrategy;
             attackState = currentWeapon.ItemType;
      
             Debug.Log("무기교체완");
