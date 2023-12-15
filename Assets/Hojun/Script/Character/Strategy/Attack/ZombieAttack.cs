@@ -13,10 +13,6 @@ namespace Hojun
             throw new System.NotImplementedException();
         }
 
-        public float Attack()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public float GetDamage()
         {

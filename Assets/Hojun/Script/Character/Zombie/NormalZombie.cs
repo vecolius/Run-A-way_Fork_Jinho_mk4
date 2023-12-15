@@ -56,12 +56,10 @@ namespace Hojun
 
             stateMachine.SetState((int)Zombie.ZombieState.IDLE);
 
-
             hearComponent = gameObject.GetComponent<HearComponent>();
             dieAction += () => { StartCoroutine(DieCo()); };
 
             attackStrategy = new ZombieAttack();
-            attackAction += Attack;
 
         }
 
@@ -106,11 +104,6 @@ namespace Hojun
         public override float GetDamage()
         {
             return attackStrategy.GetDamage();
-        }
-
-        public override void Attack()
-        {
-            Debug.Log("this func not used");
         }
 
     }

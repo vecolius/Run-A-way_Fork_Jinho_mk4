@@ -201,7 +201,6 @@ namespace Hojun
         }
 
         public abstract float GetDamage();
-        public abstract void Attack();
     }
 
 
