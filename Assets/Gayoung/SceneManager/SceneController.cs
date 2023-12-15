@@ -65,9 +65,13 @@ public class SceneController : DontDestroySingle<SceneController>
                 lobbyProfessionChoiceButton.SetActive(!lobbyProfessionChoiceButton.activeSelf);
                 break; 
         }
-
+       
             Debug.Log("��ư ����");
     }
+
+
+
+    
 
   
     public void ChangeScene(string sceneName)
@@ -123,7 +127,7 @@ public class SceneController : DontDestroySingle<SceneController>
 
     private void Update()
     {
-        //Option("optionUi");
+      
     }
 
 }
