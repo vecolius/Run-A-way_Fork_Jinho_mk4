@@ -21,36 +21,30 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
     {
         Invoke("BulletDestroy", 1.2f);  //�Ѿ��� �ҷ������� 1.2�� �� ������ �ı���
     }
-
     void Start()
     {
         attackAction += BulletAttack;
     }
-
     void Update()
     {
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
     }
-
     void BulletDestroy()    //�Ѿ��� ObjectPool�� ���ư�
     {
         PoolingManager.instance.ReturnPool(gameObject);
     }
-
     public void SetBulletData(WeaponData weaponData, Jinho.Player player)    //���� damage �Է� �Լ�
     {
         this.player = player;
         parentWeaponData = weaponData;
         damage = parentWeaponData.damage;
     }
-
     public void SetBulletVec(Transform firePos, Vector3 targetPos)  //Bullet�� ��ġ, ȸ��, ���Ⱚ ����
     {
         transform.position = firePos.position;
         transform.rotation = firePos.rotation;
         transform.forward = (targetPos - transform.position).normalized;
     }
-
     void BulletAttack(IHitAble hitObj)
     {
         Debug.Log("damage");
@@ -60,7 +54,6 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
     {
         return player.gameObject;
     }
-    
     void OnTriggerEnter(Collider other)
     {
 

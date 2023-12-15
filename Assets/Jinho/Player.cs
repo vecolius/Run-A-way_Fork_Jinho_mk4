@@ -215,7 +215,7 @@ namespace Jinho
     }
     #endregion
 
-    public class Player : MonoBehaviour, IHitAble , IDieable, IAttackAble
+    public class Player : MonoBehaviour, IHitAble , IDieable
     {
         public PlayerData state = null;                                   //player의 기본state
         public GameObject[] weaponObjSlot = new GameObject[4];        //현재 들고있는 weaponSlot
@@ -362,9 +362,11 @@ namespace Jinho
         public virtual void Hit(float damage, IAttackAble attacker)
         {
         }
-        public void Attack()
+        public float Attack()
         {
             currentWeapon.Use();
+
+            return 0f;
         }
         public GameObject GetAttacker()
         {

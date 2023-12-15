@@ -129,5 +129,10 @@ namespace Jinho
         {
             throw new System.NotImplementedException();
         }
+
+        public float GetDamage()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
