@@ -37,6 +37,8 @@ namespace Hojun
             }
         }
 
+        public override IAttackStrategy AttackStrategy => attackStrategy;
+
         public new void Awake()
         {
         
@@ -53,17 +55,17 @@ namespace Hojun
             stateMachine.AddState((int)Zombie.ZombieState.ATTACK, new AttackState(stateMachine));
 
             stateMachine.SetState((int)Zombie.ZombieState.IDLE);
-        }
 
 
-        public void Start()
-        {
             hearComponent = gameObject.GetComponent<HearComponent>();
-            dieAction += () => { StartCoroutine( DieCo() ); };
+            dieAction += () => { StartCoroutine(DieCo()); };
 
             attackStrategy = new ZombieAttack();
             attackAction += Attack;
+
         }
+
+
 
         // Update is called once per frame
         void Update()
@@ -91,7 +93,7 @@ namespace Hojun
             
             if(other.TryGetComponent<IAttackAble>(out IAttackAble attack))
             {
-                Hit( attack.GetDamage() , attack);
+                Hit(attack.GetDamage() , attack);
             }
 
         }
@@ -103,13 +105,14 @@ namespace Hojun
 
         public override float GetDamage()
         {
-            return AttackPoint;
+            return attackStrategy.GetDamage();
         }
 
         public override void Attack()
         {
-            throw new NotImplementedException();
+            Debug.Log("this func not used");
         }
+
     }
 
 

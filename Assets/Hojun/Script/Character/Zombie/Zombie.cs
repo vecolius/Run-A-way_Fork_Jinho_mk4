@@ -174,6 +174,7 @@ namespace Hojun
 
         public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
 
+        public abstract IAttackStrategy AttackStrategy { get; }
 
         IMoveStrategy moveStrategy;
 
