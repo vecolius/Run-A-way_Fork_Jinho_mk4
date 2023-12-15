@@ -14,6 +14,8 @@ namespace Gayoung
         }
         public override void Attack()
         {
+
+            // 12-13 일 수정해야 하는 부분
             player.animator.SetInteger("WeaponType", 3);
 
             if (Input.GetKeyDown(KeyCode.Alpha3))

@@ -9,6 +9,8 @@ using Jaeyoung;
 using System;
 using Unity.VisualScripting;
 using JetBrains.Annotations;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Hojun 
 {
@@ -36,10 +38,6 @@ namespace Hojun
             }
         }
 
-        public override Jinho.WeaponData WeaponData => throw new NotImplementedException();
-
-        public override Jinho.ItemType ItemType => throw new NotImplementedException();
-
         public new void Awake()
         {
         
@@ -56,9 +54,6 @@ namespace Hojun
             stateMachine.AddState((int)Zombie.ZombieState.ATTACK, new AttackState(stateMachine));
 
             stateMachine.SetState((int)Zombie.ZombieState.IDLE);
-
-
-            //MoveStrategy = moveDict[ZombieMove.IDLE];
         }
 
 
@@ -69,7 +64,6 @@ namespace Hojun
 
             attackStrategy = new ZombieAttack();
             attackAction += Attack;
-
         }
 
         // Update is called once per frame
@@ -90,6 +84,8 @@ namespace Hojun
             // objejct pool ������ destroy ������ ������ ���� �� ��
         }
 
+
+
         public override void Die()
         {
             dieAction();
@@ -106,8 +102,6 @@ namespace Hojun
 
         public override void Attack()
         {
-
-
             if(Target.TryGetComponent<IHitAble>(out IHitAble hitObj))
             {
                 float damage = attackStrategy.GetDamage();
@@ -115,7 +109,6 @@ namespace Hojun
             }
 
         }
-
 
         public override GameObject GetAttacker()
         {

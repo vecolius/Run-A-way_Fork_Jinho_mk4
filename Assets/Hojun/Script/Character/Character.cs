@@ -1,4 +1,5 @@
 using Hojun;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Hojun
 
     //}
 
-    public abstract class Character : MonoBehaviour
+    public abstract class Character : MonoBehaviourPunCallbacks
     {
         public string characterName;
 

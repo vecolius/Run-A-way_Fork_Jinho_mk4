@@ -18,12 +18,14 @@ namespace Gayoung
 
             player.animator.SetInteger("WeaponType", 2);
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                base.WeaponSwap(1);
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                base.WeaponSwap(0);
             else if (Input.GetKeyDown(KeyCode.Alpha3))
                 base.WeaponSwap(2);
             else if (Input.GetKeyDown(KeyCode.Alpha4))
                 base.WeaponSwap(3);
+            // 실제로는 주무기는  Alpha1부분만 뺴고 가지고 있고 
+            // 다른 부분들도 자신을 부르는 것만 빼고 작업하면 된다.
         }
 
         public void ReLoad()

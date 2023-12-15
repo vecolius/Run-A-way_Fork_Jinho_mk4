@@ -16,8 +16,12 @@ namespace Gayoung
         { 
             player.animator.SetInteger("WeaponType", 1);
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
                 base.WeaponSwap(0);
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                base.WeaponSwap(2);
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+                base.WeaponSwap(3);
         }
 
         public void ReLoad()

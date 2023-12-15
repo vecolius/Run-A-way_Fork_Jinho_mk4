@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Hojun;
-
+using Photon.Pun;
 
 namespace Hojun
 {
@@ -28,8 +28,11 @@ namespace Hojun
             this.stateMachine = sm;
         }
 
+        [PunRPC]
         public abstract void Enter();
+        [PunRPC]
         public abstract void Update();
+        [PunRPC]
         public abstract void Exit();
     }
 

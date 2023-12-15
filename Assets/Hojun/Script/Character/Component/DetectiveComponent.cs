@@ -33,7 +33,6 @@ public class DetectiveComponent : MonoBehaviour
     {
         Collider[] coll = Physics.OverlapSphere(transform.position, radius, target);
 
-        Debug.Log(coll.Length);
 
         if (coll.Length > 0)
         {
