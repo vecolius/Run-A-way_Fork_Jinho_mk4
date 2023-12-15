@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Jaeyoung
 {
@@ -31,7 +33,7 @@ namespace Jaeyoung
 
         public virtual void Play()
         {
-            #region 좀비 소환
+            #region Zombie Spawn
             if (time < spawnDelay)
             {
                 time += Time.deltaTime;
