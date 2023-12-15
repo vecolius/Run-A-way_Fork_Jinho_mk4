@@ -82,6 +82,8 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
 
     public float GetDamage()
     {
+        Debug.Log("test");
+
         return parentWeaponData.damage;
     }
 }

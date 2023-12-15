@@ -52,11 +52,10 @@ namespace Jinho
             
             if (BulletCount == 0)
                 return;
-            BulletCount--;
+            //BulletCount--;
 
             //이펙트 + 사운드
             //총알이 나가는 효과
-            Debug.Log(player);
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();

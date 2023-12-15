@@ -63,7 +63,6 @@ namespace Hojun
         public override void Update()
         {
 
-            Debug.Log("not bug");
 
             if (ownerZombie.IsFindPlayer)
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);

@@ -57,19 +57,7 @@ public class Bullet_Component : MonoBehaviour, Hojun.IAttackAble
     void OnTriggerEnter(Collider other)
     {
 
-
-        Debug.Log("collision");
-        if (other.gameObject.TryGetComponent<IHitAble>(out IHitAble hitObj))
-        {
-            target = hitObj;
-            Attack();
-            BulletDestroy();
-
-        }
-        if (((1 << other.gameObject.layer) & LayerManager.instance.Nature) >= 1)
-        {
-            BulletDestroy();
-        }
+        BulletDestroy();
 
     }
 

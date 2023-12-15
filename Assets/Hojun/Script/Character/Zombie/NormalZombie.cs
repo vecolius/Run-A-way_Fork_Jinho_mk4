@@ -78,7 +78,7 @@ namespace Hojun
             yield return new WaitForSeconds(deathTime);
 
             Debug.Log("���� ��");
-            // objejct pool ������ destroy ������ ������ ���� �� ��
+        
         }
 
         public override void Die()
@@ -88,12 +88,18 @@ namespace Hojun
 
         public void OnTriggerEnter(Collider other)
         {
-            
-            if(other.TryGetComponent<IAttackAble>(out IAttackAble attack))
+            if (other.TryGetComponent<IAttackAble>(out IAttackAble attack))
             {
                 Hit(attack.GetDamage() , attack);
             }
 
+        }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+
+
+            Debug.Log("test2");
         }
 
         public override void Hit(float damage, IAttackAble attacker)
