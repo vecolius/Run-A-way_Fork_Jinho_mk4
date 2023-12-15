@@ -120,8 +120,16 @@ namespace Hojun
         }
         public GameObject SoundTraceTarget
         {
-            get => hearComponent.SoundOwner;
+            get
+            {
+                Debug.Log("이거 지울 것");
+                soundTraceTarget = hearComponent.SoundOwner;
+                return hearComponent.SoundOwner;
+            }
         }
+
+        public GameObject soundTraceTarget;
+
         public Vector3 SoundTraceArea
         { 
             get => hearComponent.SoundArea;

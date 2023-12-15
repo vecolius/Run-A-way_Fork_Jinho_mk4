@@ -54,7 +54,6 @@ namespace Hojun
             stateMachine.AddState((int)Zombie.ZombieState.ATTACK, new AttackState(stateMachine));
 
             stateMachine.SetState((int)Zombie.ZombieState.IDLE);
-
         }
 
 

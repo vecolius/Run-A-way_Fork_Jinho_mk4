@@ -1,4 +1,5 @@
 using Hojun;
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 namespace Jaeyoung
 {
     // 사운드 발생시 범위체크
-    public class SoundComponent : MonoBehaviour
+    public class SoundComponent : MonoBehaviourPunCallbacks
     {
         public float soundAreaSize;
         public float time;
@@ -15,8 +16,9 @@ namespace Jaeyoung
 
 
 
-        private void OnEnable()
+        public override void OnEnable()
         {
+            base.OnEnable();
             soundAction += ActiveSound;
         }
 
@@ -26,16 +28,16 @@ namespace Jaeyoung
 
             if (Input.GetKey(KeyCode.A))
             {
-                soundAction();
+                photonView.RPC("ActiveSound", RpcTarget.All);
             }
         }
 
-
+        [PunRPC]
         public void ActiveSound()
         {
 
             Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);
-
+            Debug.Log("소리 뻥");
             if (coll.Length > 0)
             {
                 foreach (Collider zombie in coll)
