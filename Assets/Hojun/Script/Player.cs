@@ -8,7 +8,7 @@ namespace Yeseoul
 {
 
 
-    public class Player : MonoBehaviour, IAttackAble, IHitAble, IDieable
+    public class Player : MonoBehaviour, IHitAble, IDieable
     {
         [SerializeField]
         CharacterData data;

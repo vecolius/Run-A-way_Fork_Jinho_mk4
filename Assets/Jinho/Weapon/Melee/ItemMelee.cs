@@ -12,6 +12,9 @@ namespace Jinho
         [SerializeField] Player player = null;
         public Collider col;
         public ItemType ItemType => weaponData.itemType;
+
+        public Hojun.IAttackStrategy AttackStrategy => throw new System.NotImplementedException();
+
         public void Use()
         {
             //Colldier°¡ ²¨Áö°í ÄÑÁü
@@ -54,6 +57,11 @@ namespace Jinho
             {
                 hit.Hit(weaponData.damage, this);
             }
+        }
+
+        public float GetDamage()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

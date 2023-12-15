@@ -17,6 +17,8 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
 
     Hojun.IHitAble target;
 
+    public Hojun.IAttackStrategy AttackStrategy => throw new NotImplementedException();
+
     void OnEnable()
     {
         Invoke("BulletDestroy", 1.2f);  //�Ѿ��� �ҷ������� 1.2�� �� ������ �ı���
@@ -78,5 +80,8 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
         attackAction(target);
     }
 
-
+    public float GetDamage()
+    {
+        throw new NotImplementedException();
+    }
 }

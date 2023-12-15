@@ -42,4 +42,9 @@ public class ExplosionComponent : MonoBehaviour, IAttackAble
             }
         }
     }
+
+    public float GetDamage()
+    {
+        throw new System.NotImplementedException();
+    }
 }

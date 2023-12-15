@@ -75,5 +75,10 @@ namespace Jinho {
         {
             throw new NotImplementedException();
         }
+
+        public float GetDamage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

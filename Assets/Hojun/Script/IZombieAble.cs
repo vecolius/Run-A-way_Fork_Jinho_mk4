@@ -41,8 +41,8 @@ namespace Hojun
 
     public interface IAttackStrategy
     {
-        public float Attack();
         public float GetDamage();
+        public void Attack();
     }
 
     public interface IAttackAble 
