@@ -35,7 +35,6 @@ namespace Jinho
     }
     #endregion
     #region Weapon_Class
-
     public class WeaponItem
     {
         public static void SetWeapon(Player player, GameObject weaponObj, int slotIndex, Player weaponDataPlayer)
