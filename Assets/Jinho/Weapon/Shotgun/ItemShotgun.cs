@@ -1,3 +1,4 @@
+using Gayoung;
 using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Jinho
 
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
-        
+        IAttackStrategy strategy;
         Transform AimPos
         {
             get => player.Aim.aimObjPos; //총알이 날아갈 위치
@@ -31,6 +32,7 @@ namespace Jinho
 
 
         public ItemType ItemType => weaponData.itemType;
+        public IAttackStrategy AttackStrategy => strategy;
         public int maxBullet;       //장전되는 총알 양
         [SerializeField] int bulletCount;            //현재 총에 들어있는 총알 양
         
@@ -66,7 +68,10 @@ namespace Jinho
                 array[i] = Random.insideUnitSphere * 1.0f + AimPos.position;    //aimPos에서 일정 구 범위 안의 랜덤 좌표로 저장
             }
         }
-
+        void OnEnable()
+        {
+            strategy = new ShotGunStregy(player);
+        }
         public void Use()
         {
             
@@ -83,7 +88,7 @@ namespace Jinho
             {
                 //GameObject bulletObj = Instantiate(bullet);
                 GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-                Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+                Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
                 bulletScript.SetBulletData(weaponData, Player);
                 bulletScript.SetBulletVec(firePos, targetPosArray[i]);
             }
@@ -119,6 +124,11 @@ namespace Jinho
         }
 
         public GameObject GetAttacker()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public float GetDamage()
         {
             throw new System.NotImplementedException();
         }

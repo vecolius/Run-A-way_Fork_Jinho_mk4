@@ -1,3 +1,4 @@
+using Gayoung;
 using Jaeyoung;
 using Jinho;
 using System.Collections;
@@ -15,7 +16,9 @@ namespace Jinho
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
+        IAttackStrategy strategy;
         public ItemType ItemType => weaponData.itemType;
+        public IAttackStrategy AttackStrategy => strategy;
         public int maxBullet;       //장전되는 총알 양
         [SerializeField] int bulletCount;            //현재 총에 들어있는 총알 양
         public int BulletCount
@@ -40,6 +43,10 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
+        void OnEnable()
+        {
+            strategy = new HandgunAttackStrategy(player);
+        }
         public void Use()
         {
             
@@ -52,7 +59,7 @@ namespace Jinho
             Debug.Log(player);
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-            Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+            Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
         }

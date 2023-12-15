@@ -7,8 +7,9 @@ namespace Jinho
     public class HealKit : IExpendable
     {
         ExtendableData extendableData;
+        IAttackStrategy strategy;
         public ExtendableData ExtendableData { get => extendableData; set {  extendableData = value; } }
-
+        public IAttackStrategy AttackStrategy=>strategy;
         public ItemType ItemType => throw new System.NotImplementedException();
 
         public Player Player { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

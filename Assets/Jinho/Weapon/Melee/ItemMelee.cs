@@ -1,3 +1,4 @@
+using Gayoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,13 @@ namespace Jinho
         public Player Player { get => player; set { player = value; } }
         [SerializeField] Player player = null;
         public Collider col;
+        IAttackStrategy strategy;
         public ItemType ItemType => weaponData.itemType;
+        public IAttackStrategy AttackStrategy => strategy;
+        void OnEnable()
+        {
+            strategy = new MeleeAttackStrategy(player);
+        }
         public void Use()
         {
             //Colldier°¡ ²¨Áö°í ÄÑÁü
@@ -54,6 +61,11 @@ namespace Jinho
             {
                 hit.Hit(weaponData.damage, this);
             }
+        }
+
+        public float GetDamage()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

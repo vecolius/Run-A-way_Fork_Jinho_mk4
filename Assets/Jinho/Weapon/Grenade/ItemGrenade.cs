@@ -1,3 +1,4 @@
+using Gayoung;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,9 @@ namespace Jinho {
         Player player = null;
         public GameObject grenade;
         public float explosionRange;        //폭발 범위
+        IAttackStrategy strategy;
         public ItemType ItemType { get => weaponData.itemType; }
+        public IAttackStrategy AttackStrategy => strategy;
         Vector3 endPos, startPos;           //날아갈 위치
         public int maxBullet;       //장전되는 총알 양
         int bulletCount;            //현재 총에 들어있는 총알 양
@@ -37,6 +40,10 @@ namespace Jinho {
                 if (totalBullet > maxTotalBullet) totalBullet = maxTotalBullet;
                 if (totalBullet < 0) totalBullet = 0;
             }
+        }
+        void OnEnable()
+        {
+            strategy = new GranadeAttackStrategy(player);
         }
         public void Use()
         {
@@ -72,6 +79,11 @@ namespace Jinho {
         }
 
         public GameObject GetAttacker()
+        {
+            throw new NotImplementedException();
+        }
+
+        public float GetDamage()
         {
             throw new NotImplementedException();
         }

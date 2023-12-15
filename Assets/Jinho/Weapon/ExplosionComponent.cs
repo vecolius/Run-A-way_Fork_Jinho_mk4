@@ -14,7 +14,7 @@ public class ExplosionComponent : MonoBehaviour, IAttackAble
     Hojun.IHitAble target;
     public void Attack()
     {
-        target.Hit(damage, this);
+        //target.Hit(GetDamage(), this);
     }
     public GameObject GetAttacker()
     {
@@ -41,5 +41,10 @@ public class ExplosionComponent : MonoBehaviour, IAttackAble
                 }
             }
         }
+    }
+
+    public float GetDamage()
+    {
+        return damage;
     }
 }
