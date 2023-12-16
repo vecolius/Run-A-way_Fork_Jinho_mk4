@@ -30,9 +30,8 @@ namespace Hojun
 
             Debug.Log("findstrategy on");
             
-            agent.SetDestination(ownerZombie.SoundTraceTarget.transform.position);
-            
 
+            agent.SetDestination(ownerZombie.Target.transform.position);
         }
 
     }

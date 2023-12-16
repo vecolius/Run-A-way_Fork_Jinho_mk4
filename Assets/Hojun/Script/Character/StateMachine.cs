@@ -58,6 +58,11 @@ namespace Hojun
                 {
                     curState.Exit();
                 }
+
+                if ( stateDict[stateName] == CurState )
+                    return;
+                
+
                 curState = stateDict[stateName];
                 curState.Enter();
 

@@ -26,15 +26,6 @@ namespace Jaeyoung
         [SerializeField]
         Vector3 soundArea;
 
-        float hp;
-        Text text;
-
-        void ChangeHP(float value)
-        {
-            hp += value;
-            text.text = hp.ToString();
-        }
-
 
         public GameObject SoundOwner 
         {
@@ -45,7 +36,8 @@ namespace Jaeyoung
             set
             {
                 soundOwner = value;
-                soundArea = value.transform.position;
+                if(value != null)
+                    soundArea = value.transform.position;
             }
         }
         
@@ -62,12 +54,6 @@ namespace Jaeyoung
             }    
         }
 
-        private void Update()
-        {
-
-            if (soundOwner != null)
-                Debug.Log(soundOwner);
-        }
 
         [PunRPC]
         public void Hear(GameObject soundOwner)
@@ -77,6 +63,12 @@ namespace Jaeyoung
             SoundOwner = soundOwner;
         }
 
+        public void InitTarget()
+        {
+            resultDistance = 0.0f;
+            soundOwner = null;
+            soundArea = Vector3.zero;
+        }
 
     }
 }

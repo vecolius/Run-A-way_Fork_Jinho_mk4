@@ -34,6 +34,10 @@ namespace Hojun
         [PunRPC]
         public void Hit(float damage , IAttackAble attacker);
 
+        [PunRPC]
+        public void Hit(float damage);
+
+
         public CharacterData Data 
         {
             get;

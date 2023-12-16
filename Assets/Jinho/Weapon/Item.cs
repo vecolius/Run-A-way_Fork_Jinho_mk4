@@ -28,6 +28,11 @@ namespace Jinho
         {
             
         }
+
+        public void UseEffect()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class Item : MonoBehaviour

@@ -78,5 +78,10 @@ namespace Yeseoul
         {
             throw new System.NotImplementedException();
         }
+
+        public void Hit(float damage)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

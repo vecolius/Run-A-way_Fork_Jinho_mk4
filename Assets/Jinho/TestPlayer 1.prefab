@@ -2906,6 +2906,8 @@ GameObject:
   - component: {fileID: -3475606674501737397}
   - component: {fileID: 2297814157287368955}
   - component: {fileID: -7053299520689449898}
+  - component: {fileID: -1465417132443614399}
+  - component: {fileID: -3456177665581232548}
   m_Layer: 0
   m_Name: TestPlayer 1
   m_TagString: Untagged
@@ -3029,6 +3031,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  currentItemObj: {fileID: 0}
   moveState: 0
   attackState: 0
   mainCamera: {fileID: 0}
@@ -3036,7 +3039,6 @@ MonoBehaviour:
   animator: {fileID: 3234450071856648106}
   isGrounded: 1
   weaponHand: {fileID: 3292574861714765268}
-  weapon: {fileID: 0}
   weaponIndex: 1
 --- !u!114 &3292574862215475649
 MonoBehaviour:
@@ -3150,14 +3152,42 @@ MonoBehaviour:
   - Type: 3
     SynchronizeType: 1
     Name: WeaponType
-  - Type: 1
+  - Type: 9
     SynchronizeType: 0
-    Name: test
+    Name: Die
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
   - SynchronizeType: 1
     LayerIndex: 1
+--- !u!114 &-1465417132443614399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293562697857542784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20a41a2b274deb4a90be1e5b4fd3431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAreaSize: 0
+  time: 0
+--- !u!114 &-3456177665581232548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293562697857542784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fe3482b34f3ea47824dcab9d3185ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 1.5
+  yAngle: 15
 --- !u!1 &3293565296898101390
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,10 @@ using System;
 using Unity.VisualScripting;
 using JetBrains.Annotations;
 using Photon.Pun;
+using Photon;
 using Photon.Realtime;
+
+
 
 namespace Hojun 
 {
@@ -23,7 +26,7 @@ namespace Hojun
 
         public IAttackStrategy attackStrategy;
         public IHitStrategy hitStrategy;
-
+        Animator animator;
 
         public override float Hp 
         {
@@ -57,6 +60,9 @@ namespace Hojun
             stateMachine.SetState((int)Zombie.ZombieState.IDLE);
 
             hearComponent = gameObject.GetComponent<HearComponent>();
+            animator = GetComponent<Animator>();
+
+
             dieAction += () => { StartCoroutine(DieCo()); };
 
             attackStrategy = new ZombieAttack();
@@ -71,14 +77,17 @@ namespace Hojun
             stateMachine.Update();
         }
 
+
+        [PunRPC]
         IEnumerator DieCo()
         {
             float deathTime = 3.0f;
-
+            animator.SetInteger("State", (int)ZombieState.DEAD);
+            yield return null;
+            animator.SetInteger("State" , 9999);
             yield return new WaitForSeconds(deathTime);
 
-            Debug.Log("���� ��");
-        
+            Destroy(this.gameObject);
         }
 
         public override void Die()
@@ -88,22 +97,19 @@ namespace Hojun
 
         public void OnTriggerEnter(Collider other)
         {
+            
             if (other.TryGetComponent<IAttackAble>(out IAttackAble attack))
             {
-                Hit(attack.GetDamage() , attack);
+                photonView.RPC("Hit", RpcTarget.All, attack.GetDamage());
             }
 
         }
 
-        public void OnCollisionEnter(Collision collision)
-        {
 
-
-            Debug.Log("test2");
-        }
-
+        [PunRPC]
         public override void Hit(float damage, IAttackAble attacker)
         {
+            Debug.Log("hit");
             Hp -= damage;
         }
 
@@ -112,6 +118,12 @@ namespace Hojun
             return attackStrategy.GetDamage();
         }
 
+        [PunRPC]
+        public override void Hit(float damage)
+        {
+            Debug.Log("hit");
+            Hp -= damage;
+        }
     }
 
 

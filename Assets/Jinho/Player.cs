@@ -224,6 +224,7 @@ namespace Jinho
     public class Player : MonoBehaviour, IHitAble , IDieable
     {
         public PlayerData state = null;                                   //player의 기본state
+        
         public float Hp
         {
             get => state.Hp;
@@ -238,9 +239,12 @@ namespace Jinho
                     state.Hp = state.MaxHp;
             }
         }
+
         public GameObject[] weaponObjSlot = new GameObject[4];        //현재 들고있는 weaponSlot
         
-        public IUseable currentWeapon = null;                         //현재 들고있는 weapon
+        public IUseable currentItem = null;                         //현재 들고있는 weapon
+        public GameObject currentItemObj;
+
 
         public PlayerMoveState moveState;                           //현재 move전략
         public ItemType attackState;                                //현재 attack전력
@@ -249,7 +253,6 @@ namespace Jinho
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<ItemType, AttackStrategy> attackDic;            //attack 전략 dictionary
         
-
         public Camera mainCamera;
         public AimComponent Aim;
 
@@ -257,7 +260,6 @@ namespace Jinho
         public bool isGrounded = true;
 
         public Transform weaponHand;
-        public GameObject weapon;
         public int weaponIndex;
         
         public event Action onWeaponChange;
@@ -270,8 +272,6 @@ namespace Jinho
                 
                 weaponIndex = value;
                 WeaponChange();
-                //onWeaponChange();
-
             }
         }
 
@@ -305,28 +305,35 @@ namespace Jinho
             //attackState = currentWeapon.ItemType;
 
             GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
+            
             weaponIndex = 1;
-            weapon = weaponObjSlot[weaponIndex];
-            currentWeapon = weapon.GetComponent<IUseable>();
-            attackStrategy = currentWeapon.AttackStrategy;
-
+            currentItemObj = weaponObjSlot[weaponIndex];
+            currentItem = currentItemObj.GetComponent<IUseable>();
+            attackStrategy = currentItem.AttackStrategy;
             Aim = mainCamera.GetComponent<AimComponent>();
+
             //WeaponChange(); // 아무것도 안들고 있는 것
         }
+
+
+
         void Update()
         {
             //weapon.SetActive(true);
-            weapon.transform.position = weaponHand.position;
-            weapon.transform.rotation = weaponHand.rotation;
+            
+            if(currentItemObj != null)
+            {
+                currentItemObj.transform.position = weaponHand.position;
+                currentItemObj.transform.rotation = weaponHand.rotation;
+            }
 
 
             moveDic[moveState]?.Moving();
-            if (Input.GetKey(KeyCode.Mouse0))//마우스 클릭시 공격이 나가는 부분
+
+            if ( Input.GetKey(KeyCode.Mouse0) )//마우스 클릭시 공격이 나가는 부분
             {
                 this.animator.SetBool("Shot", true);
-                //attackDic[attackState]?.Attack();
-                attackStrategy?.Attack();
-
+                currentItem?.Use();
             }
             else
             {
@@ -335,15 +342,13 @@ namespace Jinho
 
             if ( Input.GetKey(KeyCode.R) ) // 재장전 부분
             {
-                if (currentWeapon is IReLoadAble)
-                {
-                    ((IReLoadAble)attackDic[attackState]).ReLoad();
-                }
-                    
+                if (currentItem is IReLoadAble)
+                    ((IReLoadAble)currentItem).ReLoad();
+
             }
 
             //전략부분으로 넣어줘서 무기교체와 애니메이션 실행 바로 됩니다!
-            if (Input.GetKeyDown(KeyCode.Alpha1)) // 무기 정보 [주무기]
+            if (Input.GetKey(KeyCode.Alpha1)) // 무기 정보 [주무기]
             {
                 WeaponIndex = 0;
             }
@@ -359,17 +364,24 @@ namespace Jinho
             {
                 WeaponIndex = 3;
             }
+
+
         }
 
 
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)
         {
-            currentWeapon.Use();
+            currentItem.UseEffect();
         }
+
+
         public void ItemUseReload()//Animation Event 함수(재장전)
         {
-            currentWeapon.Reload();
+            if (currentItem is IReLoadAble)
+                ((IReLoadAble)currentItem).ReLoad();
         }
+
+
         public void WeaponChange() // 무기 교체(실제 프리팹과 무기정보가 교체된다.)
         {
             if (weaponObjSlot[WeaponIndex] == null)
@@ -378,16 +390,17 @@ namespace Jinho
                 return;
             }
 
-            Debug.Log(weapon.name + "이게 꺼졌음");
-       
-            weapon.SetActive(false);
-           
-            weapon = weaponObjSlot[WeaponIndex];
-            Debug.Log(weapon.name + "이게 켜졌음");
-            weapon.SetActive(true);
-            currentWeapon = weapon.GetComponent<IUseable>();
-            attackStrategy = currentWeapon.AttackStrategy;
-            attackState = currentWeapon.ItemType;
+
+            Debug.Log(currentItemObj.name + "이게 꺼졌음");
+            currentItemObj.SetActive(false);
+            currentItemObj = weaponObjSlot[WeaponIndex];
+
+            Debug.Log(currentItemObj.name + "이게 켜졌음");
+            
+            currentItemObj.SetActive(true);
+            currentItem = currentItemObj.GetComponent<IUseable>();
+            attackStrategy = currentItem.AttackStrategy;
+            attackState = currentItem.ItemType;
      
             Debug.Log("무기교체완");
            
@@ -400,21 +413,28 @@ namespace Jinho
         }
         public float Attack()
         {
-            currentWeapon.Use();
-
+            currentItem.Use();
             return 0f;
         }
+
         public GameObject GetAttacker()
         {
             return this.gameObject;
         }
+
         public void Die()
         {
             //animator.SetTrigger("Die");
         }
+
         public void Dead()
         {
             gameObject.SetActive(false);
+        }
+
+        public void Hit(float damage)
+        {
+            Hp -= damage;
         }
     }   
 }

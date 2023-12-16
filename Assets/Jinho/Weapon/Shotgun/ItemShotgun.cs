@@ -132,5 +132,10 @@ namespace Jinho
         {
             throw new System.NotImplementedException();
         }
+
+        public void UseEffect()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -15,6 +15,9 @@ public class DetectiveComponent : MonoBehaviour
     {
         get 
         {
+            if (targetObj == null)
+                return false;
+
             return isFind;
         }
     }
