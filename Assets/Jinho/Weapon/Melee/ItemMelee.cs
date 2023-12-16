@@ -65,7 +65,7 @@ namespace Jinho
 
         public float GetDamage()
         {
-            throw new System.NotImplementedException();
+            return WeaponData.damage;
         }
     }
 }

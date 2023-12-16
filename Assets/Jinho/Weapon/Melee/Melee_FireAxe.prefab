@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7999742894037524616}
   - component: {fileID: 8049021722346097440}
   - component: {fileID: 8020954593223474824}
+  - component: {fileID: 4168453666778721622}
   m_Layer: 0
   m_Name: Melee_FireAxe
   m_TagString: Untagged
@@ -114,3 +115,19 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: a07b67e1ede43094f99d6a0b495def98, type: 2}
   player: {fileID: 0}
   col: {fileID: 8049021722346097440}
+--- !u!54 &4168453666778721622
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8022281220903625774}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Gayoung;
+using Yeseul;
+using System.Collections;
 
 namespace Jinho
 {
@@ -246,6 +248,7 @@ namespace Jinho
 
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<ItemType, AttackStrategy> attackDic;            //attack 전략 dictionary
+        
 
         public Camera mainCamera;
         public AimComponent Aim;
@@ -293,12 +296,20 @@ namespace Jinho
             attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
             attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
 
+
             moveState = PlayerMoveState.idle;
 
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             //weapon = GameObject.Find("AssaultRilfe_Prototype 1");
+            //currentWeapon = weapon.GetComponent<IUseable>();
+            //attackState = currentWeapon.ItemType;
+
+            GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
+            weaponIndex = 1;
+            weapon = weaponObjSlot[weaponIndex];
             currentWeapon = weapon.GetComponent<IUseable>();
-            attackState = currentWeapon.ItemType;
+            attackStrategy = currentWeapon.AttackStrategy;
+
             Aim = mainCamera.GetComponent<AimComponent>();
             //WeaponChange(); // 아무것도 안들고 있는 것
         }
@@ -308,12 +319,14 @@ namespace Jinho
             weapon.transform.position = weaponHand.position;
             weapon.transform.rotation = weaponHand.rotation;
 
+
             moveDic[moveState]?.Moving();
             if (Input.GetKey(KeyCode.Mouse0))//마우스 클릭시 공격이 나가는 부분
             {
                 this.animator.SetBool("Shot", true);
                 //attackDic[attackState]?.Attack();
                 attackStrategy?.Attack();
+
             }
             else
             {
@@ -329,6 +342,7 @@ namespace Jinho
                     
             }
 
+            //전략부분으로 넣어줘서 무기교체와 애니메이션 실행 바로 됩니다!
             if (Input.GetKeyDown(KeyCode.Alpha1)) // 무기 정보 [주무기]
             {
                 WeaponIndex = 0;
@@ -379,6 +393,7 @@ namespace Jinho
            
         }
 
+       
         public virtual void Hit(float damage, IAttackAble attacker)
         {
             Hp -= damage;
@@ -395,7 +410,7 @@ namespace Jinho
         }
         public void Die()
         {
-            animator.SetTrigger("Die");
+            //animator.SetTrigger("Die");
         }
         public void Dead()
         {
