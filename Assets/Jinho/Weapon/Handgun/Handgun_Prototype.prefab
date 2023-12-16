@@ -110,8 +110,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7913006321054128909}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.0725559, y: 0.0678321, z: 0.02979313, w: 0.9946089}
+  m_LocalPosition: {x: -17.62012, y: 1.0346746, z: -0.051558435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 442772fcfd3acaf4ba36776895ab3457, type: 2}
+  player: {fileID: 0}
   firePos: {fileID: 7913764786492178657}
   bullet: {fileID: 7213154079774707790, guid: 4eefa936c47806246969aca9484bf1d4, type: 3}
   maxBullet: 8

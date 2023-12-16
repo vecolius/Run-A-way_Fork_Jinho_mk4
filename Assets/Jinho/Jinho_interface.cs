@@ -21,13 +21,14 @@ namespace Jinho
         public ItemType ItemType { get; }
         public Player Player { get; set; }
         public IAttackStrategy AttackStrategy { get; }
-        void Use();
-        void Reload();
-        void SetItem(Player player);
+        public void Use();
+        public void UseEffect();
+        public void SetItem(Player player);
     }
     public interface IAttackItemable : IUseable
     {
         public WeaponData WeaponData { get; }
+
     }
     public interface IExpendable : IUseable
     {
@@ -56,7 +57,7 @@ namespace Jinho
                 if (player.weaponIndex == slotIndex)   //플레이어가 슬롯의 무기를 들고있을 때,
                 {
                     player.attackState = weaponObj.GetComponent<IAttackItemable>().ItemType;  //player가 그 슬롯의 무기를 들도록 설정
-                    player.weapon = player.weaponObjSlot[slotIndex];
+                    player.currentItemObj = player.weaponObjSlot[slotIndex];
                 }
                 else                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
                     temp.SetActive(false);

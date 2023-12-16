@@ -7,20 +7,27 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemHandgun : MonoBehaviour, IAttackItemable, Yeseul.IInteractive
+    public class ItemHandgun : MonoBehaviour, IAttackItemable, Yeseul.IInteractive , IReLoadAble
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
         public Player Player { get => player; set { player = value; } }
         public Player player = null;
+
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
+
         IAttackStrategy strategy;
         public ItemType ItemType => weaponData.itemType;
         public IAttackStrategy AttackStrategy => strategy;
+
+
         public int maxBullet;       //장전되는 총알 양
         [SerializeField] int bulletCount;            //현재 총에 들어있는 총알 양
+
+
+
         public int BulletCount
         {
             get { return bulletCount; }
@@ -33,6 +40,7 @@ namespace Jinho
         }
         [SerializeField] int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField] int totalBullet;            //내가 가지고 있는 총알의 합계
+
         public int TotalBullet
         {
             get { return totalBullet; }
@@ -43,26 +51,58 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
+
         void OnEnable()
         {
             strategy = new HandgunAttackStrategy(player);
         }
+
         public void Use()
         {
             
             if (BulletCount == 0)
                 return;
-            //BulletCount--;
 
-            //이펙트 + 사운드
-            //총알이 나가는 효과
+            strategy.Attack();
+        }
+
+
+        public void SetItem(Player player)
+        {
+            WeaponItem.SetWeapon(player, gameObject, 1, this.player);
+        }
+        
+
+
+        public void Interaction(GameObject interactivePlayer)
+        {
+            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
+            {
+                SetItem(player);
+            }
+        }
+
+        public void MakeBullet()
+        {
+
+            // make bullet -> obj_pull
+
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
+
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
         }
-        public void Reload()
+
+        public void UseEffect()
+        {
+            MakeBullet();
+        }
+
+
+
+        public void ReLoad()
         {
             int needBulletCount = maxBullet - BulletCount;
 
@@ -73,35 +113,7 @@ namespace Jinho
 
             TotalBullet -= needBulletCount;
         }
-        public void SetItem(Player player)
-        {
-            WeaponItem.SetWeapon(player, gameObject, 1, this.player);
-        }
-        public void Interaction(GameObject interactivePlayer)
-        {
-            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
-            {
-                SetItem(player);
-            }
-        }
-        private void OnTriggerEnter(Collider other)
-        {
 
-        }
 
-        public void Attack()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public GameObject GetAttacker()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public float GetDamage()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -45,7 +45,6 @@ namespace Jaeyoung
                     if (zombie.TryGetComponent<IHearAble>(out IHearAble zom))
                     {
                         zom.Hear(this.gameObject);
-                        Debug.Log("zombie on");
                     }
                         
                 }

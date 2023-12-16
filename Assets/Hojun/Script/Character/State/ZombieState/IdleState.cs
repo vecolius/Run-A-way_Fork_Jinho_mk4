@@ -18,7 +18,6 @@ namespace Hojun
         {
             get
             {
-
                 Debug.Log("팀원과 상의해서 추가 변경 할 것. 지우지 말것!");
                 // TODO_LIST 계산식 추가하던가 해서 체크해 볼 것;
                 return 10f;
@@ -63,13 +62,15 @@ namespace Hojun
         public override void Update()
         {
 
-
+            Debug.Log("idle state upadate");
             if (ownerZombie.IsFindPlayer)
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);
             
 
             if (ownerZombie.HearValue >= 0.1f)
+            {
                 stateMachine.SetState((int)Zombie.ZombieState.SEARCH);
+            }
 
         }
 
