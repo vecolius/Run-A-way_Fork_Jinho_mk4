@@ -15,26 +15,37 @@ namespace Gayoung
 
         public override void Attack()
         {
+            if (player == null)
+                return;
 
+            player.WeaponIndex = 0;
+            // 애니메이션에서 무기종류에 따라 공격이 나가는 부분이다.
             player.animator.SetInteger("WeaponType", 2);
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                base.WeaponSwap(0);
+            // 무가 교체 부분이다.(애니메이션)
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                base.WeaponSwap(1);
+                player.WeaponChange();
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
                 base.WeaponSwap(2);
+                player.WeaponChange();
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
+            { 
                 base.WeaponSwap(3);
-            // 실제로는 주무기는  Alpha1부분만 뺴고 가지고 있고 
-            // 다른 부분들도 자신을 부르는 것만 빼고 작업하면 된다.
+                player.WeaponChange();
+            }
+          
         }
 
-        public void ReLoad()
+        public void ReLoad()// 총의 총알을 재장전 하는 부분이다.
         {
             player.animator.SetTrigger("Reload");
             player.animator.SetFloat("ReloadType", 0.6f);
         }
     }
-
-
 
 }

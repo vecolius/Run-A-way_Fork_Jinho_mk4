@@ -7,16 +7,15 @@ namespace Hojun
 
     public class ZombieAttack : IAttackStrategy
     {
-        public float Attack(IHitAble hitObj)
-        {
-            Debug.Log("attack ÀÌ°Å ¼öÁ¤ ÇÒ°Í return °ª »ó¼öÀÓ µ¥¹ÌÁö ¾Èº¯ÇÔ");
 
-            return 10f;
+        public void Attack()
+        {
+            throw new System.NotImplementedException();
         }
 
         public float GetDamage()
         {
-            Debug.Log("getdamage call ÀÌ°Å ¼öÁ¤ ÇÒ°Í return °ª »ó¼öÀÓ µ¥¹ÌÁö ¾Èº¯ÇÔ");
+            Debug.Log("getdamage call ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ return ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èºï¿½ï¿½ï¿½");
             return 10f;
         }
     }

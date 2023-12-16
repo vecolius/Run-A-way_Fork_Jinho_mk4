@@ -11,4 +11,9 @@ public class CharacterData : ScriptableObject
     public float attackPoint;
     public string characterName;
 
+    public CharacterData Clone 
+    {
+        get => Instantiate(this);    
+    }
+
 }

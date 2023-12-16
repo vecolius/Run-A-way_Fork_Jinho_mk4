@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Hojnun;
+using Hojun;
 
 namespace Jinho
 {
@@ -18,6 +20,7 @@ namespace Jinho
     {
         public ItemType ItemType { get; }
         public Player Player { get; set; }
+        public IAttackStrategy AttackStrategy { get; }
         void Use();
         void Reload();
         void SetItem(Player player);
@@ -32,7 +35,6 @@ namespace Jinho
     }
     #endregion
     #region Weapon_Class
-
     public class WeaponItem
     {
         public static void SetWeapon(Player player, GameObject weaponObj, int slotIndex, Player weaponDataPlayer)

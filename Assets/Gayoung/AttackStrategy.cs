@@ -27,6 +27,8 @@ namespace Gayoung
             player.weaponIndex = index;
         }
         
+        
+
     }
 
 

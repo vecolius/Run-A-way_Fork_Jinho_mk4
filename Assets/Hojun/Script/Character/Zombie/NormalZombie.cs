@@ -15,7 +15,6 @@ using Photon.Realtime;
 namespace Hojun 
 {
 
-
     public class NormalZombie : Zombie 
     {
 
@@ -28,15 +27,17 @@ namespace Hojun
 
         public override float Hp 
         {
-            get => zombieData.hp;
+            get =>base.Hp;
             set
             {
                 if (value <= 0)
                     stateMachine.SetState( (int)Zombie.ZombieState.DEAD );
                 
-                zombieData.hp = value;
+                base.Hp = value;
             }
         }
+
+        public override IAttackStrategy AttackStrategy => attackStrategy;
 
         public new void Awake()
         {
@@ -54,25 +55,21 @@ namespace Hojun
             stateMachine.AddState((int)Zombie.ZombieState.ATTACK, new AttackState(stateMachine));
 
             stateMachine.SetState((int)Zombie.ZombieState.IDLE);
-        }
 
-
-        public void Start()
-        {
             hearComponent = gameObject.GetComponent<HearComponent>();
-            dieAction = Die;
+            dieAction += () => { StartCoroutine(DieCo()); };
 
             attackStrategy = new ZombieAttack();
-            attackAction += Attack;
+
         }
+
+
 
         // Update is called once per frame
         void Update()
         {
             stateMachine.Update();
         }
-
-
 
         IEnumerator DieCo()
         {
@@ -81,41 +78,40 @@ namespace Hojun
             yield return new WaitForSeconds(deathTime);
 
             Debug.Log("���� ��");
-            // objejct pool ������ destroy ������ ������ ���� �� ��
+        
         }
-
-
 
         public override void Die()
         {
             dieAction();
         }
 
-        public void Hit(float damage, IAttackAble attacker)
+        public void OnTriggerEnter(Collider other)
         {
-            if (Target != null)
-                Target = attacker.GetAttacker();
-
-            Debug.Log("hit");
-        }
-
-
-        public override void Attack()
-        {
-            if(Target.TryGetComponent<IHitAble>(out IHitAble hitObj))
+            if (other.TryGetComponent<IAttackAble>(out IAttackAble attack))
             {
-                float damage = attackStrategy.GetDamage();
-                hitObj.Hit( damage ,this);
+                Hit(attack.GetDamage() , attack);
             }
 
         }
 
-        public override GameObject GetAttacker()
+        public void OnCollisionEnter(Collision collision)
         {
-            return this.gameObject;
+
+
+            Debug.Log("test2");
         }
 
-        
+        public override void Hit(float damage, IAttackAble attacker)
+        {
+            Hp -= damage;
+        }
+
+        public override float GetDamage()
+        {
+            return attackStrategy.GetDamage();
+        }
+
     }
 
 

@@ -26,8 +26,8 @@ public class SceneController : DontDestroySingle<SceneController>
     [SerializeField] GameObject lobbyProfessionChoiceButton;
 
 
-    List<GameObject> totalUi= new List<GameObject>(); 
-
+    List<GameObject> totalUi= new List<GameObject>();
+    public static string nextSceneName;
     // [SerializeField] private GameObject lobbyMultiUi; //  ��Ƽ �� �� ��� ����
     private new void Awake()
     {
@@ -65,9 +65,13 @@ public class SceneController : DontDestroySingle<SceneController>
                 lobbyProfessionChoiceButton.SetActive(!lobbyProfessionChoiceButton.activeSelf);
                 break; 
         }
-
+       
             Debug.Log("��ư ����");
     }
+
+
+
+    
 
   
     public void ChangeScene(string sceneName)
@@ -109,6 +113,7 @@ public class SceneController : DontDestroySingle<SceneController>
     //button click component [SerializeField] use
     public static void LoadScene(string sceneName)
     {
+        nextSceneName = sceneName;
         SceneManager.LoadScene(sceneName);
         instance.ChangeScene(sceneName);
    
@@ -123,7 +128,7 @@ public class SceneController : DontDestroySingle<SceneController>
 
     private void Update()
     {
-        //Option("optionUi");
+      
     }
 
 }

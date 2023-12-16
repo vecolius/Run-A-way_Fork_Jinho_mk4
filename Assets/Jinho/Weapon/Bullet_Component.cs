@@ -1,13 +1,12 @@
+using Hojun;
+using Jaeyoung;
 using Jinho;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.Pool;
-using Jaeyoung;
-using Hojun;
 
-public class Bullet : MonoBehaviour, Hojun.IAttackAble
+public class Bullet_Component : MonoBehaviour, Hojun.IAttackAble
 {
     [SerializeField] float moveSpeed;
     public float damage;
@@ -16,8 +15,6 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
     Action<IHitAble> attackAction;
 
     Hojun.IHitAble target;
-
-    public Hojun.IAttackStrategy AttackStrategy => throw new NotImplementedException();
 
     void OnEnable()
     {
@@ -50,6 +47,7 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
     void BulletAttack(IHitAble hitObj)
     {
         Debug.Log("damage");
+        hitObj.Hit(GetDamage(), this);
     }
 
     public GameObject GetAttacker()
@@ -59,19 +57,7 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
     void OnTriggerEnter(Collider other)
     {
 
-
-        Debug.Log("collision");
-        //if (other.gameObject.TryGetComponent<IHitAble>(out IHitAble hitObj))
-        //{
-        //    target = hitObj;
-        //    Attack();
-        //    BulletDestroy();
-
-        //}
-        //if (((1 << other.gameObject.layer) & LayerManager.instance.Nature) >= 1)
-        //{
-        //    BulletDestroy();
-        //}
+        BulletDestroy();
 
     }
 
@@ -82,8 +68,6 @@ public class Bullet : MonoBehaviour, Hojun.IAttackAble
 
     public float GetDamage()
     {
-        Debug.Log("test");
-
         return parentWeaponData.damage;
     }
 }

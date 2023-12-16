@@ -1,3 +1,4 @@
+using Gayoung;
 using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackItemable, Yeseul.IInteractive
+    public class ItemRifle : MonoBehaviour, IAttackItemable, Yeseul.IInteractive 
     {
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
@@ -15,26 +16,39 @@ namespace Jinho
             get=> player;
             set { player = value; }
         }
+        public IAttackStrategy AttackStrategy => strategy;
         [SerializeField] Player player = null;
         
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
-        public ItemType ItemType => weaponData.itemType;
+        public AudioClip gunFireSound;
+
         public int maxBullet;       //장전되는 총알 양
+        [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField]int bulletCount;            //현재 총에 들어있는 총알 양
+        [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
+        [SerializeField]IAttackStrategy strategy;
+
+        void OnEnable()
+        {
+            strategy = new RifleAttackStrategy(player);
+
+        }
+
+        public ItemType ItemType => weaponData.itemType;
+
         public int BulletCount
         {
-            get { return bulletCount; }
+            get { return weaponData.bullet; }
             set
             {
-                bulletCount = value;
-                if (bulletCount > maxBullet) bulletCount = maxBullet;
-                if (bulletCount < 0) bulletCount = 0;
+                BulletCount = value;
+                if (BulletCount > maxBullet) BulletCount = maxBullet;
+                if (BulletCount < 0) BulletCount = 0;
             }
         }
-        [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
-        [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
+
         public int TotalBullet
         {
             get { return totalBullet; }
@@ -45,14 +59,23 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
-        public AudioClip gunFireSound;
+
         public void Use()
         {
-            
+            Debug.Log("라이플 발사");
+            //Attack();
+            /*
             if (BulletCount == 0)
                 return;
             BulletCount--;
-
+            */
+            Debug.Log("라이플 총알 생성");
+            aimPos = player.Aim.aimObjPos;
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
+            Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
+            bulletScript.SetBulletData(weaponData, Player);
+            bulletScript.SetBulletVec(firePos, aimPos.position);
+            //bulletObj.SetActive(true);
             //이펙트 + 사운드
             /*
             GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
@@ -60,15 +83,6 @@ namespace Jinho
             soundObj.GetComponent<AudioSource>().clip = gunFireSound;
             soundObj.SetActive(true);
             */
-            //총알이 나가는 효과
-
-
-            aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-            Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-            bulletScript.SetBulletData(weaponData, Player);
-            bulletScript.SetBulletVec(firePos, aimPos.position);
-            bulletObj.SetActive(true);
         }
         public void Reload()
         {
@@ -81,6 +95,8 @@ namespace Jinho
 
             TotalBullet -= needBulletCount;
         }
+
+
         public void SetItem(Player player)
         {
             WeaponItem.SetWeapon(player, gameObject, 0, this.player);
@@ -93,9 +109,40 @@ namespace Jinho
                 SetItem(player);
             }
         }
-        private void OnTriggerEnter(Collider other)
-        {
 
+        public void Attack()
+        {
+            if (BulletCount == 0)
+                return;
+            BulletCount--;
+
+            aimPos = player.Aim.aimObjPos;
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
+            Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+            bulletScript.SetBulletData(weaponData, Player);
+            bulletScript.SetBulletVec(firePos, aimPos.position);
+            bulletObj.SetActive(true);
+        }
+
+        public void InstantiateBullet()
+        {
+            aimPos = player.Aim.aimObjPos;
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
+            Bullet bulletScript = bulletObj.GetComponent<Bullet>();
+            bulletScript.SetBulletData(weaponData, Player);
+            bulletScript.SetBulletVec(firePos, aimPos.position);
+            bulletObj.SetActive(true);
+
+        }
+
+        public GameObject GetAttacker()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public float GetDamage()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

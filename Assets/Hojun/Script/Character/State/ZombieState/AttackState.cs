@@ -29,7 +29,10 @@ namespace Hojun
             agent.ResetPath();
             agent.velocity = Vector3.zero;
             agent.speed = 0;
+
             aniCompo.SetInteger("State" , (int)Zombie.ZombieState.ATTACK );
+            // 추가적으로  state 말고도 좀 추가할 것
+            // 예를들면 strategy 에 의해서 Attack을 좀 변하게 해야할듯.
             agent.SetDestination(ownerZombie.transform.position);
         }
 
@@ -42,7 +45,6 @@ namespace Hojun
         {
             agent.isStopped = true;
 
-            
             
             if (!ownerZombie.IsAttack)
             {

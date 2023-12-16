@@ -12,6 +12,15 @@ namespace Jinho
         public string itemName;     //아이템 이름
         public Sprite image;        //아이템 이미지
         public float damage;        //총 대미지
-        
+        public int bullet;
+        public int maxBullet;
+
+        public WeaponData Clone 
+        {
+            get
+            {
+                return Instantiate(this);
+            }
+        }
     }
 }

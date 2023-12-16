@@ -14,31 +14,37 @@ namespace Gayoung
         }
         public override void Attack()
         {
+            if (player == null)
+                return;
 
-            // 12-13 ÀÏ ¼öÁ¤ÇØ¾ß ÇÏ´Â ºÎºÐ
+            //player.WeaponIndex = 1;
+            // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼Ç¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½Ì´ï¿½.
             player.animator.SetInteger("WeaponType", 3);
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                base.WeaponSwap(2, 1.0f);
-                // ±ÇÃÑÀº ¸ð¼ÇÀÌ ´Þ¶ó¼­ ÀÌ·¸°Ô ³Ö¾îº¸¾Ò½À´Ï´Ù! = °¡¿µ
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½Îºï¿½ï¿½Ì´ï¿½.(ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½)
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â±³Ã¼ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½Þ¶ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 base.WeaponSwap(0, 1.0f);
+                player.WeaponChange();
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                base.WeaponSwap(2, 1.0f);
+                player.WeaponChange();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 base.WeaponSwap(3, 1.0f);
+                player.WeaponChange();
             }
-        }
+        }   
 
-        public void ReLoad()
+        public void ReLoad() // ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Îºï¿½ï¿½Ì´ï¿½.
         {
             player.animator.SetTrigger("Reload");
             player.animator.SetFloat("ReloadType", 1f);
         }
     }
-
 
 }

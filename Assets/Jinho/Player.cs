@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Gayoung;
+using Yeseul;
+using System.Collections;
 
 namespace Jinho
 {
@@ -167,6 +169,7 @@ namespace Jinho
     public class PlayerData
     {
         public Job job;
+
         public float DefaultMoveSpeed => 3;
         public float DefaultMaxHp => 200;
         float moveSpeed;
@@ -192,7 +195,10 @@ namespace Jinho
             { 
                 hp = value;
                 if (hp <= 0)
+                {
                     hp = 0;
+
+                }
                 if(hp > MaxHp)
                     hp = MaxHp;
             }
@@ -215,17 +221,34 @@ namespace Jinho
     }
     #endregion
 
-    public class Player : MonoBehaviour, IHitAble , IDieable, IAttackAble
+    public class Player : MonoBehaviour, IHitAble , IDieable
     {
         public PlayerData state = null;                                   //player의 기본state
+        public float Hp
+        {
+            get => state.Hp;
+            set
+            {
+                state.Hp = value;
+                if(state.Hp <= 0)
+                {
+                    Die();
+                }
+                if(state.Hp > state.MaxHp)
+                    state.Hp = state.MaxHp;
+            }
+        }
         public GameObject[] weaponObjSlot = new GameObject[4];        //현재 들고있는 weaponSlot
+        
         public IUseable currentWeapon = null;                         //현재 들고있는 weapon
 
         public PlayerMoveState moveState;                           //현재 move전략
         public ItemType attackState;                                //현재 attack전력
+        public IAttackStrategy attackStrategy = null;
 
         Dictionary<PlayerMoveState, IMoveStrategy> moveDic;         //move 전략 dictionary
         Dictionary<ItemType, AttackStrategy> attackDic;            //attack 전략 dictionary
+        
 
         public Camera mainCamera;
         public AimComponent Aim;
@@ -236,8 +259,10 @@ namespace Jinho
         public Transform weaponHand;
         public GameObject weapon;
         public int weaponIndex;
+        
         public event Action onWeaponChange;
-
+        public event Action attackAction;
+        
         public int WeaponIndex
         {
             get { return weaponIndex; }
@@ -271,12 +296,20 @@ namespace Jinho
             attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
             attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
 
+
             moveState = PlayerMoveState.idle;
 
             //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
             //weapon = GameObject.Find("AssaultRilfe_Prototype 1");
+            //currentWeapon = weapon.GetComponent<IUseable>();
+            //attackState = currentWeapon.ItemType;
+
+            GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
+            weaponIndex = 1;
+            weapon = weaponObjSlot[weaponIndex];
             currentWeapon = weapon.GetComponent<IUseable>();
-            attackState = currentWeapon.ItemType;
+            attackStrategy = currentWeapon.AttackStrategy;
+
             Aim = mainCamera.GetComponent<AimComponent>();
             //WeaponChange(); // 아무것도 안들고 있는 것
         }
@@ -286,43 +319,46 @@ namespace Jinho
             weapon.transform.position = weaponHand.position;
             weapon.transform.rotation = weaponHand.rotation;
 
+
             moveDic[moveState]?.Moving();
-            if (Input.GetKey(KeyCode.Mouse0))
+            if (Input.GetKey(KeyCode.Mouse0))//마우스 클릭시 공격이 나가는 부분
             {
                 this.animator.SetBool("Shot", true);
-                attackDic[attackState]?.Attack();
+                //attackDic[attackState]?.Attack();
+                attackStrategy?.Attack();
+
             }
             else
             {
                 this.animator.SetBool("Shot", false);
             }
 
-            if ( Input.GetKey(KeyCode.R) )
+            if ( Input.GetKey(KeyCode.R) ) // 재장전 부분
             {
-                if (attackDic[attackState] is IReLoadAble)
+                if (currentWeapon is IReLoadAble)
                 {
                     ((IReLoadAble)attackDic[attackState]).ReLoad();
                 }
                     
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            //전략부분으로 넣어줘서 무기교체와 애니메이션 실행 바로 됩니다!
+            if (Input.GetKeyDown(KeyCode.Alpha1)) // 무기 정보 [주무기]
             {
                 WeaponIndex = 0;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2)) // 무기 정보 [보조무기]
             {
                 WeaponIndex = 1;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3)) // 무기 정보 [힐]
             {
                 WeaponIndex = 2;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            else if (Input.GetKeyDown(KeyCode.Alpha4)) // 무기 정보 [수류탄]
             {
                 WeaponIndex = 3;
             }
-
         }
 
 
@@ -334,7 +370,7 @@ namespace Jinho
         {
             currentWeapon.Reload();
         }
-        public void WeaponChange() // 무기 교환 메서드!
+        public void WeaponChange() // 무기 교체(실제 프리팹과 무기정보가 교체된다.)
         {
             if (weaponObjSlot[WeaponIndex] == null)
             { 
@@ -350,18 +386,23 @@ namespace Jinho
             Debug.Log(weapon.name + "이게 켜졌음");
             weapon.SetActive(true);
             currentWeapon = weapon.GetComponent<IUseable>();
+            attackStrategy = currentWeapon.AttackStrategy;
             attackState = currentWeapon.ItemType;
      
             Debug.Log("무기교체완");
            
         }
 
+       
         public virtual void Hit(float damage, IAttackAble attacker)
         {
+            Hp -= damage;
         }
-        public void Attack()
+        public float Attack()
         {
             currentWeapon.Use();
+
+            return 0f;
         }
         public GameObject GetAttacker()
         {
@@ -369,8 +410,11 @@ namespace Jinho
         }
         public void Die()
         {
-            throw new NotImplementedException();
+            //animator.SetTrigger("Die");
         }
-
+        public void Dead()
+        {
+            gameObject.SetActive(false);
+        }
     }   
 }

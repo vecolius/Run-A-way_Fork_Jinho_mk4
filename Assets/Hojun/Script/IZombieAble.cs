@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
 namespace Hojun 
@@ -30,6 +31,7 @@ namespace Hojun
 
     public interface IHitAble
     {
+        [PunRPC]
         public void Hit(float damage , IAttackAble attacker);
 
         public CharacterData Data 
@@ -41,13 +43,13 @@ namespace Hojun
 
     public interface IAttackStrategy
     {
-        public float Attack( IHitAble hitObj);
         public float GetDamage();
+        public void Attack();
     }
 
     public interface IAttackAble 
     {
-        public void Attack();
+        public float GetDamage();
         public GameObject GetAttacker();
     }
 
