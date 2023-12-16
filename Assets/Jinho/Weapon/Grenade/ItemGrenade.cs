@@ -87,5 +87,10 @@ namespace Jinho {
         {
             throw new NotImplementedException();
         }
+
+        public void UseEffect()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

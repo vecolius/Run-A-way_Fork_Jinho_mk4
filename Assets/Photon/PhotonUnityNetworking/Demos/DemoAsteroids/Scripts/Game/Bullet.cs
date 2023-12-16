@@ -27,5 +27,7 @@ namespace Photon.Pun.Demo.Asteroids
             rigidbody.velocity = originalDirection * 200.0f;
             rigidbody.position += rigidbody.velocity * lag;
         }
+
+
     }
 }

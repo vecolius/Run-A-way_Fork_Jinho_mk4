@@ -67,5 +67,10 @@ namespace Jinho
         {
             return WeaponData.damage;
         }
+
+        public void UseEffect()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

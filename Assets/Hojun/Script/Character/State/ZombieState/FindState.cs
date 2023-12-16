@@ -36,11 +36,18 @@ namespace Hojun
         }
         public override void Update() 
         {
+            if (ownerZombie.Target == null)
+                stateMachine.SetState((int)Zombie.ZombieState.SEARCH);
+
+
+            Debug.Log("find update");
             if (ownerZombie.IsAttack)
             {
+                Debug.Log("find attack");
                 stateMachine.SetState((int)Zombie.ZombieState.ATTACK);
                 return;
             }
+            
             
             ownerZombie.Move();
         }

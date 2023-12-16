@@ -62,19 +62,29 @@ namespace Jinho
 
         public void Use()
         {
-            Debug.Log("라이플 발사");
+
+
+            AttackStrategy.Attack();
+
+
             //Attack();
             /*
             if (BulletCount == 0)
                 return;
             BulletCount--;
             */
-            Debug.Log("라이플 총알 생성");
-            aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-            Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
-            bulletScript.SetBulletData(weaponData, Player);
-            bulletScript.SetBulletVec(firePos, aimPos.position);
+
+
+            //-- hojun 231216 refactoring
+            //Debug.Log("라이플 총알 생성");
+            //aimPos = player.Aim.aimObjPos;
+            //GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
+            //Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
+            //bulletScript.SetBulletData(weaponData, Player);
+            //bulletScript.SetBulletVec(firePos, aimPos.position);
+            //---
+
+
             //bulletObj.SetActive(true);
             //이펙트 + 사운드
             /*
@@ -84,6 +94,8 @@ namespace Jinho
             soundObj.SetActive(true);
             */
         }
+
+
         public void Reload()
         {
             int needBulletCount = maxBullet - BulletCount;
@@ -102,6 +114,8 @@ namespace Jinho
             WeaponItem.SetWeapon(player, gameObject, 0, this.player);
         }
 
+
+
         public void Interaction(GameObject interactivePlayer)
         {
             if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
@@ -110,39 +124,36 @@ namespace Jinho
             }
         }
 
+
+
         public void Attack()
         {
             if (BulletCount == 0)
                 return;
             BulletCount--;
 
-            aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-            Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-            bulletScript.SetBulletData(weaponData, Player);
-            bulletScript.SetBulletVec(firePos, aimPos.position);
-            bulletObj.SetActive(true);
+            AttackStrategy.Attack();
         }
 
-        public void InstantiateBullet()
-        {
-            aimPos = player.Aim.aimObjPos;
-            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-            Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-            bulletScript.SetBulletData(weaponData, Player);
-            bulletScript.SetBulletVec(firePos, aimPos.position);
-            bulletObj.SetActive(true);
-
-        }
 
         public GameObject GetAttacker()
         {
-            throw new System.NotImplementedException();
+            return Player.gameObject;
         }
 
         public float GetDamage()
         {
-            throw new System.NotImplementedException();
+            return weaponData.damage;
+        }
+
+        public void UseEffect()
+        {
+            aimPos = player.Aim.aimObjPos;
+            GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
+            Bullet_Component bulletScript = bulletObj.gameObject.GetComponent<Bullet_Component>();
+            bulletScript.SetBulletData(weaponData, Player);
+            bulletScript.SetBulletVec(firePos, aimPos.position);
+            bulletObj.SetActive(true);
         }
     }
 }

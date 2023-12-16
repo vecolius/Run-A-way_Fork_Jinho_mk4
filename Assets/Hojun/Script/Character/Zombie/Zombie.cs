@@ -1,6 +1,7 @@
 using Jaeyoung;
 using Jinho;
 using Photon.Pun;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,7 +37,9 @@ namespace Hojun
 
 
     public abstract class Zombie : Character, IMoveAble ,IDieable , IAttackAble , IHitAble
-    { 
+    {
+
+        const float initHearValue = 0f;
 
         public enum ZombieState
         {
@@ -55,7 +58,7 @@ namespace Hojun
             FIND
         }
 
-
+        protected Action initTargetAction;
 
         DetectiveComponent detectiveCompo;
 
@@ -105,35 +108,54 @@ namespace Hojun
             protected set 
             {
                 target = value;
+
+                if (value != null)
+                    targetArea = value.transform.position;
+            
+            
             }
             get
             {
+                if(target != null)
+                    targetArea = target.transform.position;
+                
+
                 return target;
             }
         }
         [SerializeField]
         GameObject target;
 
-        public float HearValue 
+        public Vector3 TargetArea
         {
-            get => hearComponent.ResultDistance;
+            get 
+            {
+                if(detectiveCompo.targetObj != null)
+                    return detectiveCompo.targetObj.transform.position;
+
+                if (hearComponent.SoundOwner != null)
+                    return hearComponent.SoundArea;
+
+                return targetArea;
+            }
         }
-        public GameObject SoundTraceTarget
+        [SerializeField]Vector3 targetArea;
+
+
+        public float HearValue 
         {
             get
             {
-                Debug.Log("이거 지울 것");
-                soundTraceTarget = hearComponent.SoundOwner;
-                return hearComponent.SoundOwner;
+                if (hearComponent.SoundOwner == null)
+                    return initHearValue;
+
+
+
+
+                return hearComponent.ResultDistance;
             }
         }
 
-        public GameObject soundTraceTarget;
-
-        public Vector3 SoundTraceArea
-        { 
-            get => hearComponent.SoundArea;
-        }
 
         public bool IsAttack 
         {
@@ -141,6 +163,9 @@ namespace Hojun
             {
                 if (detectiveCompo.IsAttack)
                 {
+                    if (Target == null)
+                        return false;
+
                     if (Target.GetComponent<IHitAble>() != null)
                     {
                         return true;
@@ -180,6 +205,7 @@ namespace Hojun
 
         protected void Awake()
         {
+            
 
             hearComponent = GetComponent<HearComponent>();
             //zombieData = new CharacterData(50,10,20);
@@ -192,6 +218,11 @@ namespace Hojun
             moveStrategy.Move();
         }
 
+        public void Start()
+        {
+            initTargetAction = hearComponent.InitTarget;
+        }
+
         public abstract void Die();
         public abstract void Hit(float damage, IAttackAble attacker);
 
@@ -201,6 +232,13 @@ namespace Hojun
         }
 
         public abstract float GetDamage();
+
+        public void InitTarget()
+        {
+            initTargetAction();
+        }
+
+        public abstract void Hit(float damage);
     }
 
 

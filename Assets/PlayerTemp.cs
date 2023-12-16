@@ -13,6 +13,11 @@ public class PlayerTemp : MonoBehaviour, IHitAble
         Debug.Log("공격당함");
     }
 
+    public void Hit(float damage)
+    {
+        throw new System.NotImplementedException();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

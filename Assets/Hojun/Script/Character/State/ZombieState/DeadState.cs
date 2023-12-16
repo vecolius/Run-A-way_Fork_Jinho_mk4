@@ -15,7 +15,6 @@ namespace Hojun
     //             ********
     //               ****
     //              *    *
-
     //                **
     //              ******
     //            **********
@@ -55,6 +54,7 @@ namespace Hojun
         {
             Debug.Log("dead");
             ownerZombie.Die();
+            
         }
 
         public override void Exit()
@@ -63,6 +63,7 @@ namespace Hojun
 
         public override void Update()
         {
+            
         }
     }
 

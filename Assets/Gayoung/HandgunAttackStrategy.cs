@@ -23,6 +23,8 @@ namespace Gayoung
 
             // ���� ��ü �κ��̴�.(�ִϸ��̼�)
             // ������ ���ⱳü �ִϸ��̼��� �޶� �̷��� �־����ϴ�.
+
+
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 base.WeaponSwap(0, 1.0f);
@@ -38,13 +40,18 @@ namespace Gayoung
                 base.WeaponSwap(3, 1.0f);
                 player.WeaponChange();
             }
+
+
         }   
+
 
         public void ReLoad() // ���� �Ѿ��� ������ �ϴ� �κ��̴�.
         {
             player.animator.SetTrigger("Reload");
             player.animator.SetFloat("ReloadType", 1f);
         }
+
+
     }
 
 }

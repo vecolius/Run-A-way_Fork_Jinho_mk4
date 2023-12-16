@@ -14,6 +14,9 @@ namespace Hojun
         Animator aniCompo;
         NavMeshAgent agent;
 
+        float arriveDestination = 0.5f;
+        const float runSpeed = 1.4f;
+
         // 들은 소리가 runHearValue이상이면 달리게 됨
         public float runHearValue = 20f;
 
@@ -35,7 +38,7 @@ namespace Hojun
             aniCompo.SetInteger("State" , (int)Zombie.ZombieState.SEARCH );
             agent.enabled = true;
             ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.SEARCH);
-            
+            agent.speed = 10;
         }
 
         public override void Exit()
@@ -51,17 +54,30 @@ namespace Hojun
                 stateMachine.SetState( (int)Zombie.ZombieState.FIND );
             }
 
-            Debug.Log("search update");
-            ownerZombie.Move();
+
+            Vector3 ownerPos =  ownerZombie.transform.position;
+            Vector3 detectedPos = ownerZombie.TargetArea;
+
+
+
+
+            if (Vector3.Distance(ownerPos, detectedPos) <= arriveDestination)
+            {
+                stateMachine.SetState((int)Zombie.ZombieState.IDLE);
+                ownerZombie.InitTarget();
+            }
+
+
 
             if (ownerZombie.HearValue >= runHearValue)
             {
                 aniCompo.SetBool("Run" , true);
                 Debug.Log("running");
-                agent.speed = ownerZombie.Speed*1.4f;
+                agent.speed = ownerZombie.Speed * runSpeed ;
             }
 
-
+            Debug.Log("search update");
+            ownerZombie.Move();
 
 
         }

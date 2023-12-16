@@ -33,15 +33,10 @@ namespace Hojun
 
             Debug.Log("searchstrategy on 찾기 시작");
 
-            agent.SetDestination(ownerZombie.SoundTraceArea);
+
+            agent.SetDestination(ownerZombie.TargetArea);
 
 
-            agent.speed = 10f;
-            if (ownerZombie.HearValue <= ownerZombie.RunHearValue)
-            {
-                Debug.Log("달리는 중");
-                agent.speed = ownerZombie.Speed * 1.4f;
-            }
 
 
         }
