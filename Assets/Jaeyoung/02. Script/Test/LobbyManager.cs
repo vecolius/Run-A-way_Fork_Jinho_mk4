@@ -7,6 +7,7 @@ using Photon.Realtime;
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject missionManager;
+    [SerializeField] GameObject characterPrafab;
 
     private void Start()
     {
@@ -69,14 +70,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방이없어요, 혹은 들어갈 수 없었어요");
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 2;
+        roomOptions.MaxPlayers = 4;
         PhotonNetwork.CreateRoom(null, roomOptions);
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("내가 방에 들어왔습니다.");
-        //PhotonNetwork.Instantiate(characterPrafab.name, transform.position, transform.rotation);
+        PhotonNetwork.Instantiate(characterPrafab.name, transform.position, transform.rotation);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
