@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1146,11 +1146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ebbc3850e58daf43854257a88852008, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1529200310 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4597972832071545081, guid: 520b650f06785b34aba545daaa072a3e, type: 3}
-  m_PrefabInstance: {fileID: 1147156259}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1540743009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1238,7 +1233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolingInfoList:
-  - prefab: {fileID: 222510788032663327, guid: 83752a5884603864ca78846fa7bbb630, type: 3}
+  - prefab: {fileID: 8643283476328210379, guid: 4eefa936c47806246969aca9484bf1d4, type: 3}
     poolingSize: 20
   - prefab: {fileID: 627705683}
     poolingSize: 20
@@ -1458,6 +1453,9 @@ MonoBehaviour:
   - Type: 3
     SynchronizeType: 0
     Name: WeaponType
+  - Type: 9
+    SynchronizeType: 0
+    Name: Die
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -1703,7 +1701,7 @@ PrefabInstance:
     - target: {fileID: 3292574862215475650, guid: 2a525f3cde12a484e8d72121fed393c7, type: 3}
       propertyPath: weapon
       value: 
-      objectReference: {fileID: 1529200310}
+      objectReference: {fileID: 0}
     - target: {fileID: 3292574862215475650, guid: 2a525f3cde12a484e8d72121fed393c7, type: 3}
       propertyPath: mainCamera
       value: 
@@ -1711,7 +1709,15 @@ PrefabInstance:
     - target: {fileID: 3292574862215475650, guid: 2a525f3cde12a484e8d72121fed393c7, type: 3}
       propertyPath: weaponObjSlot.Array.data[0]
       value: 
-      objectReference: {fileID: 1529200310}
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292574862215475650, guid: 2a525f3cde12a484e8d72121fed393c7, type: 3}
+      propertyPath: weaponObjSlot.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292574862215475653, guid: 2a525f3cde12a484e8d72121fed393c7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3293562697857542784, guid: 2a525f3cde12a484e8d72121fed393c7, type: 3}
       propertyPath: m_Name
       value: TestPlayer
@@ -1901,7 +1907,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8016608680623411038, guid: 6214b93b9c0d71143a504192f76422b1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.82
       objectReference: {fileID: 0}
     - target: {fileID: 8016608680623411038, guid: 6214b93b9c0d71143a504192f76422b1, type: 3}
       propertyPath: m_LocalPosition.z

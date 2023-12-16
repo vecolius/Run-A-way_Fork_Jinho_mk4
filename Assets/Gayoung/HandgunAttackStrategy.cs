@@ -14,23 +14,29 @@ namespace Gayoung
         }
         public override void Attack()
         {
-            
+            if (player == null)
+                return;
+
+            //player.WeaponIndex = 1;
             // �ִϸ��̼ǿ��� ���������� ���� ������ ������ �κ��̴�.
             player.animator.SetInteger("WeaponType", 3);
 
             // ���� ��ü �κ��̴�.(�ִϸ��̼�)
             // ������ ���ⱳü �ִϸ��̼��� �޶� �̷��� �־����ϴ�.
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                base.WeaponSwap(1, 1.0f);
+                base.WeaponSwap(0, 1.0f);
+                player.WeaponChange();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 base.WeaponSwap(2, 1.0f);
+                player.WeaponChange();
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 base.WeaponSwap(3, 1.0f);
+                player.WeaponChange();
             }
         }   
 
