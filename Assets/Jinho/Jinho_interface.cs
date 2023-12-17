@@ -10,8 +10,8 @@ namespace Jinho
     #region Item_interface
     public enum ItemType
     {
-        rifle,
-        shotgun,
+        Rifle,
+        Shotgun,
         Melee,
         Handgun,
         HealKit,
@@ -81,16 +81,13 @@ namespace Jinho
             IAttackItemable attackItemable = weaponObj.GetComponent<IAttackItemable>();
             switch (attackItemable.ItemType)
             {
-                case ItemType.rifle:
-                    Debug.Log("라이플로 교체");
+                case ItemType.Rifle:
                     attackItemable.AttackStrategy = new RifleAttackStrategy(player);
                     break;
-                case ItemType.shotgun:
-                    Debug.Log("샷건으로로 교체");
+                case ItemType.Shotgun:
                     attackItemable.AttackStrategy = new ShotGunStregy(player);
                     break;
                 case ItemType.Handgun:
-                    Debug.Log("권총으로 교체");
                     attackItemable.AttackStrategy = new HandgunAttackStrategy(player);
                     break;
                 case ItemType.Melee:

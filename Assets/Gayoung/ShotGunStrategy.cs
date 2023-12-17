@@ -17,7 +17,7 @@ namespace Gayoung
         {
             if (player == null)
                 return;
-
+            
             //player.WeaponIndex = 0;
             // 애니메이션에서 무기종류에 따라 공격이 나가는 부분이다.
             player.animator.SetInteger("WeaponType", 2);

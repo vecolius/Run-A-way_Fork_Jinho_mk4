@@ -290,8 +290,8 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
             attackDic = new Dictionary<ItemType, AttackStrategy>();
-            attackDic.Add(ItemType.rifle, new RifleAttackStrategy(this));
-            attackDic.Add(ItemType.shotgun, new ShotGunStregy(this));
+            attackDic.Add(ItemType.Rifle, new RifleAttackStrategy(this));
+            attackDic.Add(ItemType.Shotgun, new ShotGunStregy(this));
             attackDic.Add(ItemType.Handgun, new HandgunAttackStrategy(this));
             attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
             attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));

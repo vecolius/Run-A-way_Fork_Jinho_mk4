@@ -16,7 +16,7 @@ namespace Gayoung
         {
             if (player == null)
                 return;
-
+            
             //player.WeaponIndex = 1;
             // �ִϸ��̼ǿ��� ���������� ���� ������ ������ �κ��̴�.
             player.animator.SetInteger("WeaponType", 3);

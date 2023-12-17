@@ -18,7 +18,14 @@ namespace Jinho
         public Player Player 
         { 
             get => player;
-            set { player = value; }
+            set 
+            { 
+                player = value;
+                if(player != null)
+                {
+                    strategy = new ShotGunStregy(player);
+                }
+            }
         }
         [SerializeField] Player player = null;
 

@@ -14,7 +14,14 @@ namespace Jinho
         public Player Player 
         {  
             get=> player;
-            set { player = value; }
+            set 
+            { 
+                player = value; 
+                if(player != null)
+                {
+                    strategy = new RifleAttackStrategy(player);
+                }
+            }
         }
         public IAttackStrategy AttackStrategy
         {
