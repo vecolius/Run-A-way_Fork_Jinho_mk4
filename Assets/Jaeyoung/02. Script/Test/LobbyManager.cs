@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    [SerializeField] GameObject spawnPoint;
     [SerializeField] GameObject missionManager;
     [SerializeField] GameObject characterPrafab;
+    [SerializeField] TextMeshProUGUI countText;
 
     private void Start()
     {
@@ -21,8 +24,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsConnected == false)
             return;
 
-        Debug.Log("최대 인원 수" + PhotonNetwork.CurrentRoom.MaxPlayers);
-        Debug.Log("현재 인원 수" + PhotonNetwork.CurrentRoom.PlayerCount);
+        countText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString() + " / " + PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
 
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
@@ -41,6 +43,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         else
             PhotonNetwork.ConnectUsingSettings();
 
+    }
+
+    public void LeftRoom()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
     }
 
     //MonoBehaviourPunCallbacks는 MonoBehaviour이므로 (상속관계)
@@ -70,14 +77,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("방이없어요, 혹은 들어갈 수 없었어요");
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 4;
+        roomOptions.MaxPlayers = 2;
         PhotonNetwork.CreateRoom(null, roomOptions);
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("내가 방에 들어왔습니다.");
-        PhotonNetwork.Instantiate(characterPrafab.name, transform.position, transform.rotation);
+        GameObject obj = PhotonNetwork.Instantiate(characterPrafab.name, spawnPoint.transform.position, transform.rotation);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
