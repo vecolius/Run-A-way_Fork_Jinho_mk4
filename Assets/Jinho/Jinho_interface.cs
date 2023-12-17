@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hojnun;
 using Hojun;
+using Gayoung;
 
 namespace Jinho
 {
@@ -20,7 +21,7 @@ namespace Jinho
     {
         public ItemType ItemType { get; }
         public Player Player { get; set; }
-        public IAttackStrategy AttackStrategy { get; }
+        public IAttackStrategy AttackStrategy { get; set; }
         public void Use();
         public void UseEffect();
         public void SetItem(Player player);
@@ -38,7 +39,7 @@ namespace Jinho
     #region Weapon_Class
     public class WeaponItem
     {
-        public static void SetWeapon(Player player, GameObject weaponObj, int slotIndex, Player weaponDataPlayer)
+        public static void SetWeapon(Player player, GameObject weaponObj, int slotIndex, IAttackItemable attackItemable)
         {
             if (player.weaponObjSlot[slotIndex] != null)
             {
@@ -48,6 +49,7 @@ namespace Jinho
 
                 player.weaponObjSlot[slotIndex] = weaponObj;
                 temp.GetComponent<IAttackItemable>().Player = null;
+
                 temp.transform.position = tempPos;
                 weaponObj.GetComponent<IAttackItemable>().Player = player;
 
@@ -56,11 +58,13 @@ namespace Jinho
 
                 if (player.weaponIndex == slotIndex)   //플레이어가 슬롯의 무기를 들고있을 때,
                 {
+                    SetStrategy(player, weaponObj);
                     player.attackState = weaponObj.GetComponent<IAttackItemable>().ItemType;  //player가 그 슬롯의 무기를 들도록 설정
                     player.currentItemObj = player.weaponObjSlot[slotIndex];
+                    player.currentItem = player.currentItemObj.GetComponent<IUseable>();
                 }
                 else                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
-                    temp.SetActive(false);
+                    weaponObj.SetActive(false);
             
             }
             else
@@ -71,6 +75,35 @@ namespace Jinho
                 weaponObj.GetComponent<IAttackItemable>().Player = player;
             }
             weaponObj.GetComponent<Collider>().enabled = false;
+        }
+        public static void SetStrategy(Player player, GameObject weaponObj)
+        {
+            IAttackItemable attackItemable = weaponObj.GetComponent<IAttackItemable>();
+            switch (attackItemable.ItemType)
+            {
+                case ItemType.rifle:
+                    Debug.Log("라이플로 교체");
+                    attackItemable.AttackStrategy = new RifleAttackStrategy(player);
+                    break;
+                case ItemType.shotgun:
+                    Debug.Log("샷건으로로 교체");
+                    attackItemable.AttackStrategy = new ShotGunStregy(player);
+                    break;
+                case ItemType.Handgun:
+                    Debug.Log("권총으로 교체");
+                    attackItemable.AttackStrategy = new HandgunAttackStrategy(player);
+                    break;
+                case ItemType.Melee:
+                    attackItemable.AttackStrategy = new MeleeAttackStrategy(player);
+                    break;
+                case ItemType.HealKit:
+                    //attackItemable.AttackStrategy = new HealKitAttackStrategy(player);
+                    break;
+                case ItemType.Grenade:
+                    attackItemable.AttackStrategy = new GranadeAttackStrategy(player);
+                    break;
+            }
+            player.attackStrategy = attackItemable.AttackStrategy;
         }
     }
     #endregion

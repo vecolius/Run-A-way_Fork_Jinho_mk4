@@ -18,9 +18,16 @@ namespace Jinho
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
 
-        IAttackStrategy strategy;
+        public IAttackStrategy strategy;
         public ItemType ItemType => weaponData.itemType;
-        public IAttackStrategy AttackStrategy => strategy;
+        public IAttackStrategy AttackStrategy
+        {
+            get => strategy;
+            set
+            {
+                strategy = value;
+            }
+        }
 
 
         public int maxBullet;       //장전되는 총알 양
@@ -56,7 +63,10 @@ namespace Jinho
         {
             strategy = new HandgunAttackStrategy(player);
         }
+        void Start()
+        {
 
+        }
         public void Use()
         {
             
@@ -69,7 +79,7 @@ namespace Jinho
 
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 1, this.player);
+            WeaponItem.SetWeapon(player, gameObject, 1, this);
         }
         
 
@@ -84,7 +94,7 @@ namespace Jinho
 
         public void MakeBullet()
         {
-
+            //BulletCount--;
             // make bullet -> obj_pull
 
             aimPos = player.Aim.aimObjPos;

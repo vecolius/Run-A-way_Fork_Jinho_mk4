@@ -305,7 +305,7 @@ namespace Jinho
             //attackState = currentWeapon.ItemType;
 
             GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
-            
+
             weaponIndex = 1;
             currentItemObj = weaponObjSlot[weaponIndex];
             currentItem = currentItemObj.GetComponent<IUseable>();
@@ -330,7 +330,7 @@ namespace Jinho
 
             moveDic[moveState]?.Moving();
 
-            if ( Input.GetKey(KeyCode.Mouse0) )//마우스 클릭시 공격이 나가는 부분
+            if ( Input.GetKey(KeyCode.Mouse0))//마우스 클릭시 공격이 나가는 부분
             {
                 this.animator.SetBool("Shot", true);
                 currentItem?.Use();
@@ -348,7 +348,7 @@ namespace Jinho
             }
 
             //전략부분으로 넣어줘서 무기교체와 애니메이션 실행 바로 됩니다!
-            if (Input.GetKey(KeyCode.Alpha1)) // 무기 정보 [주무기]
+            if (Input.GetKeyDown(KeyCode.Alpha1)) // 무기 정보 [주무기]
             {
                 WeaponIndex = 0;
             }

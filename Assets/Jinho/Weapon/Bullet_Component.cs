@@ -56,7 +56,7 @@ public class Bullet_Component : MonoBehaviour, Hojun.IAttackAble
     }
     void OnTriggerEnter(Collider other)
     {
-
+        if (other.GetComponent<Bullet_Component>() != null) return;
         BulletDestroy();
 
     }

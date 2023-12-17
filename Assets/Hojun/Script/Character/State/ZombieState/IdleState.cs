@@ -62,7 +62,7 @@ namespace Hojun
         public override void Update()
         {
 
-            Debug.Log("idle state upadate");
+            //Debug.Log("idle state upadate");
             if (ownerZombie.IsFindPlayer)
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);
             

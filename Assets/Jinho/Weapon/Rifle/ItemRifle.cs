@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackItemable, Yeseul.IInteractive 
+    public class ItemRifle : MonoBehaviour, IAttackItemable, Yeseul.IInteractive, IReLoadAble
     {
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
@@ -16,7 +16,14 @@ namespace Jinho
             get=> player;
             set { player = value; }
         }
-        public IAttackStrategy AttackStrategy => strategy;
+        public IAttackStrategy AttackStrategy
+        {
+            get => strategy;
+            set
+            {
+                strategy = value;
+            }
+        }
         [SerializeField] Player player = null;
         
         public Transform firePos;   //총알 발사 위치
@@ -28,7 +35,7 @@ namespace Jinho
         [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField]int bulletCount;            //현재 총에 들어있는 총알 양
         [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
-        [SerializeField]IAttackStrategy strategy;
+        public IAttackStrategy strategy;
 
         void OnEnable()
         {
@@ -62,9 +69,12 @@ namespace Jinho
 
         public void Use()
         {
+            if (BulletCount == 0)
+                return;
 
+            strategy.Attack();
 
-            AttackStrategy.Attack();
+            //AttackStrategy.Attack();
 
 
             //Attack();
@@ -96,22 +106,9 @@ namespace Jinho
         }
 
 
-        public void Reload()
-        {
-            int needBulletCount = maxBullet - BulletCount;
-
-            if (TotalBullet >= needBulletCount)
-                BulletCount = maxBullet;
-            else
-                BulletCount += TotalBullet;
-
-            TotalBullet -= needBulletCount;
-        }
-
-
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 0, this.player);
+            WeaponItem.SetWeapon(player, gameObject, 0, this);
         }
 
 
@@ -124,36 +121,33 @@ namespace Jinho
             }
         }
 
-
-
-        public void Attack()
-        {
-            if (BulletCount == 0)
-                return;
-            BulletCount--;
-
-            AttackStrategy.Attack();
-        }
-
-
-        public GameObject GetAttacker()
-        {
-            return Player.gameObject;
-        }
-
-        public float GetDamage()
-        {
-            return weaponData.damage;
-        }
-
         public void UseEffect()
         {
+            MakeBullet();
+        }
+        public void MakeBullet()
+        {
+            //BulletCount--;
+            // make bullet -> obj_pull
+
             aimPos = player.Aim.aimObjPos;
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-            Bullet_Component bulletScript = bulletObj.gameObject.GetComponent<Bullet_Component>();
+            Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
+
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
-            bulletObj.SetActive(true);
+        }
+
+        public void ReLoad()
+        {
+            int needBulletCount = maxBullet - BulletCount;
+
+            if (TotalBullet >= needBulletCount)
+                BulletCount = maxBullet;
+            else
+                BulletCount += TotalBullet;
+
+            TotalBullet -= needBulletCount;
         }
     }
 }

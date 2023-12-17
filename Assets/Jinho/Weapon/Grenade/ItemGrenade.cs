@@ -3,9 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yeseul;
 
 namespace Jinho {
-    public class ItemGrenade : MonoBehaviour, IAttackItemable
+    public class ItemGrenade : MonoBehaviour, IAttackItemable, IInteractive
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get => weaponData; }
@@ -15,7 +16,14 @@ namespace Jinho {
         public float explosionRange;        //폭발 범위
         IAttackStrategy strategy;
         public ItemType ItemType { get => weaponData.itemType; }
-        public IAttackStrategy AttackStrategy => strategy;
+        public IAttackStrategy AttackStrategy
+        {
+            get => strategy;
+            set
+            {
+                strategy = value;
+            }
+        }
         Vector3 endPos, startPos;           //날아갈 위치
         public int maxBullet;       //장전되는 총알 양
         int bulletCount;            //현재 총에 들어있는 총알 양
@@ -50,47 +58,29 @@ namespace Jinho {
             
             if (BulletCount == 0)
                 return;
-            BulletCount--;
-            
-            endPos = player.Aim.aimObjPos.position;
-            GameObject bulletObj = Instantiate(grenade);
-            bulletObj.GetComponent<Grenade>().SetGrenadeData(transform.position, endPos, player, explosionRange, weaponData.damage);
+            strategy.Attack();
         }
-        public void Reload()    //수류탄은 reload 없음
-        {
-            return;
-        }
+
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 3, this.player);
-        }
-        
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.TryGetComponent(out Player player) && this.player == null)
-            {
-                SetItem(player);
-            }
-        }
-
-        public void Attack()
-        {
-            throw new NotImplementedException();
-        }
-
-        public GameObject GetAttacker()
-        {
-            throw new NotImplementedException();
-        }
-
-        public float GetDamage()
-        {
-            throw new NotImplementedException();
+            WeaponItem.SetWeapon(player, gameObject, 3, this);
         }
 
         public void UseEffect()
         {
-            throw new NotImplementedException();
+            BulletCount--;
+
+            endPos = player.Aim.aimObjPos.position;
+            GameObject bulletObj = Instantiate(grenade);
+            bulletObj.GetComponent<Grenade>().SetGrenadeData(transform.position, endPos, player, explosionRange, weaponData.damage);
+        }
+
+        public void Interaction(GameObject interactivePlayer)
+        {
+            if (interactivePlayer.TryGetComponent(out Player player) && this.player == null)
+            {
+                SetItem(player);
+            }
         }
     }
 }
