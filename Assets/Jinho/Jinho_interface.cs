@@ -58,13 +58,15 @@ namespace Jinho
 
                 if (player.weaponIndex == slotIndex)   //플레이어가 슬롯의 무기를 들고있을 때,
                 {
-                    SetStrategy(player, weaponObj);
+                    //SetStrategy(player, weaponObj);
                     player.attackState = weaponObj.GetComponent<IAttackItemable>().ItemType;  //player가 그 슬롯의 무기를 들도록 설정
                     player.currentItemObj = player.weaponObjSlot[slotIndex];
                     player.currentItem = player.currentItemObj.GetComponent<IUseable>();
                 }
                 else                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
+                {
                     weaponObj.SetActive(false);
+                }
             
             }
             else

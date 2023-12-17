@@ -42,7 +42,7 @@ namespace Jinho
         [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField]int bulletCount;            //현재 총에 들어있는 총알 양
         [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
-        public IAttackStrategy strategy;
+        IAttackStrategy strategy;
 
         void OnEnable()
         {
@@ -57,9 +57,9 @@ namespace Jinho
             get { return weaponData.bullet; }
             set
             {
-                BulletCount = value;
-                if (BulletCount > maxBullet) BulletCount = maxBullet;
-                if (BulletCount < 0) BulletCount = 0;
+                bulletCount = value;
+                if (bulletCount > maxBullet) bulletCount = maxBullet;
+                if (bulletCount < 0) bulletCount = 0;
             }
         }
 
@@ -78,7 +78,7 @@ namespace Jinho
         {
             if (BulletCount == 0)
                 return;
-
+            
             strategy.Attack();
 
             //AttackStrategy.Attack();

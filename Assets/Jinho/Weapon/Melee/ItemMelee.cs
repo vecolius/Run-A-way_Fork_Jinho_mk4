@@ -9,7 +9,18 @@ namespace Jinho
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
-        public Player Player { get => player; set { player = value; } }
+        public Player Player 
+        { 
+            get => player; 
+            set 
+            { 
+                player = value; 
+                if(player != null)
+                {
+                    strategy = new MeleeAttackStrategy(player);
+                }
+            } 
+        }
         [SerializeField] Player player = null;
         public Collider col;
         IAttackStrategy strategy;

@@ -10,7 +10,18 @@ namespace Jinho {
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get => weaponData; }
-        public Player Player { get => player; set { player = value; } }
+        public Player Player 
+        { 
+            get => player; 
+            set 
+            { 
+                player = value; 
+                if(player != null)
+                {
+                    strategy = new GranadeAttackStrategy(player);
+                }
+            } 
+        }
         Player player = null;
         public GameObject grenade;
         public float explosionRange;        //Æø¹ß ¹üÀ§

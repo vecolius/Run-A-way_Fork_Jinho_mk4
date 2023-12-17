@@ -11,14 +11,25 @@ namespace Jinho
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
-        public Player Player { get => player; set { player = value; } }
+        public Player Player 
+        { 
+            get => player; 
+            set 
+            { 
+                player = value; 
+                if(player != null)
+                {
+                    strategy = new HandgunAttackStrategy(player);
+                }
+            } 
+        }
         public Player player = null;
 
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
         Transform aimPos;           //총알이 날아갈 위치
 
-        public IAttackStrategy strategy;
+        IAttackStrategy strategy;
         public ItemType ItemType => weaponData.itemType;
         public IAttackStrategy AttackStrategy
         {
@@ -63,16 +74,12 @@ namespace Jinho
         {
             strategy = new HandgunAttackStrategy(player);
         }
-        void Start()
-        {
-
-        }
         public void Use()
         {
             
             if (BulletCount == 0)
                 return;
-
+            
             strategy.Attack();
         }
 

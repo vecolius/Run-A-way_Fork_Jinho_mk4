@@ -31,7 +31,7 @@ namespace Jinho
 
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
-        public IAttackStrategy strategy;
+        IAttackStrategy strategy;
         Transform AimPos
         {
             get => player.Aim.aimObjPos; //총알이 날아갈 위치
@@ -90,7 +90,7 @@ namespace Jinho
         {
             if (BulletCount == 0)
                 return;
-
+            
             strategy.Attack();
         }
 
