@@ -116,8 +116,6 @@ public class SceneController : DontDestroySingle<SceneController>
     
     public void ChangeScene(string sceneName)
     {
-        Debug.Log(sceneName);
-
         foreach (GameObject ui in totalUi) 
         {
             ui.SetActive(false);

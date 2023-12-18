@@ -3423,6 +3423,8 @@ MonoBehaviour:
   - {fileID: 367976524}
   - {fileID: 1130646004}
   - {fileID: 1690414008}
+  playerCount: 4
+  playerNumber: 0
 --- !u!4 &520415097
 Transform:
   m_ObjectHideFlags: 0

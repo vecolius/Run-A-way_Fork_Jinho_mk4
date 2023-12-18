@@ -13,7 +13,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject sceneController;
     [SerializeField] GameObject backGround;
     [SerializeField] Image[] playerImage = new Image[4];
-    private int playerCount;
+    public int playerCount;
+    public int playerNumber;
 
     private void Start()
     {
@@ -69,6 +70,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         SetActivePlayerImage();
+        playerNumber = PhotonNetwork.PlayerList.Length;
+        Debug.Log(playerNumber);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -85,7 +88,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
         {
-            playerImage[i].gameObject.SetActive(i < PhotonNetwork.CurrentRoom.PlayerCount);
+            playerImage[i].gameObject.SetActive(i < PhotonNetwork.PlayerList.Length);
         }
     }
 }
