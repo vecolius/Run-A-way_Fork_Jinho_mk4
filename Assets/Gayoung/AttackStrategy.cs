@@ -18,7 +18,7 @@ namespace Gayoung
 
         public virtual void Attack()
         {
-
+            Debug.Log("아무것도 없음");
         }
         public virtual void WeaponSwap(int index, float value = 0.5f)
         {

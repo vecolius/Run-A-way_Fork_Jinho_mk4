@@ -13,6 +13,7 @@ namespace Jinho
         public ItemType ItemType => throw new System.NotImplementedException();
 
         public Player Player { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        IAttackStrategy IUseable.AttackStrategy { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         public void Reload()
         {
