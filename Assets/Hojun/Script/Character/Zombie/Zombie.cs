@@ -211,6 +211,8 @@ namespace Hojun
             //zombieData = new CharacterData(50,10,20);
             stateMachine = new StateMachine<Zombie>(this);
             detectiveCompo = GetComponent<DetectiveComponent>();
+
+            zombieData = zombieData.GetClone;
         }
 
         public virtual void Move() 

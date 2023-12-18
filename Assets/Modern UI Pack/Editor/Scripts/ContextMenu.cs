@@ -59,7 +59,7 @@ namespace Michsky.UI.ModernUIPack
 
                     else { clone.transform.SetParent(Selection.activeGameObject.transform, false); }
 
-                    clone.name = clone.name.Replace("(Clone)", "").Trim();
+                    clone.name = clone.name.Replace("(GetClone)", "").Trim();
                     MakeSceneDirty(clone, clone.name);
                 }
 
@@ -68,7 +68,7 @@ namespace Michsky.UI.ModernUIPack
                     CreateCanvas();
                     var canvas = (Canvas)GameObject.FindObjectsOfType(typeof(Canvas))[0];
                     clone.transform.SetParent(canvas.transform, false);
-                    clone.name = clone.name.Replace("(Clone)", "").Trim();
+                    clone.name = clone.name.Replace("(GetClone)", "").Trim();
                     MakeSceneDirty(clone, clone.name);
                 }
 
@@ -123,7 +123,7 @@ namespace Michsky.UI.ModernUIPack
                 GetObjectPath();
                 UpdateCustomEditorPath();
                 GameObject clone = Instantiate(AssetDatabase.LoadAssetAtPath(objectPath + "Other/Canvas" + ".prefab", typeof(GameObject)), Vector3.zero, Quaternion.identity) as GameObject;
-                clone.name = clone.name.Replace("(Clone)", "").Trim();
+                clone.name = clone.name.Replace("(GetClone)", "").Trim();
                 Selection.activeObject = clone;
                 MakeSceneDirty(clone, clone.name);
             }

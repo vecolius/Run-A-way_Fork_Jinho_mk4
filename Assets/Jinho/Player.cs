@@ -223,8 +223,8 @@ namespace Jinho
 
     public class Player : MonoBehaviour, IHitAble , IDieable
     {
-        public PlayerData state = null;                                   //player의 기본state
-        
+        public PlayerData state = null;
+
         public float Hp
         {
             get => state.Hp;
@@ -304,13 +304,16 @@ namespace Jinho
             //currentWeapon = weapon.GetComponent<IUseable>();
             //attackState = currentWeapon.ItemType;
 
-            GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
+            //GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
 
-            weaponIndex = 1;
+            WeaponIndex = 0;
             currentItemObj = weaponObjSlot[weaponIndex];
             currentItem = currentItemObj.GetComponent<IUseable>();
             attackStrategy = currentItem.AttackStrategy;
             Aim = mainCamera.GetComponent<AimComponent>();
+
+            attackStrategy = attackDic[ItemType.Handgun];
+
 
             //WeaponChange(); // 아무것도 안들고 있는 것
         }
@@ -391,15 +394,17 @@ namespace Jinho
             }
 
 
-            Debug.Log(currentItemObj.name + "이게 꺼졌음");
-            currentItemObj.SetActive(false);
-            currentItemObj = weaponObjSlot[WeaponIndex];
-
-            Debug.Log(currentItemObj.name + "이게 켜졌음");
+            if(currentItemObj != null)
+                currentItemObj.SetActive(false);
             
+            currentItemObj = weaponObjSlot[WeaponIndex];
             currentItemObj.SetActive(true);
+            
             currentItem = currentItemObj.GetComponent<IUseable>();
-            attackStrategy = currentItem.AttackStrategy;
+            
+            if (currentItem.AttackStrategy != null) { }
+                attackStrategy = currentItem.AttackStrategy;
+
             attackState = currentItem.ItemType;
      
             Debug.Log("무기교체완");

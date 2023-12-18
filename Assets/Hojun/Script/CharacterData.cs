@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "data", menuName = "Scriptable Object/CharacterData", order = int.MaxValue)]
-public class CharacterData : ScriptableObject
+
+namespace Hojun
 {
-    public float hp;
-    public float speed;
-    public bool isDead;
-    public float attackPoint;
-    public string characterName;
 
-    public CharacterData Clone 
+
+    [CreateAssetMenu(fileName = "data", menuName = "Scriptable Object/CharacterData", order = int.MaxValue)]
+    public class CharacterData : ScriptableObject
     {
-        get => Instantiate(this);    
-    }
+        public float hp;
+        public float speed;
+        public bool isDead;
+        public float attackPoint;
+        public string characterName;
 
+        public CharacterData GetClone
+        {
+            get => Instantiate(this);
+        }
+
+    }
 }
