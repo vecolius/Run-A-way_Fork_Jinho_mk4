@@ -9,21 +9,37 @@ namespace Jinho
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
-        public Player Player { get => player; set { player = value; } }
+        public Player Player 
+        { 
+            get => player; 
+            set 
+            { 
+                player = value; 
+                if(player != null)
+                {
+                    strategy = new MeleeAttackStrategy(player);
+                }
+            } 
+        }
         [SerializeField] Player player = null;
         public Collider col;
         IAttackStrategy strategy;
         public ItemType ItemType => weaponData.itemType;
-        public IAttackStrategy AttackStrategy => strategy;
+        public IAttackStrategy AttackStrategy
+        {
+            get => strategy;
+            set
+            {
+                strategy = value;
+            }
+        }
         void OnEnable()
         {
             strategy = new MeleeAttackStrategy(player);
         }
         public void Use()
         {
-            //Colldier가 꺼지고 켜짐
-            //사운드
-            col.enabled = !col.enabled;
+            strategy.Attack();
         }
         public void Reload()    //근접무기는 재장전 없음
         {
@@ -31,7 +47,7 @@ namespace Jinho
         }
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 1, this.player);
+            WeaponItem.SetWeapon(player, gameObject, 1, this);
         }
         public void Interaction(GameObject interactivePlayer)
         {
@@ -70,7 +86,9 @@ namespace Jinho
 
         public void UseEffect()
         {
-            throw new System.NotImplementedException();
+            //Colldier가 꺼지고 켜짐
+            //사운드
+            col.enabled = !col.enabled;
         }
     }
 }
