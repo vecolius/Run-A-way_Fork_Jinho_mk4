@@ -2,8 +2,10 @@ using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class Goal : MonoBehaviour
+public class Goal : MonoBehaviourPun
 {
     private void Start()
     {
@@ -12,11 +14,17 @@ public class Goal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        ((Breakthrough)MissionManager.instance.curMission).CurCount++;
+        photonView.RPC("GoalCountChange", RpcTarget.AllBuffered, 1);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        ((Breakthrough)MissionManager.instance.curMission).CurCount--;
+        photonView.RPC("GoalCountChange", RpcTarget.AllBuffered, -1);
+    }
+
+    [PunRPC]
+    private void GoalCountChange(int value)
+    {
+        ((Breakthrough)MissionManager.instance.curMission).CurCount += value;
     }
 }

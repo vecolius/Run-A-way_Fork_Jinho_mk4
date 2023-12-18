@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -23,6 +24,9 @@ namespace Jaeyoung
 
         private void Start()
         {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+
             if(targetCount > spawnItemPoint.points.Count)
                 targetCount = spawnItemPoint.points.Count;
 
@@ -30,7 +34,7 @@ namespace Jaeyoung
             for (int i = 0; i < targetCount; i++)
             {
                 int index = Random.Range(0, spawnItemPoint.points.Count);
-                GameObject obj = Instantiate(targetItem, spawnItemPoint.points[index]);
+                GameObject obj = PhotonNetwork.Instantiate(targetItem.name, spawnItemPoint.points[index].position, spawnItemPoint.points[index].rotation);
                 spawnItemPoint.points.RemoveAt(index);
             }
         }
