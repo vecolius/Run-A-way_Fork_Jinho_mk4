@@ -15,11 +15,8 @@ public class Loading : MonoBehaviour
     public TextMeshProUGUI loadtext;
     //private float completeTime = 1f;
     //private float uncompleteTime = 0.9f;
-    public string sceneName;
-    public void Awake()
-    {
-        sceneName = SceneController.nextSceneName;
-    }
+   
+   
     private void Start()
     {
         StartCoroutine(LoadScene());
@@ -30,7 +27,7 @@ public class Loading : MonoBehaviour
         yield return null;
         // LoadSceneAsync() 비동기로드.
         // Scene을 불러오면 완료까지 다른 작업을 수행하지 않음.
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
+        AsyncOperation operation = SceneManager.LoadSceneAsync("GameScene");
         // 로딩이 끝나도 멈춤.
         operation.allowSceneActivation = false;
 
