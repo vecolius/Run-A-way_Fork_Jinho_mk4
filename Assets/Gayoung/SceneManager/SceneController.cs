@@ -17,7 +17,7 @@ public class SceneController : DontDestroySingle<SceneController>
     [SerializeField] GameObject mainUi;
     [SerializeField] GameObject lobbyUi;
     [SerializeField] GameObject gameUi;
-    [SerializeField] GameObject loadingUi;
+    
 
     //��ư ������ �� Ȱ��ȭ �Ǵ� â
     [SerializeField] GameObject mainOptionImage;
@@ -27,7 +27,7 @@ public class SceneController : DontDestroySingle<SceneController>
 
 
     List<GameObject> totalUi= new List<GameObject>();
-    public static string nextSceneName;
+   
     // [SerializeField] private GameObject lobbyMultiUi; //  ��Ƽ �� �� ��� ����
     private new void Awake()
     {
@@ -42,7 +42,7 @@ public class SceneController : DontDestroySingle<SceneController>
         totalUi.Add(mainUi);
         totalUi.Add(lobbyUi);
         totalUi.Add(gameUi);
-        totalUi.Add(loadingUi);
+       
  
     }
     
@@ -64,6 +64,7 @@ public class SceneController : DontDestroySingle<SceneController>
             case "ProfessionChoiceButton":
                 lobbyProfessionChoiceButton.SetActive(!lobbyProfessionChoiceButton.activeSelf);
                 break; 
+                
         }
        
             Debug.Log("��ư ����");
@@ -95,25 +96,25 @@ public class SceneController : DontDestroySingle<SceneController>
                 lobbyUi.SetActive(true);
                 break;
 
-            case "GameScene":
-                gameUi.SetActive(true);
-                break;
+            //case "GameScene":
+            //    gameUi.SetActive(true);
+            //    break;
 
             case "LoadingScene":
-                loadingUi.SetActive(true);
+                gameUi.SetActive(true);
                 break;
-            //case "LobbyMultiScene":
-            //  ��Ƽ �� �� ��� ����
-            //    break;
+                //case "LobbyMultiScene":
+                //  ��Ƽ �� �� ��� ����
+                //    break;
         }
 
     }
 
-
+   
     //button click component [SerializeField] use
     public static void LoadScene(string sceneName)
     {
-        nextSceneName = sceneName;
+       
         SceneManager.LoadScene(sceneName);
         instance.ChangeScene(sceneName);
    

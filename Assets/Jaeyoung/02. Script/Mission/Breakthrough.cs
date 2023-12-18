@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Jaeyoung
 {
@@ -18,11 +20,11 @@ namespace Jaeyoung
             }
         }
 
-        //private void Start()
-        //{
-        //    // 살아있는 인원수를 groupCount에 넣어줘야함
-        //    // groupCount = 생존중인 오브젝트?
-        //}
+        private void Start()
+        {
+            // 살아있는 인원수를 groupCount에 넣어줘야함
+            groupCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        }
 
         public override bool Condition()
         {

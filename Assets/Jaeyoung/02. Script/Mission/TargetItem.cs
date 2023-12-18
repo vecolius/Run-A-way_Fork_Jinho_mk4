@@ -2,8 +2,10 @@ using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class TargetItem : MonoBehaviour, Yeseul.IInteractive
+public class TargetItem : MonoBehaviourPun, Yeseul.IInteractive
 {
     public void Start()
     {
@@ -12,6 +14,12 @@ public class TargetItem : MonoBehaviour, Yeseul.IInteractive
 
     public void Interaction(GameObject interactivePlayer)
     {
+        photonView.RPC("GetItem", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    private void GetItem()
+    {
         ((Search)MissionManager.instance.curMission).CurCount++;
         gameObject.SetActive(false);
     }
@@ -19,6 +27,6 @@ public class TargetItem : MonoBehaviour, Yeseul.IInteractive
     // 상호작용 테스트하고 지워야함
     private void OnTriggerEnter(Collider other)
     {
-        Interaction(other.gameObject);
+        photonView.RPC("GetItem", RpcTarget.AllBuffered);
     }
 }
