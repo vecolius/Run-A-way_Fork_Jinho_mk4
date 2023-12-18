@@ -1,11 +1,12 @@
 using Gayoung;
+using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemMelee : MonoBehaviour, IAttackItemable, Yeseul.IInteractive, Hojun.IAttackAble
+    public class ItemMelee : WeaponMonoBehaviour, IAttackItemable, Yeseul.IInteractive, Hojun.IAttackAble
     {
         public WeaponData weaponData;
         public WeaponData WeaponData { get { return weaponData; } }
@@ -23,7 +24,11 @@ namespace Jinho
         }
         [SerializeField] Player player = null;
         public Collider col;
+        public AudioClip weaponSound;
+        [SerializeField]bool isAttacking = false;
+
         IAttackStrategy strategy;
+        public SoundComponent sound;
         public ItemType ItemType => weaponData.itemType;
         public IAttackStrategy AttackStrategy
         {
@@ -89,6 +94,17 @@ namespace Jinho
             //Colldier가 꺼지고 켜짐
             //사운드
             col.enabled = !col.enabled;
+            isAttacking = col.enabled;
+            if (isAttacking)
+            {
+                this.sound.ActiveSound();
+                GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
+                soundObj.transform.position = transform.position;
+                AudioSource sound = soundObj.GetComponent<AudioSource>();
+                sound.clip = weaponSound;
+                soundObj.SetActive(true);
+                sound.Play();
+            }
         }
     }
 }

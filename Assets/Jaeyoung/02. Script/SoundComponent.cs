@@ -28,27 +28,28 @@ namespace Jaeyoung
 
             if (Input.GetKey(KeyCode.A))
             {
-                photonView.RPC("ActiveSound", RpcTarget.All);
+                //photonView.RPC("ActiveSound", RpcTarget.All);
             }
         }
+
+
 
         [PunRPC]
         public void ActiveSound()
         {
-
             Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);
-            Debug.Log("¼Ò¸® »½");
+         
             if (coll.Length > 0)
             {
                 foreach (Collider zombie in coll)
                 {
                     if (zombie.TryGetComponent<IHearAble>(out IHearAble zom))
-                    {
                         zom.Hear(this.gameObject);
-                    }
+                    
                         
                 }
             }
+
 
         }
 

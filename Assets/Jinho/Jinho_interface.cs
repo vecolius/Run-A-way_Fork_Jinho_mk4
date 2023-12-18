@@ -4,6 +4,8 @@ using UnityEngine;
 using Hojnun;
 using Hojun;
 using Gayoung;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Jinho
 {
@@ -24,6 +26,7 @@ namespace Jinho
         public IAttackStrategy AttackStrategy { get; set; }
         public void Use();
         public void UseEffect();
+        [PunRPC]
         public void SetItem(Player player);
     }
     public interface IAttackItemable : IUseable
@@ -39,6 +42,7 @@ namespace Jinho
     #region Weapon_Class
     public class WeaponItem
     {
+        [PunRPC]
         public static void SetWeapon(Player player, GameObject weaponObj, int slotIndex, IAttackItemable attackItemable)
         {
             if (player.weaponObjSlot[slotIndex] != null)
@@ -103,6 +107,34 @@ namespace Jinho
                     break;
             }
             player.attackStrategy = attackItemable.AttackStrategy;
+        }
+    }
+    public class WeaponMonoBehaviour : MonoBehaviour
+    {
+        [SerializeField]protected  int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
+        [SerializeField]protected int totalBullet;            //내가 가지고 있는 총알의 합계
+        [SerializeField]protected int maxBullet;       //장전되는 총알 양
+        [SerializeField]protected int bulletCount;            //현재 총에 들어있는 총알 양
+
+        public int BulletCount
+        {
+            get { return bulletCount; }
+            set
+            {
+                bulletCount = value;
+                if (bulletCount > maxBullet) bulletCount = maxBullet;
+                if (bulletCount < 0) bulletCount = 0;
+            }
+        }
+        public int TotalBullet
+        {
+            get { return totalBullet; }
+            set
+            {
+                totalBullet = value;
+                if (totalBullet > maxTotalBullet) totalBullet = maxTotalBullet;
+                if (totalBullet < 0) totalBullet = 0;
+            }
         }
     }
     #endregion

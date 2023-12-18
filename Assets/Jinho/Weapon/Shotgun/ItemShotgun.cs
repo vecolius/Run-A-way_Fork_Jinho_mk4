@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemShotgun : MonoBehaviour, IAttackItemable, Yeseul.IInteractive, IReLoadAble
+    public class ItemShotgun : WeaponMonoBehaviour, IAttackItemable, Yeseul.IInteractive, IReLoadAble
     {
         public WeaponData WeaponData 
         { 
@@ -31,6 +31,7 @@ namespace Jinho
 
         public Transform firePos;   //총알 발사 위치
         public GameObject bullet;   //날아갈 총알 GameObject
+        public AudioClip gunFireSound;
         IAttackStrategy strategy;
         Transform AimPos
         {
@@ -47,33 +48,9 @@ namespace Jinho
                 strategy = value;
             }
         }
-        public int maxBullet;       //장전되는 총알 양
-        [SerializeField] int bulletCount;            //현재 총에 들어있는 총알 양
-        
-        
-        public int BulletCount
-        {
-            get { return bulletCount; }
-            set
-            {
-                bulletCount = value;
-                if (bulletCount > maxBullet) bulletCount = maxBullet;
-                if (bulletCount < 0) bulletCount = 0;
-            }
-        }
-        [SerializeField] int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
-        [SerializeField] int totalBullet;            //내가 가지고 있는 총알의 합계
+
+        public SoundComponent sound;
         public Collider weaponCol;
-        public int TotalBullet
-        {
-            get { return totalBullet; }
-            set
-            {
-                totalBullet = value;
-                if (totalBullet > maxTotalBullet) totalBullet = maxTotalBullet;
-                if (totalBullet < 0) totalBullet = 0;
-            }
-        }
 
         void SetTransform(Vector3[] array)   //삿건 전용 총알 9개가 가야할 죄표
         {
@@ -112,6 +89,13 @@ namespace Jinho
                 bulletScript.SetBulletData(weaponData, Player);
                 bulletScript.SetBulletVec(firePos, targetPosArray[i]);
             }
+            this.sound.ActiveSound();
+            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
+            soundObj.transform.position = firePos.position;
+            AudioSource sound = soundObj.GetComponent<AudioSource>();
+            sound.clip = gunFireSound;
+            soundObj.SetActive(true);
+            sound.Play();
         }
 
 

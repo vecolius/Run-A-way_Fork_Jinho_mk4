@@ -3028,7 +3028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponObjSlot:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7913006321054128909, guid: 9e1a8871c4b242a4c9d4127d29b18ee9, type: 3}
   - {fileID: 0}
   - {fileID: 0}
   currentItemObj: {fileID: 0}
