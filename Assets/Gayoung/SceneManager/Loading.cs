@@ -15,13 +15,13 @@ public class Loading : MonoBehaviour
     public TextMeshProUGUI loadtext;
     //private float completeTime = 1f;
     //private float uncompleteTime = 0.9f;
-   
-   
+
+
     private void Start()
     {
         StartCoroutine(LoadScene());
     }
-
+    
     IEnumerator LoadScene()
     {
         yield return null;
