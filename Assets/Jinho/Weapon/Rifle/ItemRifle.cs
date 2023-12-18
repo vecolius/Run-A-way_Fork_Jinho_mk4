@@ -54,7 +54,7 @@ namespace Jinho
 
         public int BulletCount
         {
-            get { return weaponData.bullet; }
+            get { return bulletCount; }
             set
             {
                 bulletCount = value;
