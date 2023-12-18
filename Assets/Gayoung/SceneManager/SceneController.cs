@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using Photon.Pun;
 
 
 // �÷��̾� ���� �κе� ���� ������ �ϱ� ������ ���� �����ϰ� ���� �����ϰ� ���� 
@@ -26,8 +27,8 @@ public class SceneController : DontDestroySingle<SceneController>
     [SerializeField] GameObject lobbyProfessionChoiceButton;
 
 
-    Dictionary<string, GameObject> uiObjectDict;
-    Dictionary<string, GameObject> buttonObjDict;
+    Dictionary<string, GameObject> uiObjectDict = new Dictionary<string, GameObject>();
+    Dictionary<string, GameObject> buttonObjDict = new Dictionary<string, GameObject>();
 
     List<GameObject> totalUi= new List<GameObject>();
    
@@ -39,7 +40,6 @@ public class SceneController : DontDestroySingle<SceneController>
 
     private void Start()
     {
-        LoadScene("TitleScene");
 
         totalUi.Add(titleUi);
         totalUi.Add(mainUi);
@@ -80,6 +80,7 @@ public class SceneController : DontDestroySingle<SceneController>
         buttonObjDict["ChacterChoiceButton"] = lobbyChacterChoiceImage;
         buttonObjDict["ProfessionChoiceButton"] = lobbyProfessionChoiceButton;
 
+        LoadScene("TitleScene");
     }
     
     public void OnClick(string buttonName) 
@@ -110,11 +111,13 @@ public class SceneController : DontDestroySingle<SceneController>
 
 
 
-    
 
-  
+
+    
     public void ChangeScene(string sceneName)
     {
+        Debug.Log(sceneName);
+
         foreach (GameObject ui in totalUi) 
         {
             ui.SetActive(false);
@@ -124,9 +127,10 @@ public class SceneController : DontDestroySingle<SceneController>
 
     }
 
-   
+
     //button click component [SerializeField] use
-    public static void LoadScene(string sceneName)
+    [PunRPC]
+    public void LoadScene(string sceneName)
     {
        
         SceneManager.LoadScene(sceneName);
@@ -137,7 +141,23 @@ public class SceneController : DontDestroySingle<SceneController>
     public void OnApplicationQuit()
     {
         Application.Quit();
-        //Debug.Log("���� ����"); �۵� Ȯ��
+    }
+
+    public void StartGame(string sceneName)
+    {
+        if (PhotonNetwork.IsMasterClient)
+            GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.AllBuffered, sceneName);
+    }
+
+    public void LeftRoom(string sceneName)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.AllBuffered, sceneName);
+            // 서버 끊어줘
+        }
+        else
+            LoadScene(sceneName);
     }
 
 
