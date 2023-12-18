@@ -4,55 +4,36 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
+using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField] GameObject spawnPoint;
-    [SerializeField] GameObject missionManager;
+    public LobbyManager instance;
     [SerializeField] GameObject characterPrafab;
-    [SerializeField] TextMeshProUGUI countText;
+    [SerializeField] GameObject spawnPoint;
+    [SerializeField] Image[] playerImage = new Image[4];
+    public int playerCount;
 
     private void Start()
     {
-        PhotonNetwork.GameVersion = "1";
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this.gameObject);
+        
+        DontDestroyOnLoad(this.gameObject);
         PhotonNetwork.ConnectUsingSettings();
-        PhotonNetwork.NickName = "TEST";
     }
-
-    private void Update()
-    {
-        if (PhotonNetwork.IsConnected == false)
-            return;
-
-        countText.text = PhotonNetwork.CurrentRoom.PlayerCount.ToString() + " / " + PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
-
-        if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
-        {
-            missionManager.SetActive(true);
-        }
-    }
-
-
     public void JoinRoom()
     {
         if (PhotonNetwork.IsConnected)
         {
-            Debug.Log("조인룸 누름");
             PhotonNetwork.JoinRandomRoom();
         }
         else
             PhotonNetwork.ConnectUsingSettings();
-
     }
 
-    public void LeftRoom()
-    {
-        PhotonNetwork.RemoveCallbackTarget(this);
-    }
-
-    //MonoBehaviourPunCallbacks는 MonoBehaviour이므로 (상속관계)
-    //유니티에서 제공하는 이벤트 함수 OnEnable과 OnDisable을 사용하였고, 구현해두었으니,
-    //만약 MonoBehaviourPunCallbacks을 상속받았고 해당 이벤트 함수를 사용하려면 꼭 override할것.
     public override void OnEnable()
     {
         base.OnEnable();
@@ -64,37 +45,46 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("OnConnectedToMaster() 호출 됨. 연결 됨");
+        Debug.Log("연결 완료");
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("OnDisconnected() 호출 됨. 연결이 끊어짐");
+        Debug.Log("연결 끊김");
     }
 
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("방이없어요, 혹은 들어갈 수 없었어요");
         RoomOptions roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 2;
+        roomOptions.MaxPlayers = playerCount;
         PhotonNetwork.CreateRoom(null, roomOptions);
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("내가 방에 들어왔습니다.");
-        GameObject obj = PhotonNetwork.Instantiate(characterPrafab.name, spawnPoint.transform.position, transform.rotation);
+        SetActivePlayerImage();
+        PhotonNetwork.Instantiate(characterPrafab.name, spawnPoint.transform.position, spawnPoint.transform.rotation);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Debug.Log(newPlayer.NickName + "방에 들어왔습니다.");
-
+        SetActivePlayerImage();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + "방에서 나갔습니다.");
+        SetActivePlayerImage();
+    }
+
+    private void SetActivePlayerImage()
+    {
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
+        {
+            playerImage[i].gameObject.SetActive(i < PhotonNetwork.CurrentRoom.PlayerCount);
+        }
     }
 }
