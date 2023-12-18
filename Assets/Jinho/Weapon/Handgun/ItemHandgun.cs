@@ -47,12 +47,14 @@ namespace Jinho
         {
             strategy = new HandgunAttackStrategy(player);
         }
+
+
         public void Use()
         {
             
             if (BulletCount == 0)
                 return;
-            
+
             strategy.Attack();
         }
 
