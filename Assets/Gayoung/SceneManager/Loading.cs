@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+using Hojun;
+using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 
 public class Loading : MonoBehaviour
 {
@@ -13,22 +15,35 @@ public class Loading : MonoBehaviour
     public Slider progressBar;
     public Image barColor;
     public TextMeshProUGUI loadtext;
+    public PlayManager playManager;
+    public PhotonView photon;
+
     //private float completeTime = 1f;
     //private float uncompleteTime = 0.9f;
 
+    public bool NextSceneCondition 
+    {
+        get
+        {
+            return playManager.PlayerCondition;
+        }    
+    }
 
     private void Start()
     {
         StartCoroutine(LoadScene());
     }
     
+
+
+
     IEnumerator LoadScene()
     {
         yield return null;
-        // LoadSceneAsync() ºñµ¿±â·Îµå.
-        // SceneÀ» ºÒ·¯¿À¸é ¿Ï·á±îÁö ´Ù¸¥ ÀÛ¾÷À» ¼öÇàÇÏÁö ¾ÊÀ½.
+        // LoadSceneAsync() ï¿½ñµ¿±ï¿½Îµï¿½.
+        // Sceneï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         AsyncOperation operation = SceneManager.LoadSceneAsync("GameScene");
-        // ·ÎµùÀÌ ³¡³ªµµ ¸ØÃã.
+        // ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         operation.allowSceneActivation = false;
 
 
@@ -48,9 +63,17 @@ public class Loading : MonoBehaviour
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 1f, Time.deltaTime);
             }
 
+
             if (progressBar.value >= 1f)
-                operation.allowSceneActivation = true;
+            {
+                playManager.Broad();
+                break;
+            }
 
         }
+
+        yield return new WaitUntil( () => NextSceneCondition );
+        operation.allowSceneActivation = true;
     }
+
 }
