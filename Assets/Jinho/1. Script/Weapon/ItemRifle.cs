@@ -34,9 +34,10 @@ namespace Jinho
         [SerializeField] Player player = null;
         
         public Transform firePos;   //총알 발사 위치
-        public GameObject bullet;   //날아갈 총알 GameObject
+        public Collider weaponCol;
         Transform aimPos;           //총알이 날아갈 위치
         public AudioClip gunFireSound;
+        public AudioClip reloadSound;
 
         public SoundComponent sound;
         IAttackStrategy strategy;
@@ -56,41 +57,12 @@ namespace Jinho
             
             strategy.Attack();
 
-            //AttackStrategy.Attack();
-
-
-            //Attack();
-            /*
-            if (BulletCount == 0)
-                return;
-            BulletCount--;
-            */
-
-
-            //-- hojun 231216 refactoring
-            //Debug.Log("라이플 총알 생성");
-            //aimPos = player.Aim.aimObjPos;
-            //GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
-            //Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
-            //bulletScript.SetBulletData(weaponData, Player);
-            //bulletScript.SetBulletVec(firePos, aimPos.position);
-            //---
-
-
-            //bulletObj.SetActive(true);
-            //이펙트 + 사운드
-            /*
-            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
-            soundObj.transform.position = firePos.position;
-            soundObj.GetComponent<AudioSource>().clip = gunFireSound;
-            soundObj.SetActive(true);
-            */
         }
 
 
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 0, this);
+            SetWeapon(player, gameObject, 0, this);
         }
 
 
@@ -109,23 +81,28 @@ namespace Jinho
         }
         public void MakeBullet()
         {
-            //BulletCount--;
+            BulletCount--;
             // make bullet -> obj_pull
 
             aimPos = player.Aim.aimObjPos;
-            this.sound.ActiveSound();
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
 
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
 
-            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
-            soundObj.transform.position = firePos.position;
-            AudioSource sound = soundObj.GetComponent<AudioSource>();
-            sound.clip = gunFireSound;
-            soundObj.SetActive(true);
-            sound.Play();
+            this.sound.ActiveSound();
+            SoundEffect(gunFireSound, firePos);
+        }
+        public void Reloading()    //근접무기는 재장전 없음
+        {
+            if (strategy is IReLoadAble)
+                ((IReLoadAble)strategy).ReLoad();
+        }
+        public void ReloadEffect()
+        {
+            ReLoad();
+            SoundEffect(reloadSound, transform);
         }
 
         public void ReLoad()

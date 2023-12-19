@@ -6,6 +6,7 @@ using Hojun;
 using Gayoung;
 using Photon.Pun;
 using Photon.Realtime;
+using Jaeyoung;
 
 namespace Jinho
 {
@@ -32,7 +33,8 @@ namespace Jinho
     public interface IAttackItemable : IUseable
     {
         public WeaponData WeaponData { get; }
-
+        public void Reloading();
+        public void ReloadEffect();
     }
     public interface IExpendable : IUseable
     {
@@ -42,46 +44,7 @@ namespace Jinho
     #region Weapon_Class
     public class WeaponItem
     {
-        [PunRPC]
-        public static void SetWeapon(Player player, GameObject weaponObj, int slotIndex, IAttackItemable attackItemable)
-        {
-            if (player.weaponObjSlot[slotIndex] != null)
-            {
-
-                GameObject temp = player.weaponObjSlot[slotIndex];
-                Vector3 tempPos = weaponObj.transform.position;
-
-                player.weaponObjSlot[slotIndex] = weaponObj;
-                temp.GetComponent<IAttackItemable>().Player = null;
-
-                temp.transform.position = tempPos;
-                weaponObj.GetComponent<IAttackItemable>().Player = player;
-
-                temp.SetActive(true);
-                temp.GetComponent<Collider>().enabled = true;
-
-                if (player.weaponIndex == slotIndex)   //플레이어가 슬롯의 무기를 들고있을 때,
-                {
-                    //SetStrategy(player, weaponObj);
-                    player.attackState = weaponObj.GetComponent<IAttackItemable>().ItemType;  //player가 그 슬롯의 무기를 들도록 설정
-                    player.currentItemObj = player.weaponObjSlot[slotIndex];
-                    player.currentItem = player.currentItemObj.GetComponent<IUseable>();
-                }
-                else                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
-                {
-                    weaponObj.SetActive(false);
-                }
-            
-            }
-            else
-            {           //플레이어의 슬롯이 비었으면
-                player.weaponObjSlot[slotIndex] = weaponObj;
-                player.attackState = weaponObj.GetComponent<IAttackItemable>().ItemType;
-                weaponObj.SetActive(false);
-                weaponObj.GetComponent<IAttackItemable>().Player = player;
-            }
-            weaponObj.GetComponent<Collider>().enabled = false;
-        }
+        
         public static void SetStrategy(Player player, GameObject weaponObj)
         {
             IAttackItemable attackItemable = weaponObj.GetComponent<IAttackItemable>();
@@ -109,7 +72,7 @@ namespace Jinho
             player.attackStrategy = attackItemable.AttackStrategy;
         }
     }
-    public class WeaponMonoBehaviour : MonoBehaviour
+    public class WeaponMonoBehaviour : MonoBehaviourPun
     {
         [SerializeField]protected  int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField]protected int totalBullet;            //내가 가지고 있는 총알의 합계
@@ -135,6 +98,57 @@ namespace Jinho
                 if (totalBullet > maxTotalBullet) totalBullet = maxTotalBullet;
                 if (totalBullet < 0) totalBullet = 0;
             }
+        }
+
+        protected void SoundEffect(AudioClip clip, Transform transform)    //소리 재생
+        {
+            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
+            soundObj.transform.position = transform.position;
+            AudioSource sound = soundObj.GetComponent<AudioSource>();
+            sound.clip = clip;
+            soundObj.SetActive(true);
+            sound.Play();
+        }
+
+        [PunRPC]
+        public void SetWeapon(Player player, GameObject weaponObj, int slotIndex, IUseable attackItemable = null)
+        {
+            if (player.weaponObjSlot[slotIndex] != null)
+            {
+
+                GameObject temp = player.weaponObjSlot[slotIndex];
+                Vector3 tempPos = weaponObj.transform.position;
+
+                player.weaponObjSlot[slotIndex] = weaponObj;
+                temp.GetComponent<IUseable>().Player = null;
+
+                temp.transform.position = tempPos;
+                weaponObj.GetComponent<IUseable>().Player = player;
+
+                temp.SetActive(true);
+                temp.GetComponent<Collider>().enabled = true;
+
+                if (player.weaponIndex == slotIndex)   //플레이어가 슬롯의 무기를 들고있을 때,
+                {
+                    //SetStrategy(player, weaponObj);
+                    player.attackState = weaponObj.GetComponent<IUseable>().ItemType;  //player가 그 슬롯의 무기를 들도록 설정
+                    player.currentItemObj = player.weaponObjSlot[slotIndex];
+                    player.currentItem = player.currentItemObj.GetComponent<IUseable>();
+                }
+                else                               //플레이어가 슬롯의 무기를 돌고있지 않을 때,
+                {
+                    weaponObj.SetActive(false);
+                }
+
+            }
+            else
+            {           //플레이어의 슬롯이 비었으면
+                player.weaponObjSlot[slotIndex] = weaponObj;
+                player.attackState = weaponObj.GetComponent<IUseable>().ItemType;
+                weaponObj.SetActive(false);
+                weaponObj.GetComponent<IUseable>().Player = player;
+            }
+            weaponObj.GetComponent<Collider>().enabled = false;
         }
     }
     #endregion

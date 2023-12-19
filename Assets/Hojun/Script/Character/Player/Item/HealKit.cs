@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Hojun
 {
 
-    public class HealKit : MonoBehaviour, IUseable
+    public class HealKit : WeaponMonoBehaviour, IUseable, Yeseul.IInteractive
     {
-
+        public AudioClip healSound;
         Animator animator;
         IEnumerator checkMouseCo;
 
@@ -45,10 +45,9 @@ namespace Hojun
             set => throw new System.NotImplementedException();
         }
 
-        // 안씀
         public void SetItem(Player player)
         {
-            throw new System.NotImplementedException();
+            SetWeapon(player, gameObject, 3);
         }
 
 
@@ -78,13 +77,19 @@ namespace Hojun
 
         public void UseEffect()
         {
+            SoundEffect(healSound, transform);
             player.Hp += 30;
-            Debug.Log("healkit 사용하고 없애게 해놨음 player 안에 해당 healkit이 자식으로 있다면" +
-                "플레이어 또한 없어질 꺼임 확인 할 것");
             Destroy(this.gameObject);
             player.animator.SetBool("HealKit", false);
-            player.WeaponIndex = 0;
+            player.WeaponIndex = 1;
 
+        }
+
+        public void Interaction(GameObject interactivePlayer)
+        {
+            if (interactivePlayer.TryGetComponent(out Player player)) {
+                SetItem(player);
+            }
         }
     }
 }
