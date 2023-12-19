@@ -23,7 +23,7 @@ namespace Yeseul
 
             transform.localRotation = Quaternion.AngleAxis(defaultAngle.x, Vector3.up);
             transform.localRotation *= Quaternion.AngleAxis(defaultAngle.y, Vector3.right);
-            transform.rotation = Quaternion.Euler(defaultAngle.y, defaultAngle.x, 0);
+            transform.rotation = Quaternion.Euler(0, defaultAngle.x, 0);
 
         }
     }
