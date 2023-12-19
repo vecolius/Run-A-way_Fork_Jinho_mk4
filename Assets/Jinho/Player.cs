@@ -94,7 +94,7 @@ namespace Jinho
                 vec += Vector3.forward;
                 player.animator.SetFloat("WalkType", 0.8f);
             }
-            player.animator.SetBool("Front", true);
+
             if (Input.GetKey(KeyCode.D))
             {
                 vec += Vector3.right;
