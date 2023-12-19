@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class TestSpawn : MonoBehaviourPunCallbacks
+public class TestSpawn : MonoBehaviour
 {
     [SerializeField] GameObject characterPrefab;
 
@@ -11,8 +11,4 @@ public class TestSpawn : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Instantiate(characterPrefab.name, transform.position, transform.rotation);
     }
-
-
-
-
 }

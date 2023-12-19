@@ -10,7 +10,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     
     public static LobbyManager instance;
-    public PlayManager playeManager;
 
     static List<LobbyManager> playerList = new List<LobbyManager>();
     
@@ -56,17 +55,27 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
+    public void Update()
+    {
+<<<<<<< HEAD
+        Debug.Log(playerList.Count);
+=======
+        if (Input.GetKeyDown(KeyCode.Space))
+            Debug.Log(playerList.FindInstanceID(this));
+>>>>>>> parent of 03fc728 (Merge branch 'merger' into Develop)
+
+    }
 
     public override void OnConnectedToMaster()
     {
         backGround.SetActive(false);
-        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½");
+        Debug.Log("¿¬°á ¿Ï·á");
         sceneController.SetActive(true);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+        Debug.Log("¿¬°á ²÷±è");
     }
 
 
@@ -80,7 +89,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     public override void OnJoinedRoom()
     {
         SetActivePlayerImage();
-        
+        playerList.Add(this);
 
     }
 
