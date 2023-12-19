@@ -7,10 +7,11 @@ namespace Yeseul
     public class RotateObj : MonoBehaviour
     {
         public float rotSpeed = 500f; 
+               
 
         void Update()
         {
-            transform.Rotate(Vector3.right, rotSpeed * Time.deltaTime);
+            transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime);
         }
     }
 
