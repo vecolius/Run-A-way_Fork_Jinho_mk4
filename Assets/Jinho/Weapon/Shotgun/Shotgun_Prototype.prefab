@@ -881,6 +881,9 @@ GameObject:
   - component: {fileID: 8597322067740431466}
   - component: {fileID: 8645408777699815954}
   - component: {fileID: 8582934621886519247}
+  - component: {fileID: 2057347975684215815}
+  - component: {fileID: -1217669047315563679}
+  - component: {fileID: 3411369576715250573}
   m_Layer: 0
   m_Name: Shotgun_Prototype
   m_TagString: Untagged
@@ -987,8 +990,62 @@ MonoBehaviour:
   player: {fileID: 0}
   firePos: {fileID: 8582934620773777896}
   bullet: {fileID: 4597972832071545081, guid: 520b650f06785b34aba545daaa072a3e, type: 3}
+  gunFireSound: {fileID: 8300000, guid: d5bfeb8cf7da65a4187ac9b494999201, type: 3}
   maxBullet: 4
   bulletCount: 4
   maxTotalBullet: 30
   totalBullet: 30
   weaponCol: {fileID: 8645408777699815954}
+--- !u!114 &2057347975684215815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8583672512642781750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: -1217669047315563679}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-1217669047315563679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8583672512642781750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &3411369576715250573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8583672512642781750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20a41a2b274deb4a90be1e5b4fd3431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAreaSize: 15
+  time: 0

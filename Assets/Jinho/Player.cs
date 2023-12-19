@@ -5,6 +5,8 @@ using UnityEngine;
 using Gayoung;
 using Yeseul;
 using System.Collections;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Jinho
 {
@@ -221,10 +223,11 @@ namespace Jinho
     }
     #endregion
 
-    public class Player : MonoBehaviour, IHitAble , IDieable
+    public class Player : MonoBehaviourPun, IHitAble , IDieable
     {
-        public PlayerData state = null;
-
+        PhotonView view = null;
+        public PlayerData state = null;                                   //player의 기본state
+        public GameObject defaultWeapon;
         public float Hp
         {
             get => state.Hp;
@@ -281,6 +284,7 @@ namespace Jinho
 
         void Start()
         {
+            view = GetComponent<PhotonView>();
             state = new PlayerData();
 
             moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
@@ -299,14 +303,15 @@ namespace Jinho
 
             moveState = PlayerMoveState.idle;
 
-            //weaponSlot[0] = new Rifle(new WeaponData("", null, 1, 1, 1, 1, 1, null, PlayerAttackState.Rifle, null));
-            //weapon = GameObject.Find("AssaultRilfe_Prototype 1");
-            //currentWeapon = weapon.GetComponent<IUseable>();
-            //attackState = currentWeapon.ItemType;
-
+            GameObject weapon = Instantiate(defaultWeapon);
             //GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
-
-            WeaponIndex = 0;
+            
+            //GameObject weapon = PhotonNetwork.Instantiate("Handgun_Prototype", transform.position, Quaternion.identity);
+            weaponObjSlot[1] = weapon;
+            weaponObjSlot[1].GetComponent<IAttackItemable>().Player = this;
+            weaponObjSlot[1].GetComponent<Collider>().enabled = false;
+            
+            weaponIndex = 1;
             currentItemObj = weaponObjSlot[weaponIndex];
             currentItem = currentItemObj.GetComponent<IUseable>();
             attackStrategy = currentItem.AttackStrategy;
@@ -323,7 +328,9 @@ namespace Jinho
         void Update()
         {
             //weapon.SetActive(true);
-            
+            if (view.IsMine == false)
+                return;
+
             if(currentItemObj != null)
             {
                 currentItemObj.transform.position = weaponHand.position;

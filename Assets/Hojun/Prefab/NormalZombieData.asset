@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c7465cccc207d74e90ec1f7d3df4187, type: 3}
   m_Name: NormalZombieData
   m_EditorClassIdentifier: 
-  hp: 100
-  speed: 10
+  hp: 10
+  speed: 3
   isDead: 0
   attackPoint: 10
   characterName: MJ

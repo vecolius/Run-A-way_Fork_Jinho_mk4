@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Jinho
 {
-    public class ItemRifle : MonoBehaviour, IAttackItemable, Yeseul.IInteractive, IReLoadAble
+    public class ItemRifle : WeaponMonoBehaviour, IAttackItemable, Yeseul.IInteractive, IReLoadAble
     {
         public WeaponData weaponData;
         public WeaponData WeaponData {  get { return weaponData; } }
@@ -38,10 +38,7 @@ namespace Jinho
         Transform aimPos;           //총알이 날아갈 위치
         public AudioClip gunFireSound;
 
-        public int maxBullet;       //장전되는 총알 양
-        [SerializeField]int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
-        [SerializeField]int bulletCount;            //현재 총에 들어있는 총알 양
-        [SerializeField]int totalBullet;            //내가 가지고 있는 총알의 합계
+        public SoundComponent sound;
         IAttackStrategy strategy;
 
         void OnEnable()
@@ -51,28 +48,6 @@ namespace Jinho
         }
 
         public ItemType ItemType => weaponData.itemType;
-
-        public int BulletCount
-        {
-            get { return bulletCount; }
-            set
-            {
-                bulletCount = value;
-                if (bulletCount > maxBullet) bulletCount = maxBullet;
-                if (bulletCount < 0) bulletCount = 0;
-            }
-        }
-
-        public int TotalBullet
-        {
-            get { return totalBullet; }
-            set
-            {
-                totalBullet = value;
-                if (totalBullet > maxTotalBullet) totalBullet = maxTotalBullet;
-                if (totalBullet < 0) totalBullet = 0;
-            }
-        }
 
         public void Use()
         {
@@ -138,11 +113,19 @@ namespace Jinho
             // make bullet -> obj_pull
 
             aimPos = player.Aim.aimObjPos;
+            this.sound.ActiveSound();
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
 
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
+
+            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
+            soundObj.transform.position = firePos.position;
+            AudioSource sound = soundObj.GetComponent<AudioSource>();
+            sound.clip = gunFireSound;
+            soundObj.SetActive(true);
+            sound.Play();
         }
 
         public void ReLoad()

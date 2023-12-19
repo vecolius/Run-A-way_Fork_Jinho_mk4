@@ -96,6 +96,9 @@ GameObject:
   - component: {fileID: 7890867653399653955}
   - component: {fileID: 7868011300447188229}
   - component: {fileID: 472180939261720168}
+  - component: {fileID: -3884757513889694444}
+  - component: {fileID: 8801914065853864483}
+  - component: {fileID: -2750264375158138274}
   m_Layer: 0
   m_Name: Handgun_Prototype
   m_TagString: Untagged
@@ -110,8 +113,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7913006321054128909}
-  m_LocalRotation: {x: -0.013580477, y: 0.3008637, z: 0.040911738, w: 0.95269245}
-  m_LocalPosition: {x: -19.859985, y: 1.0270627, z: -1.4925156}
+  m_LocalRotation: {x: 0.054268777, y: -0.013139615, z: 0.043073907, w: 0.9975104}
+  m_LocalPosition: {x: -5.41, y: 1.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -203,10 +206,65 @@ MonoBehaviour:
   player: {fileID: 0}
   firePos: {fileID: 7913764786492178657}
   bullet: {fileID: 7213154079774707790, guid: 4eefa936c47806246969aca9484bf1d4, type: 3}
+  gunFireSound: {fileID: 8300000, guid: d5bfeb8cf7da65a4187ac9b494999201, type: 3}
   maxBullet: 8
   bulletCount: 8
   maxTotalBullet: 64
   totalBullet: 64
+  sound: {fileID: -2750264375158138274}
+--- !u!114 &-3884757513889694444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7913006321054128909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 8801914065853864483}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &8801914065853864483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7913006321054128909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &-2750264375158138274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7913006321054128909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20a41a2b274deb4a90be1e5b4fd3431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAreaSize: 10
+  time: 2
 --- !u!1 &7913764786492178658
 GameObject:
   m_ObjectHideFlags: 0
