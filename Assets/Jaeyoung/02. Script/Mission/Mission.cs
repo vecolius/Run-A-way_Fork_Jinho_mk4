@@ -33,6 +33,9 @@ namespace Jaeyoung
 
         public virtual void Play()
         {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+
             #region Zombie Spawn
             if (time < spawnDelay)
             {
