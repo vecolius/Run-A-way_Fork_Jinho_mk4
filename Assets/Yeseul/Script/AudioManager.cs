@@ -7,6 +7,7 @@ namespace Yeseul
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager instance;
+        public List<AudioClip> audioClips;
 
         private void Awake()
         {
@@ -16,7 +17,6 @@ namespace Yeseul
                 Destroy(gameObject);
         }
 
-        public List<AudioClip> audioClips;
         // Start is called before the first frame update
         void Start()
         {

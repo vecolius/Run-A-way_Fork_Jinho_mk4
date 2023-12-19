@@ -556,9 +556,9 @@ ModelImporter:
       curves: []
       events:
       - time: 0.56498677
-        functionName: MakeSound
+        functionName: SoundPlay
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: f643f41eb404cc940ac54898da9695d3, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
