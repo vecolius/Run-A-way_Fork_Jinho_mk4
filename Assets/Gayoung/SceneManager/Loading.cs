@@ -49,13 +49,8 @@ public class Loading : MonoBehaviour
             }
 
             if (progressBar.value >= 1f)
-                loadtext.text = "Press SpaceBar";
-
-            if (Input.GetKeyDown(KeyCode.Space) &&
-                progressBar.value >= 1f && operation.progress >= 0.9f)
-            {
                 operation.allowSceneActivation = true;
-            }
+
         }
     }
 }
