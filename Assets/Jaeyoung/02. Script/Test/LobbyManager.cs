@@ -6,7 +6,7 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine.UI;
 
-public class LobbyManager : MonoBehaviourPunCallbacks
+public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     
     public static LobbyManager instance;
@@ -57,7 +57,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void Update()
     {
-        Debug.Log(playerList.Count);
+        if (Input.GetKeyDown(KeyCode.Space))
+            Debug.Log(playerList.FindInstanceID(this));
 
     }
 
@@ -114,4 +115,15 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         return true;
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        { 
+            stream.SendNext(playerList); 
+        }
+        else
+        { 
+            playerList = (List<LobbyManager>)stream.ReceiveNext(); 
+        }
+    }
 }
