@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,9 +28,12 @@ namespace Jaeyoung
 
         public void Add(int size)
         {
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+
             for(int i = 0; i < size; i++)
             {
-                GameObject obj = GameObject.Instantiate(poolingInfo.prefab.gameObject, parent.transform);
+                GameObject obj = PhotonNetwork.Instantiate(poolingInfo.prefab.name, parent.transform.position, parent.transform.rotation);
                 obj.SetActive(false);
                 poolingQueue.Enqueue(obj);
             }
@@ -57,7 +61,6 @@ namespace Jaeyoung
     {
         BULLET,
         SOUND,
-        EFFECT,
         ZOMBIE
     }
 
