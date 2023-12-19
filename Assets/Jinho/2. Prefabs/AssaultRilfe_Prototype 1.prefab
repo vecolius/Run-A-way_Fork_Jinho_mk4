@@ -399,15 +399,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fdf828c4c8e9ca4bb7990f5121f113c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxTotalBullet: 150
+  totalBullet: 150
+  maxBullet: 30
+  bulletCount: 30
   weaponData: {fileID: 11400000, guid: 8d656666f4267b844a83e5705a4df146, type: 2}
   player: {fileID: 0}
   firePos: {fileID: 4596499689326620836}
-  bullet: {fileID: 0}
+  weaponCol: {fileID: 4552845870673215947}
   gunFireSound: {fileID: 8300000, guid: d5bfeb8cf7da65a4187ac9b494999201, type: 3}
-  maxBullet: 30
-  maxTotalBullet: 150
-  bulletCount: 30
-  totalBullet: 150
+  reloadSound: {fileID: 8300000, guid: 7ce9efacd657d4746aea7f8c6ec5f8ab, type: 3}
+  sound: {fileID: -4194765438448314362}
 --- !u!114 &959039755168638074
 MonoBehaviour:
   m_ObjectHideFlags: 0

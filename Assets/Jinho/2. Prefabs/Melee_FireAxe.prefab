@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4168453666778721622}
   - component: {fileID: 4139558024175654591}
   - component: {fileID: 1618308433411164543}
+  - component: {fileID: -4300668611253416366}
   m_Layer: 0
   m_Name: Melee_FireAxe
   m_TagString: Untagged
@@ -114,9 +115,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df3b0f4a8c30c3e4d8ead8ab2bbef375, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxTotalBullet: 0
+  totalBullet: 0
+  maxBullet: 0
+  bulletCount: 0
   weaponData: {fileID: 11400000, guid: a07b67e1ede43094f99d6a0b495def98, type: 2}
   player: {fileID: 0}
   col: {fileID: 8049021722346097440}
+  weaponSound: {fileID: 8300000, guid: 50ff9d3fffb4ff546b732c37246f4e03, type: 3}
+  hitSound: {fileID: 8300000, guid: aca231b5c1e0d7347a0eff5995026daf, type: 3}
+  isAttacking: 0
+  sound: {fileID: -4300668611253416366}
 --- !u!54 &4168453666778721622
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -151,7 +160,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 1618308433411164543}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -171,3 +181,17 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &-4300668611253416366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8022281220903625774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20a41a2b274deb4a90be1e5b4fd3431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundAreaSize: 5
+  time: 0

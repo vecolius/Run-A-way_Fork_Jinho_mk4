@@ -25,7 +25,7 @@ namespace Jinho
         [SerializeField] Player player = null;
         public Collider col;
         public AudioClip weaponSound;
-        [SerializeField]bool isAttacking = false;
+        public AudioClip hitSound;
 
         IAttackStrategy strategy;
         public SoundComponent sound;
@@ -46,13 +46,17 @@ namespace Jinho
         {
             strategy.Attack();
         }
-        public void Reload()    //근접무기는 재장전 없음
+        public void Reloading()    //근접무기는 재장전 없음
+        {
+            return;
+        }
+        public void ReloadEffect()
         {
             return;
         }
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 1, this);
+            SetWeapon(player, gameObject, 1, this);
         }
         public void Interaction(GameObject interactivePlayer)
         {
@@ -75,12 +79,12 @@ namespace Jinho
         {
             if (other.TryGetComponent(out Player player) == this.player) 
             {
-                Debug.Log(other.name + "은(는) 주인이다.");
                 return;
             }
             if(other.TryGetComponent(out Hojun.IHitAble hit))
             {
-                hit.Hit(weaponData.damage, this);
+                SoundEffect(hitSound, transform);
+                //hit.Hit(weaponData.damage, this);
             }
         }
 
@@ -94,16 +98,9 @@ namespace Jinho
             //Colldier가 꺼지고 켜짐
             //사운드
             col.enabled = !col.enabled;
-            isAttacking = col.enabled;
-            if (isAttacking)
+            if (col.enabled)
             {
-                this.sound.ActiveSound();
-                GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
-                soundObj.transform.position = transform.position;
-                AudioSource sound = soundObj.GetComponent<AudioSource>();
-                sound.clip = weaponSound;
-                soundObj.SetActive(true);
-                sound.Play();
+                SoundEffect(weaponSound, transform);
             }
         }
     }

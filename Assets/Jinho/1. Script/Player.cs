@@ -7,6 +7,7 @@ using Yeseul;
 using System.Collections;
 using Photon.Pun;
 using Photon.Realtime;
+using Jaeyoung;
 
 namespace Jinho
 {
@@ -18,7 +19,6 @@ namespace Jinho
     public interface IAttackStrategy
     {
         void Attack();
-
     }
 
     public interface IReLoadAble
@@ -60,14 +60,14 @@ namespace Jinho
             player.animator.SetFloat("WalkType", 0f);
             if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
                 player.moveState = PlayerMoveState.walk;
-
+            /*
             if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
             {
                 player.animator.SetTrigger("Jump");
                 player.animator.SetFloat("JumpType", 0f);   //그냥 여기서 짬푸
                 player.moveState = PlayerMoveState.jump;
             }
-
+            */
         }
     }
     public class Walk : IMoveStrategy
@@ -105,14 +105,14 @@ namespace Jinho
                 vec += Vector3.back;
                 player.animator.SetFloat("WalkType", 0.6f);
             }
-
+            /*
             if (Input.GetKeyDown(KeyCode.Space) && player.isGrounded)
             {
                 player.moveState = PlayerMoveState.jump;
                 player.animator.SetTrigger("Jump");
                 player.animator.SetFloat("JumpType", 1f);   
             }
-
+            */
 
             if (vec == Vector3.zero)
                 player.moveState = PlayerMoveState.idle;
@@ -144,6 +144,7 @@ namespace Jinho
 
         }
     }
+    /*
     public class Jump : IMoveStrategy
     {
         Player player = null;
@@ -157,9 +158,10 @@ namespace Jinho
         {
             player.isGrounded = false;
         }
-
+    
 
     }
+    */
     #endregion
     #region PlayerState_Class
     public class Job
@@ -264,6 +266,8 @@ namespace Jinho
 
         public Transform weaponHand;
         public int weaponIndex;
+
+        public SoundComponent soundComponent;
         
         public event Action onWeaponChange;
         public event Action attackAction;
@@ -285,13 +289,14 @@ namespace Jinho
         void Start()
         {
             view = GetComponent<PhotonView>();
+            soundComponent = GetComponent<SoundComponent>();
             state = new PlayerData();
 
             moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
             moveDic.Add(PlayerMoveState.idle, new Idle(this));
             moveDic.Add(PlayerMoveState.walk, new Walk(this));
             moveDic.Add(PlayerMoveState.run, new Run(this));
-            moveDic.Add(PlayerMoveState.jump, new Jump(this));
+            //moveDic.Add(PlayerMoveState.jump, new Jump(this));
 
             attackDic = new Dictionary<ItemType, AttackStrategy>();
             attackDic.Add(ItemType.Rifle, new RifleAttackStrategy(this));
@@ -303,10 +308,8 @@ namespace Jinho
 
             moveState = PlayerMoveState.idle;
 
-            GameObject weapon = Instantiate(defaultWeapon);
-            //GameObject.Find("Handgun_Prototype").GetComponent<IInteractive>().Interaction(gameObject);
-            
-            //GameObject weapon = PhotonNetwork.Instantiate("Handgun_Prototype", transform.position, Quaternion.identity);
+            //GameObject weapon = Instantiate(defaultWeapon);
+            GameObject weapon = PhotonNetwork.Instantiate("Handgun_Prototype", transform.position, Quaternion.identity);
             weaponObjSlot[1] = weapon;
             weaponObjSlot[1].GetComponent<IAttackItemable>().Player = this;
             weaponObjSlot[1].GetComponent<Collider>().enabled = false;
@@ -350,11 +353,15 @@ namespace Jinho
                 this.animator.SetBool("Shot", false);
             }
 
-            if ( Input.GetKey(KeyCode.R) ) // 재장전 부분
+            if ( Input.GetKeyDown(KeyCode.R) ) // 재장전 부분
             {
+                this.animator.SetTrigger("Reload");
+                if(currentItem is IAttackItemable)
+                    ((IAttackItemable)currentItem).Reloading();
+                /*
                 if (currentItem is IReLoadAble)
                     ((IReLoadAble)currentItem).ReLoad();
-
+                */
             }
 
             //전략부분으로 넣어줘서 무기교체와 애니메이션 실행 바로 됩니다!
@@ -374,9 +381,8 @@ namespace Jinho
             {
                 WeaponIndex = 3;
             }
-
-
         }
+
 
 
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)
@@ -387,8 +393,8 @@ namespace Jinho
 
         public void ItemUseReload()//Animation Event 함수(재장전)
         {
-            if (currentItem is IReLoadAble)
-                ((IReLoadAble)currentItem).ReLoad();
+            if (currentItem is IAttackItemable)
+                ((IAttackItemable)currentItem).ReloadEffect();
         }
 
 
@@ -409,7 +415,7 @@ namespace Jinho
             
             currentItem = currentItemObj.GetComponent<IUseable>();
             
-            if (currentItem.AttackStrategy != null) { }
+            if (currentItem.AttackStrategy != null)
                 attackStrategy = currentItem.AttackStrategy;
 
             attackState = currentItem.ItemType;

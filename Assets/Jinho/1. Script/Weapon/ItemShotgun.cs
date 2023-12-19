@@ -30,8 +30,8 @@ namespace Jinho
         [SerializeField] Player player = null;
 
         public Transform firePos;   //총알 발사 위치
-        public GameObject bullet;   //날아갈 총알 GameObject
         public AudioClip gunFireSound;
+        public AudioClip reloadSound;
         IAttackStrategy strategy;
         Transform AimPos
         {
@@ -73,7 +73,7 @@ namespace Jinho
 
         public void MakeBullet()
         {
-            //BulletCount--;
+            BulletCount--;
             // make bullet -> obj_pull
 
             //이펙트 + 사운드
@@ -89,19 +89,15 @@ namespace Jinho
                 bulletScript.SetBulletData(weaponData, Player);
                 bulletScript.SetBulletVec(firePos, targetPosArray[i]);
             }
+
             this.sound.ActiveSound();
-            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
-            soundObj.transform.position = firePos.position;
-            AudioSource sound = soundObj.GetComponent<AudioSource>();
-            sound.clip = gunFireSound;
-            soundObj.SetActive(true);
-            sound.Play();
+            SoundEffect(gunFireSound, firePos);
         }
 
 
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 0, this);
+            SetWeapon(player, gameObject, 0, this);
         }
 
         public void Interaction(GameObject interactivePlayer)
@@ -117,7 +113,16 @@ namespace Jinho
             MakeBullet();
         }
 
-
+        public void Reloading()    //근접무기는 재장전 없음
+        {
+            if (strategy is IReLoadAble)
+                ((IReLoadAble)strategy).ReLoad();
+            SoundEffect(reloadSound, transform);
+        }
+        public void ReloadEffect()
+        {
+            ReLoad();
+        }
         public void ReLoad()
         {
             if (BulletCount == maxBullet)

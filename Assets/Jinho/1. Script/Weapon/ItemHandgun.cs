@@ -26,9 +26,10 @@ namespace Jinho
         public Player player = null;
 
         public Transform firePos;   //총알 발사 위치
-        public GameObject bullet;   //날아갈 총알 GameObject
+        public Collider weaponCol;
         Transform aimPos;           //총알이 날아갈 위치
         public AudioClip gunFireSound;
+        public AudioClip reloadSound;
 
         IAttackStrategy strategy;
         public ItemType ItemType => weaponData.itemType;
@@ -61,7 +62,7 @@ namespace Jinho
 
         public void SetItem(Player player)
         {
-            WeaponItem.SetWeapon(player, gameObject, 1, this);
+            SetWeapon(player, gameObject, 1, this);
         }
         
 
@@ -80,19 +81,14 @@ namespace Jinho
             // make bullet -> obj_pull
 
             aimPos = player.Aim.aimObjPos;
-            this.sound.ActiveSound();
             GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
             Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
 
             bulletScript.SetBulletData(weaponData, Player);
             bulletScript.SetBulletVec(firePos, aimPos.position);
 
-            GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
-            soundObj.transform.position = firePos.position;
-            AudioSource sound = soundObj.GetComponent<AudioSource>();
-            sound.clip = gunFireSound;
-            soundObj.SetActive(true);
-            sound.Play();
+            this.sound.ActiveSound();
+            SoundEffect(gunFireSound, firePos);
         }
 
         public void UseEffect()
@@ -100,7 +96,16 @@ namespace Jinho
             MakeBullet();
         }
 
-
+        public void Reloading()    //근접무기는 재장전 없음
+        {
+            if (strategy is IReLoadAble)
+                ((IReLoadAble)strategy).ReLoad();
+            SoundEffect(reloadSound, transform);
+        }
+        public void ReloadEffect()
+        {
+            ReLoad();
+        }
 
         public void ReLoad()
         {
