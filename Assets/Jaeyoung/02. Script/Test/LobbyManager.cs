@@ -10,6 +10,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 {
     
     public static LobbyManager instance;
+    public PlayManager playeManager;
 
     static List<LobbyManager> playerList = new List<LobbyManager>();
     
@@ -55,11 +56,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void Update()
-    {
-        Debug.Log(playerList.Count);
-
-    }
 
     public override void OnConnectedToMaster()
     {
@@ -84,7 +80,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         SetActivePlayerImage();
-        playerList.Add(this);
+        
 
     }
 

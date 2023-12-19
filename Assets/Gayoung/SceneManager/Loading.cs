@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
+using Hojun;
+using Photon.Pun;
+using Photon.Pun.Demo.PunBasics;
 
 public class Loading : MonoBehaviour
 {
@@ -13,15 +15,28 @@ public class Loading : MonoBehaviour
     public Slider progressBar;
     public Image barColor;
     public TextMeshProUGUI loadtext;
+    public PlayManager playManager;
+    public PhotonView photon;
+
     //private float completeTime = 1f;
     //private float uncompleteTime = 0.9f;
 
+    public bool NextSceneCondition 
+    {
+        get
+        {
+            return playManager.PlayerCondition;
+        }    
+    }
 
     private void Start()
     {
         StartCoroutine(LoadScene());
     }
     
+
+
+
     IEnumerator LoadScene()
     {
         yield return null;
@@ -48,14 +63,17 @@ public class Loading : MonoBehaviour
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 1f, Time.deltaTime);
             }
 
-            if (progressBar.value >= 1f)
-                loadtext.text = "Press SpaceBar";
 
-            if (Input.GetKeyDown(KeyCode.Space) &&
-                progressBar.value >= 1f && operation.progress >= 0.9f)
+            if (progressBar.value >= 1f)
             {
-                operation.allowSceneActivation = true;
+                playManager.Broad();
+                break;
             }
+
         }
+
+        yield return new WaitUntil( () => NextSceneCondition );
+        operation.allowSceneActivation = true;
     }
+
 }
