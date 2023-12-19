@@ -5545,7 +5545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d20a41a2b274deb4a90be1e5b4fd3431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundAreaSize: 0
+  soundAreaSize: 3
   time: 0
 --- !u!114 &4309885570498619365
 MonoBehaviour:
