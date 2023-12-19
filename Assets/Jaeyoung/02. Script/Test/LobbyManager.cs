@@ -8,13 +8,20 @@ using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
+    
     public static LobbyManager instance;
+
+    static List<LobbyManager> playerList = new List<LobbyManager>();
+    
     [SerializeField] GameObject characterPrafab;
     [SerializeField] GameObject sceneController;
     [SerializeField] GameObject backGround;
     [SerializeField] Image[] playerImage = new Image[4];
     public int playerCount;
     public int playerNumber;
+
+
+
 
     private void Start()
     {
@@ -47,6 +54,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         base.OnDisable();
     }
 
+
+    public void Update()
+    {
+        Debug.Log(playerList.Count);
+
+    }
+
     public override void OnConnectedToMaster()
     {
         backGround.SetActive(false);
@@ -70,8 +84,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         SetActivePlayerImage();
-        playerNumber = PhotonNetwork.PlayerList.Length;
-        Debug.Log(playerNumber);
+        playerList.Add(this);
+
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -91,4 +105,13 @@ public class LobbyManager : MonoBehaviourPunCallbacks
             playerImage[i].gameObject.SetActive(i < PhotonNetwork.PlayerList.Length);
         }
     }
+
+
+    public bool DeletePlayer( LobbyManager popObj )
+    {
+        playerList.Remove(popObj);
+
+        return true;
+    }
+
 }
