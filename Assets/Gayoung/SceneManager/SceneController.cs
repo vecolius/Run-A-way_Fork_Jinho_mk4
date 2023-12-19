@@ -17,7 +17,7 @@ public class SceneController : DontDestroySingle<SceneController>
     [SerializeField] GameObject titleUi;
     [SerializeField] GameObject mainUi;
     [SerializeField] GameObject lobbyUi;
-    [SerializeField] GameObject gameUi;
+    [SerializeField] GameObject gameUi; 
     
 
     //��ư ������ �� Ȱ��ȭ �Ǵ� â
@@ -133,7 +133,7 @@ public class SceneController : DontDestroySingle<SceneController>
        
         SceneManager.LoadScene(sceneName);
         instance.ChangeScene(sceneName);
-   
+
     }
 
     public void OnApplicationQuit()
