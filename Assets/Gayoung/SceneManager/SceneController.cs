@@ -149,13 +149,10 @@ public class SceneController : DontDestroySingle<SceneController>
 
     public void LeftRoom(string sceneName)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.AllBuffered, sceneName);
-            // 서버 끊어줘
-        }
-        else
-            LoadScene(sceneName);
+        PhotonNetwork.LeaveRoom();
+        LoadScene(sceneName);
+        LobbyManager.instance.DeletePlayer(gameObject.GetComponent<LobbyManager>());
+        
     }
 
 
