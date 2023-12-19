@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Jinho
+namespace Yeseul
 {
     public class SoundManagerT : MonoBehaviour
     {
-        public SoundManagerT instance = null;
+        public static SoundManagerT instance = null;
         public GameObject soundSource = null; //소리 낼 오브젝트
         //public Dictionary<GameObject, AudioClip> audioObj = new Dictionary<GameObject, AudioClip>(); 
         ////해당 GameObject 안에있는 AudioClip 가져올거니까 ? 

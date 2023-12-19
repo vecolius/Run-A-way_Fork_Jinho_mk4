@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Yeseul
 {
-    public class Sound : MonoBehaviour
+    public class Sound : MonoBehaviour //소리 프리펩이 가져야함.
     {
         AudioSource m_AudioSource;
         
