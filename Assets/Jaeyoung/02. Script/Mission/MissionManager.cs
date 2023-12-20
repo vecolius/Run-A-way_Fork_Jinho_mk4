@@ -26,18 +26,18 @@ namespace Jaeyoung
                 missionQueue.Enqueue(mission);
             }
 
-            TakeMission();
+            condition = () => { return false; };
         }
 
         private void Update()
         {
-            if(condition())
-                TakeMission();
+            if (condition())
+                ((Mission)curMission).clearEvent.Invoke();
 
             curMission?.Play();
         }
 
-        private void TakeMission()
+        public void TakeMission()
         {
             ((Mission)curMission)?.gameObject.SetActive(false);
             ((Mission)curMission)?.clearEvent.Invoke();

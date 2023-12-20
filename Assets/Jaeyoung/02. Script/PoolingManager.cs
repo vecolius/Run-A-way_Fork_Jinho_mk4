@@ -34,6 +34,7 @@ namespace Jaeyoung
             for(int i = 0; i < size; i++)
             {
                 GameObject obj = PhotonNetwork.Instantiate(poolingInfo.prefab.name, parent.transform.position, parent.transform.rotation);
+                obj.transform.SetParent(parent.transform);
                 obj.SetActive(false);
                 poolingQueue.Enqueue(obj);
             }
