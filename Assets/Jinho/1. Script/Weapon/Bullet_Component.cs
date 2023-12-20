@@ -5,9 +5,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class Bullet_Component : MonoBehaviour, Hojun.IAttackAble
 {
+    public GameObject[] bulletEffect;
     [SerializeField] float moveSpeed;
     public float damage;
     public WeaponData parentWeaponData = null;
@@ -57,10 +60,23 @@ public class Bullet_Component : MonoBehaviour, Hojun.IAttackAble
     void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Bullet_Component>() != null) return;
+
+        if(other.GetComponent<IHitAble>() != null)
+        {
+            InstantiateEffect(1);
+        }
+        else
+        {
+            InstantiateEffect(0);
+        }
         BulletDestroy();
 
     }
-
+    [PunRPC]
+    void InstantiateEffect(int index)
+    {
+        Instantiate(bulletEffect[index], transform.position, transform.rotation);
+    }
     public void Attack()
     {
         attackAction(target);

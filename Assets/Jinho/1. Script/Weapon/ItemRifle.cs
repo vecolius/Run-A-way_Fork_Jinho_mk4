@@ -38,6 +38,7 @@ namespace Jinho
         Transform aimPos;           //총알이 날아갈 위치
         public AudioClip gunFireSound;
         public AudioClip reloadSound;
+        public GameObject fireEffect;
 
         public SoundComponent sound;
         IAttackStrategy strategy;
@@ -77,6 +78,7 @@ namespace Jinho
 
         public void UseEffect()
         {
+            InstantiateEffect(fireEffect, firePos);
             MakeBullet();
         }
         public void MakeBullet()

@@ -132,12 +132,14 @@ namespace Jinho
             {
                 player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.2f) * Time.deltaTime);
                 player.animator.SetFloat("WalkType", 1f);
+                /*
                 if (Input.GetKey(KeyCode.Space) && player.isGrounded)
                 {
                     player.moveState = PlayerMoveState.jump;
                     player.animator.SetTrigger("Jump");
                     player.animator.SetFloat("JumpType", 1f);
                 }
+                */
             }
             if(Input.GetKeyUp(KeyCode.LeftShift))
                 player.moveState= PlayerMoveState.walk;
@@ -221,6 +223,7 @@ namespace Jinho
                 moveSpeed = job.moveSpeed;
                 MaxHp = job.maxHp;
             }
+            hp = maxHp;
         }
     }
     #endregion
@@ -282,7 +285,7 @@ namespace Jinho
             }
         }
 
-        public CharacterData Data => throw new NotImplementedException();
+        public CharacterData Data => Data;
 
         CharacterData IHitAble.Data => throw new NotImplementedException();
 
@@ -324,6 +327,7 @@ namespace Jinho
 
 
             //WeaponChange(); // 아무것도 안들고 있는 것
+            
         }
 
 
@@ -381,6 +385,7 @@ namespace Jinho
             {
                 WeaponIndex = 3;
             }
+
         }
 
 
@@ -442,7 +447,7 @@ namespace Jinho
 
         public void Die()
         {
-            //animator.SetTrigger("Die");
+            animator.SetTrigger("Die");
         }
 
         public void Dead()
