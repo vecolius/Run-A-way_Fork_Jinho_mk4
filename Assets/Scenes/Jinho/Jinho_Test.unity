@@ -123,6 +123,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 9e81262822817ef45b2f1645be1a35af, type: 2}
+--- !u!1 &104433866 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5076664521452684089, guid: 341498d281bdb62438974d01d5ed1124, type: 3}
+  m_PrefabInstance: {fileID: 7766170235178486714}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &104433867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104433866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f643f41eb404cc940ac54898da9695d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 7fbebcbedec426247adb75451e97953a, type: 3}
+  - {fileID: 8300000, guid: d11ddb1553d04304986ecc2cbb3bd6ec, type: 3}
+  - {fileID: 8300000, guid: ea01992aa3e76a84db3bf3a521b4defc, type: 3}
+  playerObj: {fileID: 0}
 --- !u!1001 &232507106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -555,8 +577,9 @@ GameObject:
   - component: {fileID: 941487809}
   - component: {fileID: 941487808}
   - component: {fileID: 941487807}
+  - component: {fileID: 941487811}
   m_Layer: 10
-  m_Name: Cube
+  m_Name: TestObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -570,7 +593,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 941487806}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -640,6 +663,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &941487811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941487806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3e19023dbc1b594e9779555fb12bc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1079609587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -655,6 +690,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health_Kit
       objectReference: {fileID: 0}
+    - target: {fileID: 7604893089747556351, guid: 9d46e8f348317574b83748f3a2954f45, type: 3}
+      propertyPath: healSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b5629385e193d0a419319b801d4540be, type: 3}
     - target: {fileID: 7604893089747946866, guid: 9d46e8f348317574b83748f3a2954f45, type: 3}
       propertyPath: m_RootOrder
       value: 22
@@ -800,6 +839,10 @@ PrefabInstance:
     - target: {fileID: 712908326850109623, guid: 10a3f954c5c777a4c8d15148a39ea665, type: 3}
       propertyPath: m_Name
       value: NormalZombieFixed
+      objectReference: {fileID: 0}
+    - target: {fileID: 712908326850109623, guid: 10a3f954c5c777a4c8d15148a39ea665, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 715880725507188453, guid: 10a3f954c5c777a4c8d15148a39ea665, type: 3}
       propertyPath: m_RootOrder
@@ -1722,6 +1765,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 31296838991604472, guid: 341498d281bdb62438974d01d5ed1124, type: 3}
+      propertyPath: soundAreaSize
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2091449846830795463, guid: 341498d281bdb62438974d01d5ed1124, type: 3}
       propertyPath: sceneViewId
       value: 7
@@ -2108,7 +2155,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5078044448275117851, guid: 341498d281bdb62438974d01d5ed1124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -5.12
       objectReference: {fileID: 0}
     - target: {fileID: 5078044448275117851, guid: 341498d281bdb62438974d01d5ed1124, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2148,7 +2195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7766170236579524833, guid: 341498d281bdb62438974d01d5ed1124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.92
+      value: 0.9200001
       objectReference: {fileID: 0}
     - target: {fileID: 7766170236579524833, guid: 341498d281bdb62438974d01d5ed1124, type: 3}
       propertyPath: m_LocalPosition.y

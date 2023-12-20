@@ -117,8 +117,8 @@ MonoBehaviour:
   totalBullet: 0
   maxBullet: 0
   bulletCount: 0
-  weapondata: {fileID: 11400000, guid: 4809e2c734cb22040bafff015df12e7c, type: 2}
-  healSound: {fileID: 0}
+  healSound: {fileID: 8300000, guid: b5629385e193d0a419319b801d4540be, type: 3}
+  healEffect: {fileID: 1041383898900682, guid: 4db558ba5a9fac343961211fdf6d27d8, type: 3}
   player: {fileID: 0}
 --- !u!114 &4358948113454790846
 MonoBehaviour:

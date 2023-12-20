@@ -409,6 +409,7 @@ MonoBehaviour:
   weaponCol: {fileID: 4552845870673215947}
   gunFireSound: {fileID: 8300000, guid: d5bfeb8cf7da65a4187ac9b494999201, type: 3}
   reloadSound: {fileID: 8300000, guid: 7ce9efacd657d4746aea7f8c6ec5f8ab, type: 3}
+  fireEffect: {fileID: 5426031798781912364, guid: ce3bf7c3639c37c4a8fe9852c6a3394a, type: 3}
   sound: {fileID: -4194765438448314362}
 --- !u!114 &959039755168638074
 MonoBehaviour:
