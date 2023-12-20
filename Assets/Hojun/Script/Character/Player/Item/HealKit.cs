@@ -8,6 +8,7 @@ namespace Hojun
     public class HealKit : WeaponMonoBehaviour, IUseable, Yeseul.IInteractive
     {
         public AudioClip healSound;
+        public GameObject healEffect;
         Animator animator;
         IEnumerator checkMouseCo;
 
@@ -78,6 +79,7 @@ namespace Hojun
         public void UseEffect()
         {
             SoundEffect(healSound, transform);
+            InstantiateEffect(healEffect, player.transform);
             player.Hp += 30;
             Destroy(this.gameObject);
             player.animator.SetBool("HealKit", false);
