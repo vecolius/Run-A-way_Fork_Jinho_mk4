@@ -45,7 +45,7 @@ namespace Jinho
             if (other.TryGetComponent(out Player player) == this.player)
                 return;
             gameObject.GetComponent<MeshRenderer>().enabled = false;
-            explosion.Explosion(damage, raidus);
+            explosion.Explosion(this.player.gameObject);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Jinho
             if (other.TryGetComponent(out Hojun.IHitAble hit))
             {
                 gameObject.GetComponent<MeshRenderer>().enabled = false;
-                explosion.Explosion(damage, explosionRadius, player);
+                explosion.Explosion(player.gameObject);
                 BulletDestroy();
             }
         }
