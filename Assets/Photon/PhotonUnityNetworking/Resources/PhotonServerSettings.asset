@@ -56,6 +56,8 @@ MonoBehaviour:
   - InsertPlayer
   - SoundPlay
   - SoundPlayT
+  - InstantiateEffect
+  - SoundEffect
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

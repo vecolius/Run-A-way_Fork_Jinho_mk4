@@ -99,7 +99,7 @@ namespace Jinho
                 if (totalBullet < 0) totalBullet = 0;
             }
         }
-
+        [PunRPC]
         protected void SoundEffect(AudioClip clip, Transform transform)    //소리 재생
         {
             GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
@@ -108,6 +108,11 @@ namespace Jinho
             sound.clip = clip;
             soundObj.SetActive(true);
             sound.Play();
+        }
+        [PunRPC]
+        protected void InstantiateEffect(GameObject effectObj, Transform transform)
+        {
+            Instantiate(effectObj, transform.position, transform.rotation);
         }
 
         [PunRPC]

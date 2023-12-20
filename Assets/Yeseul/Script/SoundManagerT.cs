@@ -35,7 +35,7 @@ namespace Yeseul
         public void SoundPlay() //Animation Event 함수 (player 발걸음 소리 random) 
         {
             //audioClips = AudioManager.instance.SetAudioSource(soundSource);
-            int index = Random.Range(0, audioClips.Length);
+            int index = Random.Range(0, 3);
             SoundPlayT(audioClips[index]);
 
         }

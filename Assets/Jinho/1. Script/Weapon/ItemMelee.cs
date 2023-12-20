@@ -24,8 +24,11 @@ namespace Jinho
         }
         [SerializeField] Player player = null;
         public Collider col;
+        public GameObject hitPos;
+
         public AudioClip weaponSound;
         public AudioClip hitSound;
+        public GameObject hitEffect;
 
         IAttackStrategy strategy;
         public SoundComponent sound;
@@ -81,8 +84,9 @@ namespace Jinho
             {
                 return;
             }
-            if(other.TryGetComponent(out Hojun.IHitAble hit))
+            if(other.TryGetComponent(out Hojun.IHitAble hit) && this.player != null)
             {
+                InstantiateEffect(hitEffect, hitPos.transform);
                 SoundEffect(hitSound, transform);
                 //hit.Hit(weaponData.damage, this);
             }
