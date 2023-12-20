@@ -2,43 +2,41 @@ using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace Yeseul
 {
     public class SoundManagerT : MonoBehaviour
     {
         public static SoundManagerT instance = null;
-        public GameObject soundSource = null; //소리 오브젝트
-        AudioClip audioClip = null;
+        public AudioClip[] audioClips;
+        public GameObject playerObj;
 
         //public Dictionary<GameObject, AudioClip> audioObj = new Dictionary<GameObject, AudioClip>(); 
         ////해당 GameObject 안에있는 AudioClip 가져올거니까 ? 
         private void Awake()
         {
-            if (instance == null)
-            {
-                instance = this;
-            }
-            else
-                Destroy(gameObject);
+            playerObj = transform.gameObject;
         }
-
-
-        public void SoundPlayT(GameObject obj, AudioClip clip, bool isLoop = false)
+        [PunRPC]
+        public void SoundPlayT(AudioClip clip, bool isLoop = false)
         {
             GameObject popobj = PoolingManager.instance.PopObj(PoolingType.SOUND);
-            AudioSource source = obj.GetComponent<AudioSource>();
+            AudioSource source = popobj.GetComponent<AudioSource>();
             source.clip = clip;
             source.loop = isLoop;
-            popobj.transform.position = soundSource.transform.position;
+            popobj.transform.position = playerObj.transform.position;
+            popobj.SetActive(true);
             source.Play();
             
         }
-
-        public void SoundPlay() //플레이어 이벤트 함수 
+        [PunRPC]
+        public void SoundPlay() //Animation Event 함수 (player 발걸음 소리 random) 
         {
-            audioClip = AudioManager.instance.SetAudioSource(soundSource);
-            SoundPlayT(soundSource, audioClip);
+            //audioClips = AudioManager.instance.SetAudioSource(soundSource);
+            int index = Random.Range(0, audioClips.Length);
+            SoundPlayT(audioClips[index]);
 
         }
 

@@ -47,7 +47,7 @@ namespace Hojun
 
         public void SetItem(Player player)
         {
-            SetWeapon(player, gameObject, 3);
+            SetWeapon(player, gameObject, 2);
         }
 
 
