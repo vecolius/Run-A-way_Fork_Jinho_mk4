@@ -133,7 +133,6 @@ public class SceneController : DontDestroySingle<SceneController>
        
         SceneManager.LoadScene(sceneName);
         instance.ChangeScene(sceneName);
-
     }
 
     public void OnApplicationQuit()
