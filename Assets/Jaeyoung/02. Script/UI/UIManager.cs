@@ -10,6 +10,7 @@ namespace Jaeyoung
         [SerializeField] private GameObject minimapCam;
         [SerializeField] private PlayerUI myUI;
         [SerializeField] private GameObject gameUI;
+        [SerializeField] private MissionUI missionUI;
         [SerializeField] private List<PlayerUI> anotherPlayerUI = new List<PlayerUI>();
         private int anotherPlayerCount = 0;
         [SerializeField] private float camDistance = 0;
@@ -30,6 +31,12 @@ namespace Jaeyoung
                 anotherPlayerUI[anotherPlayerCount].Player = player;
                 anotherPlayerCount++;
             }
+        }
+
+        public void MissionUpdate(string title, string content)
+        {
+            missionUI.title.text = title;
+            missionUI.content.text = content;
         }
     }
 }

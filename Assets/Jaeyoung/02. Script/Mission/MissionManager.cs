@@ -47,6 +47,7 @@ namespace Jaeyoung
                 curMission = mission;
                 condition = curMission.Condition;
                 ((Mission)curMission).gameObject.SetActive(true);
+                UIManager.instance.MissionUpdate(((Mission)curMission).missiontName, ((Mission)curMission).missiontInfo);
             }
             else
                 MissionOver();
