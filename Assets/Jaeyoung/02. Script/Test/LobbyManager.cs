@@ -68,7 +68,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("���� ����");
+        
     }
 
 

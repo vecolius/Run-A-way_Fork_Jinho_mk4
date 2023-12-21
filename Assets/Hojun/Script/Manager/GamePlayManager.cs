@@ -19,11 +19,10 @@ namespace Hojun
                 foreach (var player in players) 
                 {
                     if (player.IsDead)
-                        return false;
+                        return true;
                 }
 
-
-                return true;
+                return false;
             }
         }
 
@@ -34,20 +33,14 @@ namespace Hojun
             StartCoroutine(WaitForDeadEnd());
         }
 
-        public void Update()
-        {
-            Debug.Log(players.Count);
-        }
 
         IEnumerator WaitForDeadEnd()
         {
             yield return new WaitUntil( () => IsPlayerDead );
             Debug.Log("Game End Scene Call");
+
+
         }
-
-
-
-
 
 
     }

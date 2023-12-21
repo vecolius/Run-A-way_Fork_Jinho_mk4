@@ -16,6 +16,8 @@ public class Goal : MonoBehaviourPun
     {
         if (other.GetComponent<Jinho.Player>() != null)
             photonView.RPC("GoalCountChange", RpcTarget.AllBuffered, 1);
+    
+
     }
 
     private void OnTriggerExit(Collider other)

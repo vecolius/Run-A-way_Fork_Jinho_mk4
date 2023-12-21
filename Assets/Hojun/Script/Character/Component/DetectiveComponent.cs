@@ -66,8 +66,8 @@ public class DetectiveComponent : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawWireSphere(transform.position, radius);
     }
 
 

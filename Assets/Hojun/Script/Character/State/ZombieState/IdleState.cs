@@ -62,6 +62,12 @@ namespace Hojun
         public override void Update()
         {
 
+            if (ownerZombie.Target != null)
+            {
+                if (!ownerZombie.Target.activeSelf)
+                    return;
+            }
+                
             if (ownerZombie.IsFindPlayer)
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);
             

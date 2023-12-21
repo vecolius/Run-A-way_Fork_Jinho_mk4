@@ -299,7 +299,7 @@ namespace Jinho
         public void Awake()
         {
             
-            GamePlayManager.instance.players.Add(this);
+            
         }
 
         void Start()
@@ -307,7 +307,7 @@ namespace Jinho
             view = GetComponent<PhotonView>();
             soundComponent = GetComponent<SoundComponent>();
             state = new PlayerData();
-
+            GamePlayManager.instance.players.Add(this);
             moveDic = new Dictionary<PlayerMoveState, IMoveStrategy>();
             moveDic.Add(PlayerMoveState.idle, new Idle(this));
             moveDic.Add(PlayerMoveState.walk, new Walk(this));

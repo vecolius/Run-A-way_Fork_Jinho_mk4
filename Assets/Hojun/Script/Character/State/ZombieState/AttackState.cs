@@ -50,6 +50,13 @@ namespace Hojun
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);
                 return;
             }
+
+            if (!ownerZombie.Target.activeSelf)
+            {
+                stateMachine.SetState((int)Zombie.ZombieState.IDLE);
+                ownerZombie.InitTarget();
+            }
+
         }
 
     }

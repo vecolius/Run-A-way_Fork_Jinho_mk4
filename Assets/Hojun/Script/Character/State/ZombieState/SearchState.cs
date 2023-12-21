@@ -58,6 +58,11 @@ namespace Hojun
             Vector3 ownerPos =  ownerZombie.transform.position;
             Vector3 detectedPos = ownerZombie.TargetArea;
 
+            if (!ownerZombie.Target.activeSelf) 
+            {
+                stateMachine.SetState((int)Zombie.ZombieState.IDLE);
+                ownerZombie.InitTarget();
+            }
 
             if (Vector3.Distance(ownerPos, detectedPos) <= arriveDestination)
             {
