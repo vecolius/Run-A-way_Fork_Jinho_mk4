@@ -88,6 +88,7 @@ namespace Jinho
                 //GameObject bulletObj = Instantiate(bullet);
                 GameObject bulletObj = PoolingManager.instance.PopObj(PoolingType.BULLET);
                 Bullet_Component bulletScript = bulletObj.GetComponent<Bullet_Component>();
+                bulletObj.SetActive(true);
                 bulletScript.SetBulletData(weaponData, Player);
                 bulletScript.SetBulletVec(firePos, targetPosArray[i]);
             }
