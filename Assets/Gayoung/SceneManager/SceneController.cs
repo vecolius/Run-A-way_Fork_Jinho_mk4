@@ -73,7 +73,7 @@ public class SceneController : DontDestroySingle<SceneController>
         uiObjectDict["TitleScene"] = titleUi;
         uiObjectDict["MainScene"] = mainUi;
         uiObjectDict["LobbySceneSingle"] = lobbyUi;
-        uiObjectDict["LoadingScene"] = gameUi;
+        //uiObjectDict["LoadingScene"] = gameUi;
 
         //buttonObjDict["Option"] = mainOptionImage;
         buttonObjDict["Explanation"] = mainExplanationImage;
@@ -121,7 +121,8 @@ public class SceneController : DontDestroySingle<SceneController>
             ui.SetActive(false);
         }
 
-        uiObjectDict[sceneName].SetActive(true);
+        if (!sceneName.Equals("LoadingScene"))
+            uiObjectDict[sceneName].SetActive(true);
 
     }
 
