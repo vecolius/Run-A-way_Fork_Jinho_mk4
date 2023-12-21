@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: zombieData
       value: 
       objectReference: {fileID: 11400000, guid: 4aa78e9366bf63d45a93c98737d0ea74, type: 2}
+    - target: {fileID: 4637368323094050467, guid: fd53785a20ca5f64cab6e01457ac431b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4637368323094050469, guid: fd53785a20ca5f64cab6e01457ac431b, type: 3}
       propertyPath: m_Speed
       value: 1
@@ -69,7 +73,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4637368323094050469, guid: fd53785a20ca5f64cab6e01457ac431b, type: 3}
       propertyPath: m_AngularSpeed
-      value: 1000
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 4637368323094050489, guid: fd53785a20ca5f64cab6e01457ac431b, type: 3}
       propertyPath: target.m_Bits

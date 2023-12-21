@@ -278,7 +278,10 @@ namespace Jinho
         
         public event Action onWeaponChange;
         public event Action attackAction;
-        
+
+        public bool IsDead { get=>isDead; }
+        bool isDead = false;
+
         public int WeaponIndex
         {
             get { return weaponIndex; }
@@ -292,6 +295,12 @@ namespace Jinho
         public CharacterData Data => Data;
 
         CharacterData IHitAble.Data => throw new NotImplementedException();
+
+        public void Awake()
+        {
+            
+            GamePlayManager.instance.players.Add(this);
+        }
 
         void Start()
         {
@@ -466,8 +475,8 @@ namespace Jinho
         [PunRPC]
         public void Dead()
         {
-            Destroy(gameObject);
-            //gameObject.SetActive(false);
+            gameObject.SetActive(false);
+            isDead = true;
         }
 
         public void Hit(float damage)

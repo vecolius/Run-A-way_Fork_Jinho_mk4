@@ -128,6 +128,7 @@ namespace Hojun
         [SerializeField]
         GameObject target;
 
+        
         public Vector3 TargetArea
         {
             get 

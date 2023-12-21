@@ -48,7 +48,6 @@ namespace Hojun
             if (!ownerZombie.IsAttack)
             {
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);
-
                 return;
             }
         }

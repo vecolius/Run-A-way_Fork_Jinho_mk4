@@ -83,8 +83,6 @@ namespace Hojun
         {
             float deathTime = 3.0f;
             animator.SetInteger("State", (int)ZombieState.DEAD);
-            yield return null;
-            animator.SetInteger("State" , 9999);
             yield return new WaitForSeconds(deathTime);
 
             Destroy(this.gameObject);

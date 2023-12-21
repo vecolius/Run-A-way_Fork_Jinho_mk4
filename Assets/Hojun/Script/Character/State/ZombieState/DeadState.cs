@@ -53,8 +53,8 @@ namespace Hojun
         public override void Enter()
         {
             Debug.Log("dead");
+            agent.SetDestination(owner.transform.position);
             ownerZombie.Die();
-            
         }
 
         public override void Exit()

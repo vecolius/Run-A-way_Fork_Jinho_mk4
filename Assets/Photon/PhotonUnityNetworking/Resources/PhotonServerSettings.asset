@@ -60,6 +60,7 @@ MonoBehaviour:
   - SoundEffect
   - Explosion
   - Dead
+  - Interaction
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
