@@ -29,6 +29,7 @@ namespace Gayoung
             {
                 base.WeaponSwap(1);
                 player.WeaponChange();
+
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
