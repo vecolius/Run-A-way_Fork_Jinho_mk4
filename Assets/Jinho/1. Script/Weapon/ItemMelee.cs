@@ -8,8 +8,6 @@ namespace Jinho
 {
     public class ItemMelee : WeaponMonoBehaviour, IAttackItemable, Yeseul.IInteractive, Hojun.IAttackAble
     {
-        public WeaponData weaponData;
-        public WeaponData WeaponData { get { return weaponData; } }
         public Player Player 
         { 
             get => player; 

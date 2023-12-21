@@ -9,12 +9,6 @@ namespace Jinho
 {
     public class ItemShotgun : WeaponMonoBehaviour, IAttackItemable, Yeseul.IInteractive, IReLoadAble
     {
-        public WeaponData WeaponData 
-        { 
-            get => weaponData;
-        }
-        [SerializeField] WeaponData weaponData;
-
         public Player Player 
         { 
             get => player;

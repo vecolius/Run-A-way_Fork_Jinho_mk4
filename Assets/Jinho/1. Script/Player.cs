@@ -304,14 +304,14 @@ namespace Jinho
             moveDic.Add(PlayerMoveState.walk, new Walk(this));
             moveDic.Add(PlayerMoveState.run, new Run(this));
             //moveDic.Add(PlayerMoveState.jump, new Jump(this));
-
+            /*
             attackDic = new Dictionary<ItemType, AttackStrategy>();
             attackDic.Add(ItemType.Rifle, new RifleAttackStrategy(this));
             attackDic.Add(ItemType.Shotgun, new ShotGunStregy(this));
             attackDic.Add(ItemType.Handgun, new HandgunAttackStrategy(this));
             attackDic.Add(ItemType.Melee, new MeleeAttackStrategy(this));
             attackDic.Add(ItemType.Grenade, new GranadeAttackStrategy(this));
-
+            */
 
             moveState = PlayerMoveState.idle;
 
@@ -335,15 +335,6 @@ namespace Jinho
         }
 
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if(other.TryGetComponent<IAttackAble>(out IAttackAble attacker))
-            {
-                Debug.Log("공격당함");
-                Hit(attacker.GetDamage());
-            }
-
-        }
 
         void Update()
         {
@@ -397,6 +388,18 @@ namespace Jinho
             else if (Input.GetKeyDown(KeyCode.Alpha4)) // 무기 정보 [수류탄]
             {
                 WeaponIndex = 3;
+            }
+
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.GetComponent<IAttackItemable>() != null)  //IAttackItemable => return,
+                return;
+            if (other.TryGetComponent(out IAttackAble attacker))
+            {
+                Debug.Log("공격당함");
+                Hit(attacker.GetDamage());
             }
 
         }

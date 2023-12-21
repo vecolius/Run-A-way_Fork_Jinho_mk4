@@ -8,8 +8,6 @@ using Yeseul;
 namespace Jinho {
     public class ItemGrenade : WeaponMonoBehaviour, IAttackItemable, IInteractive
     {
-        public WeaponData weaponData;
-        public WeaponData WeaponData { get => weaponData; }
         public Player Player 
         { 
             get => player; 

@@ -32,7 +32,6 @@ namespace Jinho
     }
     public interface IAttackItemable : IUseable
     {
-        public WeaponData WeaponData { get; }
         public void Reloading();
         public void ReloadEffect();
     }
@@ -74,7 +73,10 @@ namespace Jinho
     }
     public class WeaponMonoBehaviour : MonoBehaviourPun
     {
-        [SerializeField]protected  int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
+        [SerializeField]protected WeaponData weaponData;
+        public WeaponData WeaponData { get { return weaponData; } }
+
+        [SerializeField]protected int maxTotalBullet;         //최대로 내가 가지고 있는 총알의 합계
         [SerializeField]protected int totalBullet;            //내가 가지고 있는 총알의 합계
         [SerializeField]protected int maxBullet;       //장전되는 총알 양
         [SerializeField]protected int bulletCount;            //현재 총에 들어있는 총알 양
