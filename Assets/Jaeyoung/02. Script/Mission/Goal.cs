@@ -14,13 +14,13 @@ public class Goal : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Player>() != null)
+        if (other.GetComponent<Jinho.Player>() != null)
             photonView.RPC("GoalCountChange", RpcTarget.AllBuffered, 1);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Player>() != null)
+        if (other.GetComponent<Jinho.Player>() != null)
             photonView.RPC("GoalCountChange", RpcTarget.AllBuffered, -1);
     }
 
