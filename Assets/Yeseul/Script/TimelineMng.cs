@@ -15,16 +15,16 @@ namespace Yeseul
         public float defaultBlendValue = 2;         //타임라인 재생시 전환속도
         public float newBlendValue = 0.2f;          //세팅할 값 (조준시 씬 전환 속도)
 
-        public Queue<TimelineAsset> timelines;      //타임라인 담을 큐. 그냥 gameObject로 받아서 파고 들어서 실행시킬까? 
+        /*public Queue<TimelineAsset> timelines;*/      //타임라인 담을 큐. 그냥 gameObject로 받아서 파고 들어서 실행시킬까? 
         private void Start()
         {
             playableDirector = GetComponent<PlayableDirector>();
             playableDirector.stopped += TimelineStopped;
 
-            timelines = new Queue<TimelineAsset>();
-            timelines.Enqueue(Resources.Load("TimeLine1") as TimelineAsset); //나중에 Resources 폴더에 넣어야함. 스타트타임까지 넣어야하나? 
-            timelines.Enqueue(Resources.Load("TimeLine2") as TimelineAsset);
-            timelines.Enqueue(Resources.Load("TimeLine3") as TimelineAsset);
+            ////timelines = new Queue<TimelineAsset>();
+            ////timelines.Enqueue(Resources.Load("TimeLine1") as TimelineAsset); //나중에 Resources 폴더에 넣어야함. 스타트타임까지 넣어야하나? 
+            ////timelines.Enqueue(Resources.Load("TimeLine2") as TimelineAsset);
+            ////timelines.Enqueue(Resources.Load("TimeLine3") as TimelineAsset);
         }
 
         private void TimelineStopped(PlayableDirector director) //타임라인 끝날때 호출
@@ -41,8 +41,8 @@ namespace Yeseul
         {
             CinemachineBlendDefinition customBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, defaultBlendValue);
             cinemachineBrain.m_DefaultBlend = customBlend;
-            playableDirector.playableAsset = timelines.Dequeue();
-            playableDirector.Play();
+            //playableDirector.playableAsset = timelines.Dequeue();
+            //playableDirector.Play();
         }
     }
 
