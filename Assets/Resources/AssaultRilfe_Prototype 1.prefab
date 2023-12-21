@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4595175748445678161}
   - component: {fileID: 4592852747756577955}
   - component: {fileID: 4582761416218519169}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: SM_Wep_AssaultRifle_03_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4596499689326620836}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: firePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 4601022774044872453}
   - component: {fileID: 4592593641950268199}
   - component: {fileID: 4582597814322253903}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: SM_Wep_AssaultRifle_03_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 4594963189314535879}
   - component: {fileID: 4592908199652214299}
   - component: {fileID: 4582922417749316781}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: SM_Wep_AssaultRifle_03_Magazine_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 959039755168638074}
   - component: {fileID: 1503389220482852938}
   - component: {fileID: -4194765438448314362}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: AssaultRilfe_Prototype 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,11 +399,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fdf828c4c8e9ca4bb7990f5121f113c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 8d656666f4267b844a83e5705a4df146, type: 2}
   maxTotalBullet: 150
   totalBullet: 150
   maxBullet: 30
   bulletCount: 30
-  weaponData: {fileID: 11400000, guid: 8d656666f4267b844a83e5705a4df146, type: 2}
   player: {fileID: 0}
   firePos: {fileID: 4596499689326620836}
   weaponCol: {fileID: 4552845870673215947}
@@ -463,7 +463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundAreaSize: 15
-  time: 0
+  soundSource: {fileID: 0}
 --- !u!1 &4598013521554848193
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +475,7 @@ GameObject:
   - component: {fileID: 4595300395489406053}
   - component: {fileID: 4589818213466112653}
   - component: {fileID: 4582802429595848759}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: SM_Wep_AssaultRifle_03_Charge_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

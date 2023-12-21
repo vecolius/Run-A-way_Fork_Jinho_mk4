@@ -9,8 +9,6 @@ namespace Jinho
 {
     public class ItemHandgun : WeaponMonoBehaviour, IAttackItemable, Yeseul.IInteractive , IReLoadAble
     {
-        public WeaponData weaponData;
-        public WeaponData WeaponData { get { return weaponData; } }
         public Player Player 
         { 
             get => player; 

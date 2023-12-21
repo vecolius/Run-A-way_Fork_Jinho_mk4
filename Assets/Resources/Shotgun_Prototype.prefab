@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 2057347975684215815}
   - component: {fileID: -1217669047315563679}
   - component: {fileID: 3411369576715250573}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Shotgun_Prototype
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -986,11 +986,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b1b2cce046bf3f449b4fa5284596319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponData: {fileID: 11400000, guid: 14efddf1272f8fc47a877fd5dcddacfc, type: 2}
   maxTotalBullet: 30
   totalBullet: 30
   maxBullet: 4
   bulletCount: 4
-  weaponData: {fileID: 11400000, guid: 14efddf1272f8fc47a877fd5dcddacfc, type: 2}
   player: {fileID: 0}
   firePos: {fileID: 8582934620773777896}
   gunFireSound: {fileID: 8300000, guid: 908b4a8cff31e8c4b9b5bd6ccab0b8e3, type: 3}
@@ -1050,4 +1050,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundAreaSize: 15
-  time: 0
+  soundSource: {fileID: 0}

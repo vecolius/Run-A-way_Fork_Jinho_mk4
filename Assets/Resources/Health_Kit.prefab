@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7604893089747556351}
   - component: {fileID: 4358948113454790846}
   - component: {fileID: -3459867199360126872}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Health_Kit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f004865a765ca41ac233ddb75b0d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponData: {fileID: 0}
   maxTotalBullet: 0
   totalBullet: 0
   maxBullet: 0
