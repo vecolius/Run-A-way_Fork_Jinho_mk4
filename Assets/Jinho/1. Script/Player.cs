@@ -130,7 +130,7 @@ namespace Jinho
         {
             if(Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W))
             {
-                player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.2f) * Time.deltaTime);
+                player.transform.Translate(Vector3.forward * (player.state.MoveSpeed * 1.7f) * Time.deltaTime);
                 player.animator.SetFloat("WalkType", 1f);
                 /*
                 if (Input.GetKey(KeyCode.Space) && player.isGrounded)
