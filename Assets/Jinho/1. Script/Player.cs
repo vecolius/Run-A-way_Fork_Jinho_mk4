@@ -233,6 +233,8 @@ namespace Jinho
         PhotonView view = null;
         public PlayerData state = null;                                   //player의 기본state
         public GameObject defaultWeapon;
+        public event Action initList;
+
         public float Hp
         {
             get => state.Hp;
@@ -245,6 +247,8 @@ namespace Jinho
                 }
                 if(state.Hp > state.MaxHp)
                     state.Hp = state.MaxHp;
+
+                initList();
             }
         }
 
