@@ -337,7 +337,9 @@ namespace Jinho
 
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent<IAttackAble>(out IAttackAble attacker))
+            if (other.GetComponent<IAttackItemable>() != null)
+                return;
+            if (other.TryGetComponent(out IAttackAble attacker))
             {
                 Debug.Log("공격당함");
                 Hit(attacker.GetDamage());
