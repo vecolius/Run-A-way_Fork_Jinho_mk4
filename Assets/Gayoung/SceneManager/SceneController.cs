@@ -21,7 +21,7 @@ public class SceneController : DontDestroySingle<SceneController>
     
 
     //��ư ������ �� Ȱ��ȭ �Ǵ� â
-    [SerializeField] GameObject mainOptionImage;
+    //[SerializeField] GameObject mainOptionImage;
     [SerializeField] GameObject mainExplanationImage;
     [SerializeField] GameObject lobbyChacterChoiceImage;
     [SerializeField] GameObject lobbyProfessionChoiceButton;
@@ -75,7 +75,7 @@ public class SceneController : DontDestroySingle<SceneController>
         uiObjectDict["LobbySceneSingle"] = lobbyUi;
         uiObjectDict["LoadingScene"] = gameUi;
 
-        buttonObjDict["Option"] = mainOptionImage;
+        //buttonObjDict["Option"] = mainOptionImage;
         buttonObjDict["Explanation"] = mainExplanationImage;
         buttonObjDict["ChacterChoiceButton"] = lobbyChacterChoiceImage;
         buttonObjDict["ProfessionChoiceButton"] = lobbyProfessionChoiceButton;
