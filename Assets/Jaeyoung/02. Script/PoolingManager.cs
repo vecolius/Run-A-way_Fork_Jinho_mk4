@@ -90,8 +90,9 @@ namespace Jaeyoung
             foreach (var info in poolingInfoList)
             {
                 GameObject objParent = new GameObject(info.prefab.name + "-Pool");
-                objParent.transform.SetParent(this.transform);
 
+                objParent.transform.position = this.transform.position; 
+                objParent.transform.SetParent(this.transform);
                 ObjeactPooling objectPool = new ObjeactPooling(info, objParent);
                 poolingDic.Add(info.prefab.poolingType, objectPool);
             }
