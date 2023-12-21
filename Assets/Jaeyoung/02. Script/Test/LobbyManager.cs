@@ -61,6 +61,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         backGround.SetActive(false);
         Debug.Log("���� �Ϸ�");
+
+
         sceneController.SetActive(true);
     }
 

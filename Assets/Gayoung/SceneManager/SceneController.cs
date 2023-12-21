@@ -130,7 +130,7 @@ public class SceneController : DontDestroySingle<SceneController>
     [PunRPC]
     public void LoadScene(string sceneName)
     {
-       
+        
         SceneManager.LoadScene(sceneName);
         instance.ChangeScene(sceneName);
     }
@@ -143,7 +143,12 @@ public class SceneController : DontDestroySingle<SceneController>
     public void StartGame(string sceneName)
     {
         if (PhotonNetwork.IsMasterClient)
+        {
             GetComponent<PhotonView>().RPC("LoadScene", RpcTarget.AllBuffered, sceneName);
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+        }
+            
+
     }
 
     public void LeftRoom(string sceneName)
