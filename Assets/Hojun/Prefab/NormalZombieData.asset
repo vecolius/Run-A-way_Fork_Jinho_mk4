@@ -15,5 +15,5 @@ MonoBehaviour:
   hp: 10
   speed: 3
   isDead: 0
-  attackPoint: 10
+  attackPoint: 3
   characterName: MJ

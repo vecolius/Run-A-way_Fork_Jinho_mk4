@@ -63,6 +63,9 @@ namespace Hojun
         DetectiveComponent detectiveCompo;
 
         [SerializeField]
+        private CharacterData zombieData;
+
+        [SerializeField]
         float runHearValue;
         public float RunHearValue { get => runHearValue; }
 
@@ -87,8 +90,6 @@ namespace Hojun
             get=> zombieData.isDead; set {  zombieData.isDead = value; }
         }
 
-        [SerializeField]
-        private CharacterData zombieData;
         public bool IsFindPlayer 
         {
             get
@@ -96,6 +97,7 @@ namespace Hojun
                 if (detectiveCompo.IsFind)
                 {
                     Target = detectiveCompo.targetObj.gameObject;
+                    targetArea = Target.transform.position;
                     return true;
                 }
                     

@@ -8,14 +8,14 @@ namespace Hojun
 
     public class IdleStrategy : IMoveStrategy
     {
-        public GameObject Owner => owner.gameObject;
-        Zombie owner;
+        public GameObject Owner => ownerZombie.gameObject;
+        Zombie ownerZombie;
         NavMeshAgent agent;
 
-
+        Vector3 zombieForward = new Vector3(0.0001f,0,0);
         public IdleStrategy( Zombie owner )
         {
-            this.owner = owner;
+            this.ownerZombie = owner;
             agent = owner.GetComponent<NavMeshAgent>();
             if (null == agent)
             {
@@ -25,7 +25,8 @@ namespace Hojun
 
         public void Move()
         {
-            Debug.Log("idleStrategy on 아무것도 안함");
+            
+            agent.SetDestination(ownerZombie.transform.position + zombieForward);
         }
 
     }

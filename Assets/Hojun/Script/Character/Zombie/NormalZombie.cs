@@ -65,7 +65,7 @@ namespace Hojun
 
             dieAction += () => { StartCoroutine(DieCo()); };
 
-            attackStrategy = new ZombieAttack();
+            //attackStrategy = new ZombieAttack();
 
         }
 

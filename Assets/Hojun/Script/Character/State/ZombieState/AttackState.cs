@@ -45,7 +45,6 @@ namespace Hojun
         {
             agent.isStopped = true;
 
-            Debug.Log("attack state");
             if (!ownerZombie.IsAttack)
             {
                 stateMachine.SetState((int)Zombie.ZombieState.FIND);

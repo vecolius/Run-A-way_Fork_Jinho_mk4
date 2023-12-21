@@ -28,9 +28,6 @@ namespace Hojun
         public void Move()
         {
 
-            Debug.Log("findstrategy on");
-            
-
             agent.SetDestination(ownerZombie.Target.transform.position);
         }
 

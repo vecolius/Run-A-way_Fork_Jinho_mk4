@@ -335,6 +335,15 @@ namespace Jinho
         }
 
 
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.TryGetComponent<IAttackAble>(out IAttackAble attacker))
+            {
+                Debug.Log("공격당함");
+                Hit(attacker.GetDamage());
+            }
+
+        }
 
         void Update()
         {
@@ -391,8 +400,6 @@ namespace Jinho
             }
 
         }
-
-
 
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)
         {
@@ -454,9 +461,11 @@ namespace Jinho
             animator.SetTrigger("Die");
         }
 
+        [PunRPC]
         public void Dead()
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
+            //gameObject.SetActive(false);
         }
 
         public void Hit(float damage)

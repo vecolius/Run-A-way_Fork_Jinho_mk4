@@ -40,10 +40,8 @@ namespace Hojun
                 stateMachine.SetState((int)Zombie.ZombieState.SEARCH);
 
 
-            Debug.Log("find update");
             if (ownerZombie.IsAttack)
             {
-                Debug.Log("find attack");
                 stateMachine.SetState((int)Zombie.ZombieState.ATTACK);
                 return;
             }

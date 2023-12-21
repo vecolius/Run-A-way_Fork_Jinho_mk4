@@ -5,8 +5,10 @@ using UnityEngine;
 namespace Hojun
 {
 
-    public class ZombieAttack : MonoBehaviour, IAttackAble
+
+    public class ZombieHandAttack : MonoBehaviour , IAttackAble
     {
+        [SerializeField] CharacterData data;
         public GameObject GetAttacker()
         {
             return gameObject;
@@ -14,8 +16,7 @@ namespace Hojun
 
         public float GetDamage()
         {
-            Debug.Log("getdamage");
-            return 3f;
+            return data.attackPoint ;
         }
     }
 }
