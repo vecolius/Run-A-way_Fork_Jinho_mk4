@@ -425,7 +425,6 @@ namespace Jinho
                 return;
             }
 
-
             if(currentItemObj != null)
                 currentItemObj.SetActive(false);
             
