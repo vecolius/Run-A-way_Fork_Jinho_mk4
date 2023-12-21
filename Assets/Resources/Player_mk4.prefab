@@ -4346,7 +4346,7 @@ GameObject:
   - component: {fileID: 1491208273413412700}
   - component: {fileID: 4951961502500778952}
   - component: {fileID: 9149266186845344642}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: Player_mk4
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -4617,7 +4617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundAreaSize: 2
-  time: 0
+  soundSource: {fileID: 0}
 --- !u!114 &1491208273413412700
 MonoBehaviour:
   m_ObjectHideFlags: 0

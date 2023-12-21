@@ -11,25 +11,36 @@ namespace Jaeyoung
     public class SoundComponent : MonoBehaviourPunCallbacks
     {
         public float soundAreaSize;
-        public float time;
         public event Action soundAction;
+        [SerializeField] private AudioSource soundSource;
 
+        private void Awake()
+        {
+            if (soundSource == null)
+                return;
+
+            soundAction += ActiveSound;
+        }
 
 
         public override void OnEnable()
         {
+            if (soundSource == null)
+                return;
+
             base.OnEnable();
-            soundAction += ActiveSound;
+            soundSource.Play();
+            soundAction();
         }
 
 
         public void Update()
         {
+            if (soundSource == null)
+                return;
 
-            if (Input.GetKey(KeyCode.A))
-            {
-                //photonView.RPC("ActiveSound", RpcTarget.All);
-            }
+            if (!soundSource.isPlaying)
+                PoolingManager.instance.ReturnPool(this.gameObject);
         }
 
 
