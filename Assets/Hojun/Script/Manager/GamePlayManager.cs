@@ -1,3 +1,4 @@
+using Jaeyoung;
 using Jinho;
 using System;
 using System.Collections;
@@ -15,7 +16,12 @@ namespace Hojun
         public List<Player> players = new List<Player>();
 
         public event Action gameEndSceneCall;
+        public event Action gameClearCall;
 
+        public bool IsGameClear 
+        {
+            get => MissionManager.instance.isEnding;
+        }
 
         public bool IsPlayerDead 
         {
@@ -36,14 +42,22 @@ namespace Hojun
         public void Start()
         {
             StartCoroutine(WaitForDeadEnd());
+            StartCoroutine(WaitForGameClear());
         }
 
 
         IEnumerator WaitForDeadEnd()
         {
             yield return new WaitUntil( () => IsPlayerDead );
-            SceneManager.LoadScene("GameEnd");
-            gameEndSceneCall();
+            SceneController.instance.LoadScene("GameEnd");
+            SceneController.instance.GameOverImage(0);
+        }
+
+        IEnumerator WaitForGameClear()
+        {
+            yield return new WaitUntil(() => IsGameClear);
+            SceneController.instance.LoadScene("GameEnd");
+            SceneController.instance.GameOverImage(1);
         }
 
 
