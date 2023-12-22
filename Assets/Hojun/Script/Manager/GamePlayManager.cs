@@ -1,7 +1,9 @@
 using Jinho;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Hojun
 {
@@ -11,6 +13,9 @@ namespace Hojun
     {
     
         public List<Player> players = new List<Player>();
+
+        public event Action gameEndSceneCall;
+
 
         public bool IsPlayerDead 
         {
@@ -37,9 +42,8 @@ namespace Hojun
         IEnumerator WaitForDeadEnd()
         {
             yield return new WaitUntil( () => IsPlayerDead );
-            Debug.Log("Game End Scene Call");
-
-
+            SceneManager.LoadScene("GameEnd");
+            gameEndSceneCall();
         }
 
 
