@@ -14,6 +14,7 @@ namespace Jaeyoung
             set
             {
                 curTime = value;
+                UIManager.instance.missionUI.CompleteUpdate(curTime / timeLimit);
                 // 변헀을 때 미션 설명 UI변경
             }
         }
@@ -21,6 +22,7 @@ namespace Jaeyoung
         private void Start()
         {
             CurTime = 0;
+            UIManager.instance.missionUI.CompleteUpdate();
             // StartCoroutine(미션 코루틴);
         }
         // 연출이 나온 다음에 미션이 진행되도록 코루틴 짜야함
