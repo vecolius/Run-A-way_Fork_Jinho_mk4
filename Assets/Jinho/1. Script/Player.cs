@@ -248,7 +248,7 @@ namespace Jinho
                 if(state.Hp > state.MaxHp)
                     state.Hp = state.MaxHp;
 
-                initList();
+                if(initList != null) initList();
             }
         }
 
@@ -356,7 +356,7 @@ namespace Jinho
 
             if ( Input.GetKey(KeyCode.Mouse0))//마우스 클릭시 공격이 나가는 부분
             {
-                this.animator.SetBool("Shot", true);
+                
                 currentItem?.Use();
             }
             else
@@ -410,6 +410,7 @@ namespace Jinho
         public void ItemUseEffect() //Animation Event 함수(아이템 사용)
         {
             currentItem.UseEffect();
+            if (initList != null) initList();
         }
 
 
@@ -417,6 +418,7 @@ namespace Jinho
         {
             if (currentItem is IAttackItemable)
                 ((IAttackItemable)currentItem).ReloadEffect();
+            if (initList != null) initList();
         }
 
 
@@ -442,7 +444,8 @@ namespace Jinho
             attackState = currentItem.ItemType;
      
             Debug.Log("무기교체완");
-           
+            if (initList != null) initList();
+
         }
 
        

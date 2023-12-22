@@ -65,6 +65,7 @@ namespace Hojun
 
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
+                    player.animator.SetInteger("WeaponType", 6);
                     player.animator.SetBool("HealKit", true);
                     Debug.Log("??");
                     continue;
@@ -81,7 +82,7 @@ namespace Hojun
             SoundEffect(healSound, transform);
             InstantiateEffect(healEffect, player.transform);
             player.Hp += 30;
-            Destroy(this.gameObject);
+            Destroy(gameObject);
             player.animator.SetBool("HealKit", false);
             player.WeaponIndex = 1;
 
