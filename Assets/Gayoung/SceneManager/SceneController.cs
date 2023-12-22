@@ -122,8 +122,12 @@ public class SceneController : DontDestroySingle<SceneController>
         }
 
         if (!sceneName.Equals("LoadingScene"))
+        {
             uiObjectDict[sceneName].SetActive(true);
-
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+            Cursor.lockState = CursorLockMode.Locked;
     }
 
 
