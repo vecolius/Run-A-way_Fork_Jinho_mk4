@@ -18,6 +18,7 @@ namespace Jaeyoung
             set 
             {
                 curCount = value;
+                UIManager.instance.missionUI.CompleteUpdate((float)curCount / (float)targetCount);
                 // 변헀을 때 미션 설명 UI변경
             }
         }
@@ -37,6 +38,7 @@ namespace Jaeyoung
                 GameObject obj = PhotonNetwork.Instantiate(targetItem.name, spawnItemPoint.points[index].position, spawnItemPoint.points[index].rotation);
                 spawnItemPoint.points.RemoveAt(index);
             }
+            UIManager.instance.missionUI.CompleteUpdate();
         }
 
         public override void Play()

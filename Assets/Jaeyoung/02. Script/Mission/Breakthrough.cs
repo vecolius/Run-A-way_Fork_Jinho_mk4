@@ -16,6 +16,7 @@ namespace Jaeyoung
             set
             { 
                 curCount = value;
+                UIManager.instance.missionUI.CompleteUpdate((float)curCount / (float)groupCount);
                 // 변헀을 때 미션 설명 UI변경
             }
         }
@@ -24,6 +25,7 @@ namespace Jaeyoung
         {
             // 살아있는 인원수를 groupCount에 넣어줘야함
             groupCount = PhotonNetwork.CurrentRoom.PlayerCount;
+            UIManager.instance.missionUI.CompleteUpdate();
         }
 
         public override bool Condition()
