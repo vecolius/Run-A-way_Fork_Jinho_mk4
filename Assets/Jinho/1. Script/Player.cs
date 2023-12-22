@@ -296,11 +296,6 @@ namespace Jinho
 
         CharacterData IHitAble.Data => throw new NotImplementedException();
 
-        public void Awake()
-        {
-            
-            
-        }
 
         void Start()
         {
