@@ -9,7 +9,6 @@ using System.Linq;
 using Photon.Pun;
 
 
-
 // �÷��̾� ���� �κе� ���� ������ �ϱ� ������ ���� �����ϰ� ���� �����ϰ� ���� 
 
 public class SceneController : DontDestroySingle<SceneController>
@@ -35,8 +34,6 @@ public class SceneController : DontDestroySingle<SceneController>
     Dictionary<string, GameObject> buttonObjDict = new Dictionary<string, GameObject>();
 
     List<GameObject> totalUi= new List<GameObject>();
-
-    [SerializeField]LimJinho.BgmComponent child;
    
     // [SerializeField] private GameObject lobbyMultiUi; //  ��Ƽ �� �� ��� ����
     private new void Awake()
@@ -46,10 +43,6 @@ public class SceneController : DontDestroySingle<SceneController>
 
     private void Start()
     {
-        //child = transform.GetChild(0).GetComponent<BgmComponent>();
-
-        SceneManager.sceneLoaded += SceneChange;
-
 
         totalUi.Add(titleUi);
         totalUi.Add(mainUi);
@@ -176,18 +169,7 @@ public class SceneController : DontDestroySingle<SceneController>
         
     }
 
-    public void SceneChange(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "GameScene")
-        {
-            child.BgmPlay(1);
-        }
-        else
-        {
-            child.BgmPlay(0);
-        }
 
-    }
 
     public void GameOverImage(int index)
     {

@@ -1,4 +1,3 @@
-using Hojun;
 using Jinho;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,8 +29,6 @@ namespace Jaeyoung
         public TextMeshProUGUI curAmmo;
         public TextMeshProUGUI totalAmmo;
 
-
-
         public void UIUpdate()
         {
             if (hpBar != null)
@@ -54,9 +51,5 @@ namespace Jaeyoung
                 totalAmmo.text = player.currentItemObj.GetComponent<WeaponMonoBehaviour>().TotalBullet.ToString();
             }
         }
-
-        
-
-
     }
 }
