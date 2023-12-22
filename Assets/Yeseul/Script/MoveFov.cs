@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,17 @@ namespace Yeseul
         public float yAngle = 15f;            //상하 회전각
         //public float xAngle = 45f;          //좌우 회전각 (있어야하나?)
 
+        PhotonView view;
+        private void Start()
+        {
+            view = GetComponent<PhotonView>(); 
+        }
         void Update()
         {
+            if (view.IsMine == false)
+            {
+                return;
+            }
             float mouseX = Input.GetAxis("Mouse X");
             float mouseY = Input.GetAxis("Mouse Y");
 

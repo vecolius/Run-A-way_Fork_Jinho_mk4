@@ -129,6 +129,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: HealKit
     m_EventTreshold: 0
+  - m_ConditionMode: 6
+    m_ConditionEvent: WeaponType
+    m_EventTreshold: 6
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3214225048917341877}
   m_Solo: 0

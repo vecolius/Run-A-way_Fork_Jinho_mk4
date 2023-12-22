@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f004865a765ca41ac233ddb75b0d6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponData: {fileID: 0}
+  weaponData: {fileID: 11400000, guid: 4809e2c734cb22040bafff015df12e7c, type: 2}
   maxTotalBullet: 0
   totalBullet: 0
   maxBullet: 0

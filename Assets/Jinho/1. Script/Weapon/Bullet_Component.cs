@@ -60,6 +60,7 @@ public class Bullet_Component : MonoBehaviour, Hojun.IAttackAble
     void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Bullet_Component>() != null) return;
+        if (other.GetComponent<Jinho.Player>() == player) return;
 
         if(other.GetComponent<IHitAble>() != null)
         {

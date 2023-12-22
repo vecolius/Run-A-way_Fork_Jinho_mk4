@@ -3,6 +3,7 @@ using Jaeyoung;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Jinho
 {
@@ -49,13 +50,16 @@ namespace Jinho
 
         public ItemType ItemType => weaponData.itemType;
 
+        
+
+        [PunRPC]
         public void Use()
         {
-            if (BulletCount == 0)
+            if (BulletCount <= 0)
                 return;
             
+            player.animator.SetBool("Shot", true);
             strategy.Attack();
-
         }
 
 
@@ -79,6 +83,8 @@ namespace Jinho
             InstantiateEffect(fireEffect, firePos);
             MakeBullet();
         }
+
+        [PunRPC]
         public void MakeBullet()
         {
             BulletCount--;
