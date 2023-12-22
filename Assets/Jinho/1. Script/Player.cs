@@ -331,11 +331,10 @@ namespace Jinho
             attackStrategy = currentItem.AttackStrategy;
             Aim = mainCamera.GetComponent<AimComponent>();
 
-            attackStrategy = attackDic[ItemType.Handgun];
-
-
+            //attackStrategy = attackDic[ItemType.Handgun];
             //WeaponChange(); // 아무것도 안들고 있는 것
-            
+
+            UIManager.instance.PlayerEnter(this);
         }
 
 
