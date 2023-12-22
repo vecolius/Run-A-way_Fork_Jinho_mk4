@@ -10,6 +10,7 @@ namespace Jaeyoung
         public static MissionManager instance;
         public IMissionable curMission;
         public Func<bool> condition;
+        public bool isEnding = false;
 
         [SerializeField] private List<Mission> missionList = new List<Mission>();
         private Queue<IMissionable> missionQueue = new Queue<IMissionable>();
@@ -56,7 +57,7 @@ namespace Jaeyoung
         public void MissionOver()
         {
             Debug.Log("엔딩");
-
+            isEnding = true;
             this.enabled = false;
             // 엔딩
         }

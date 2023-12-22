@@ -17,14 +17,17 @@ public class SceneController : DontDestroySingle<SceneController>
     [SerializeField] GameObject titleUi;
     [SerializeField] GameObject mainUi;
     [SerializeField] GameObject lobbyUi;
-    [SerializeField] GameObject gameUi; 
-    
+    [SerializeField] GameObject gameUi;
+    [SerializeField] GameObject gameOverUi;
 
     //��ư ������ �� Ȱ��ȭ �Ǵ� â
     //[SerializeField] GameObject mainOptionImage;
     [SerializeField] GameObject mainExplanationImage;
     [SerializeField] GameObject lobbyChacterChoiceImage;
     [SerializeField] GameObject lobbyProfessionChoiceButton;
+    
+
+    public GameObject[] gameOver;
 
 
     Dictionary<string, GameObject> uiObjectDict = new Dictionary<string, GameObject>();
@@ -45,6 +48,7 @@ public class SceneController : DontDestroySingle<SceneController>
         totalUi.Add(mainUi);
         totalUi.Add(lobbyUi);
         totalUi.Add(gameUi);
+        totalUi.Add(gameOverUi);
 
         //case "TitleScene":
         //    titleUi.SetActive(true);
@@ -73,6 +77,7 @@ public class SceneController : DontDestroySingle<SceneController>
         uiObjectDict["TitleScene"] = titleUi;
         uiObjectDict["MainScene"] = mainUi;
         uiObjectDict["LobbySceneSingle"] = lobbyUi;
+        uiObjectDict["GameEnd"] = gameOverUi;
         //uiObjectDict["LoadingScene"] = gameUi;
 
         //buttonObjDict["Option"] = mainOptionImage;
@@ -137,7 +142,7 @@ public class SceneController : DontDestroySingle<SceneController>
     {
         
         SceneManager.LoadScene(sceneName);
-        instance.ChangeScene(sceneName);
+        ChangeScene(sceneName);
     }
 
     public void OnApplicationQuit()
@@ -164,6 +169,15 @@ public class SceneController : DontDestroySingle<SceneController>
         
     }
 
+
+
+    public void GameOverImage(int index)
+    {
+        for(int i=0;i<gameOver.Length ; i++)
+            gameOver[i].SetActive(false);
+
+        gameOver[index].SetActive(true);
+    }
 
 
 }
