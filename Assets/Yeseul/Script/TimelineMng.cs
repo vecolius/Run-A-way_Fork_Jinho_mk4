@@ -9,35 +9,37 @@ namespace Yeseul
 {
     public class TimelineMng : MonoBehaviour
     {
-        private PlayableDirector playableDirector;  //¸ÞÀÎÄ«¸Þ¶ó¿¡ Playable Director ³Ö¾î¾ßÇÔ. ÇÃ·¹ÀÌ¾î ÇÁ¸®Æé ¼öÁ¤ÇÊ¿ä
-        public CinemachineBrain cinemachineBrain;   //¸ÞÀÎÄ«¸Þ¶ó¿¡ ´Þ·ÁÀÖÀ½
+        private PlayableDirector playableDirector;  //ï¿½ï¿½ï¿½ï¿½Ä«ï¿½Þ¶ï¿½ Playable Director ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½. ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½
+        public CinemachineBrain cinemachineBrain;   //ï¿½ï¿½ï¿½ï¿½Ä«ï¿½Þ¶ï¿½ ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        public float defaultBlendValue = 2;         //Å¸ÀÓ¶óÀÎ Àç»ý½Ã ÀüÈ¯¼Óµµ
-        public float newBlendValue = 0.2f;          //¼¼ÆÃÇÒ °ª (Á¶ÁØ½Ã ¾À ÀüÈ¯ ¼Óµµ)
+        public float defaultBlendValue = 2;         //Å¸ï¿½Ó¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Óµï¿½
+        public float newBlendValue = 0.2f;          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ (ï¿½ï¿½ï¿½Ø½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Óµï¿½)
 
-        /*public Queue<TimelineAsset> timelines;*/      //Å¸ÀÓ¶óÀÎ ´ãÀ» Å¥. ±×³É gameObject·Î ¹Þ¾Æ¼­ ÆÄ°í µé¾î¼­ ½ÇÇà½ÃÅ³±î? 
+        public Queue<TimelineAsset> timelines;      //Å¸ï¿½Ó¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¥. ï¿½×³ï¿½ gameObjectï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½Ä°ï¿½ ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Å³ï¿½ï¿½? 
+        public Queue<GameObject> tlObjs;
+
         private void Start()
         {
             playableDirector = GetComponent<PlayableDirector>();
             playableDirector.stopped += TimelineStopped;
 
             ////timelines = new Queue<TimelineAsset>();
-            ////timelines.Enqueue(Resources.Load("TimeLine1") as TimelineAsset); //³ªÁß¿¡ Resources Æú´õ¿¡ ³Ö¾î¾ßÇÔ. ½ºÅ¸Æ®Å¸ÀÓ±îÁö ³Ö¾î¾ßÇÏ³ª? 
+            ////timelines.Enqueue(Resources.Load("TimeLine1") as TimelineAsset); //ï¿½ï¿½ï¿½ß¿ï¿½ Resources ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½Å¸Æ®Å¸ï¿½Ó±ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½Ï³ï¿½? 
             ////timelines.Enqueue(Resources.Load("TimeLine2") as TimelineAsset);
             ////timelines.Enqueue(Resources.Load("TimeLine3") as TimelineAsset);
         }
 
-        private void TimelineStopped(PlayableDirector director) //Å¸ÀÓ¶óÀÎ ³¡³¯¶§ È£Ãâ
+        private void TimelineStopped(PlayableDirector director) //Å¸ï¿½Ó¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
         {
-            Debug.Log("Å¸ÀÓ¶óÀÎ ³¡! state: " + playableDirector.state);
+            Debug.Log("Å¸ï¿½Ó¶ï¿½ï¿½ï¿½ ï¿½ï¿½! state: " + playableDirector.state);
 
-            // Å¸ÀÓ¶óÀÎ Àç»ýÀÌ ³¡³µÀ» ¶§ ºê·¹ÀÎÀÇ ºí·»µù °ª º¯°æ
+            // Å¸ï¿½Ó¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ê·¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             CinemachineBlendDefinition customBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, newBlendValue);
             cinemachineBrain.m_DefaultBlend = customBlend;
 
         }
 
-        public void TimelinePlay()   //¼¼ÆÃÇÏ°í Àç»ý
+        public void TimelinePlay()   //ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½
         {
             CinemachineBlendDefinition customBlend = new CinemachineBlendDefinition(CinemachineBlendDefinition.Style.EaseInOut, defaultBlendValue);
             cinemachineBrain.m_DefaultBlend = customBlend;
