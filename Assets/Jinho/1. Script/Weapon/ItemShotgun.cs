@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Jinho
 {
@@ -59,14 +60,16 @@ namespace Jinho
         {
             strategy = new ShotGunStregy(player);
         }
+        [PunRPC]
         public void Use()
         {
-            if (BulletCount == 0)
+            if (BulletCount <= 0)
                 return;
-            
+
+            player.animator.SetBool("Shot", true);
             strategy.Attack();
         }
-
+        [PunRPC]
         public void MakeBullet()
         {
             BulletCount--;
@@ -123,9 +126,14 @@ namespace Jinho
         }
         public void ReLoad()
         {
-            if (BulletCount == maxBullet)
-                return;
-            BulletCount += 1;
+            int needBulletCount = maxBullet - BulletCount;
+
+            if (TotalBullet >= needBulletCount)
+                BulletCount = maxBullet;
+            else
+                BulletCount += TotalBullet;
+
+            TotalBullet -= needBulletCount;
         }
     }
 }

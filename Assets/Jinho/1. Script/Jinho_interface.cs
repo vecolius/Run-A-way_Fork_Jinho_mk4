@@ -87,8 +87,13 @@ namespace Jinho
             set
             {
                 bulletCount = value;
-                if (bulletCount > maxBullet) bulletCount = maxBullet;
-                if (bulletCount < 0) bulletCount = 0;
+            
+                if (bulletCount > maxBullet) 
+                    bulletCount = maxBullet;
+                
+                if (bulletCount < 0) 
+                    bulletCount = 0;
+            
             }
         }
         public int TotalBullet

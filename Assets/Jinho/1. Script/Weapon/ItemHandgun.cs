@@ -4,6 +4,7 @@ using Jinho;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 namespace Jinho
 {
@@ -48,13 +49,14 @@ namespace Jinho
             strategy = new HandgunAttackStrategy(player);
         }
 
-
+        [PunRPC]
         public void Use()
         {
             
-            if (BulletCount == 0)
+            if (BulletCount <= 0)
                 return;
 
+            player.animator.SetBool("Shot", true);
             strategy.Attack();
         }
 
@@ -63,7 +65,6 @@ namespace Jinho
         {
             SetWeapon(player, gameObject, 1, this);
         }
-        
 
 
         public void Interaction(GameObject interactivePlayer)
@@ -73,7 +74,7 @@ namespace Jinho
                 SetItem(player);
             }
         }
-
+        [PunRPC]
         public void MakeBullet()
         {
             BulletCount--;
