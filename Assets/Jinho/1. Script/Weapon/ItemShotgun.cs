@@ -91,7 +91,7 @@ namespace Jinho
             }
 
             this.sound.ActiveSound();
-            SoundEffect(gunFireSound, firePos);
+            SoundEffect(gunFireSound, firePos, 35);
         }
 
 

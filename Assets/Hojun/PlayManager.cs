@@ -18,12 +18,6 @@ public class PlayManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void Update()
-    {
-        Debug.Log(playerCount);
-        Debug.Log(PhotonNetwork.PlayerList.Length);
-    }
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
