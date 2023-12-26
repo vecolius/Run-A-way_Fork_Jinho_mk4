@@ -110,6 +110,8 @@ namespace Jinho
 
         public void UseEffect()
         {
+            if (BulletCount <= 0)
+                return;
             InstantiateEffect(fireEffect, firePos);
             MakeBullet();
         }

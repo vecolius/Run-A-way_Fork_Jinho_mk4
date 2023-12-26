@@ -81,7 +81,7 @@ namespace Hojun
         {
             SoundEffect(healSound, transform);
             InstantiateEffect(healEffect, player.transform);
-            player.Hp += 30;
+            player.Hp += 100;
             Destroy(gameObject);
             player.animator.SetBool("HealKit", false);
             player.WeaponIndex = 1;
