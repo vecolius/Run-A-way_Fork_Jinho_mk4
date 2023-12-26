@@ -118,10 +118,10 @@ public class SceneController : DontDestroySingle<SceneController>
 
 
 
-    
+
     public void ChangeScene(string sceneName)
     {
-        foreach (GameObject ui in totalUi) 
+        foreach (GameObject ui in totalUi)
         {
             ui.SetActive(false);
         }
@@ -130,9 +130,13 @@ public class SceneController : DontDestroySingle<SceneController>
         {
             uiObjectDict[sceneName].SetActive(true);
             Cursor.lockState = CursorLockMode.None;
+            BGMManager.instance.TitleBGM();
         }
         else
+        {
             Cursor.lockState = CursorLockMode.Locked;
+            BGMManager.instance.InGameBGM();
+        }
     }
 
 

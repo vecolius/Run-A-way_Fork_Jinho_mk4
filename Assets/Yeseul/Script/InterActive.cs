@@ -8,6 +8,14 @@ namespace Yeseul
 
     public class InterActive : MonoBehaviour
     {
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip clip;
+
+        private void Start()
+        {
+            audioSource.clip = clip;
+        }
+
         // 피의자
 
         public float range = 2f; // 상호작용 대상 탐지범위
@@ -47,6 +55,7 @@ namespace Yeseul
                 {
                     IInteractive interactiveObj = FindNearestObj(cols).GetComponent<IInteractive>();
                     interactiveObj?.Interaction(this.gameObject);
+                    audioSource.Play();
                 }
             }
         }
