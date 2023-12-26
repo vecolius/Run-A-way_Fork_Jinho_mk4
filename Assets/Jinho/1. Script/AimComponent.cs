@@ -7,6 +7,7 @@ public class AimComponent : MonoBehaviour
     private Vector3 aimPos;
     const float aimHitMaxRange = 50f;   //최대 사거리
     public GameObject testAimObj;
+    public LayerMask targetLayer;
     GameObject aimObj;
     public Transform aimObjPos { get => aimObj.transform; }
     private void Start()
@@ -17,7 +18,7 @@ public class AimComponent : MonoBehaviour
     {
         RaycastHit aimHit;
         Debug.DrawLine(transform.position, transform.forward * aimHitMaxRange, Color.green);
-        if (Physics.Raycast(transform.position, transform.forward, out aimHit, aimHitMaxRange))
+        if (Physics.Raycast(transform.position, transform.forward, out aimHit, aimHitMaxRange, targetLayer))
         {
             aimPos = aimHit.point;
         }
