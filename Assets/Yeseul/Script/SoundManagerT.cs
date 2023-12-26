@@ -23,6 +23,7 @@ namespace Yeseul
         public void SoundPlayT(AudioClip clip, bool isLoop = false)
         {
             GameObject popobj = PoolingManager.instance.PopObj(PoolingType.SOUND);
+            popobj.GetComponent<SoundComponent>().soundAreaSize = 20;
             AudioSource source = popobj.GetComponent<AudioSource>();
             source.clip = clip;
             source.loop = isLoop;

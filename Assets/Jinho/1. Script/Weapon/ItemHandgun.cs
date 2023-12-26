@@ -88,11 +88,13 @@ namespace Jinho
             bulletScript.SetBulletVec(firePos, aimPos.position);
 
             this.sound.ActiveSound();
-            SoundEffect(gunFireSound, firePos);
+            SoundEffect(gunFireSound, firePos, 25);
         }
 
         public void UseEffect()
         {
+            if (BulletCount <= 0)
+                return;
             InstantiateEffect(fireEffect, firePos);
             MakeBullet();
         }
