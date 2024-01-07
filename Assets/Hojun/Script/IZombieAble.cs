@@ -54,6 +54,7 @@ namespace Hojun
     public interface IAttackAble 
     {
         public float GetDamage();
+
         public GameObject GetAttacker();
     }
 

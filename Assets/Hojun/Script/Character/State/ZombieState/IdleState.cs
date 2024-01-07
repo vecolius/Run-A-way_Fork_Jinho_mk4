@@ -14,25 +14,6 @@ namespace Hojun
         Zombie ownerZombie;
         Animator animator;
 
-        public float HearSoundWalk
-        {
-            get
-            {
-                Debug.Log("팀원과 상의해서 추가 변경 할 것. 지우지 말것!");
-                // TODO_LIST 계산식 추가하던가 해서 체크해 볼 것;
-                return 10f;
-            }
-        }
-
-        public float HearSoundRun
-        {
-
-            get
-            {
-                Debug.Log("팀원과 상의해서 추가 변경 할 것. 지우지 말것!");
-                return 20f;
-            }
-        }
 
         public IdleState(IStateMachine sm) : base(sm)
         {

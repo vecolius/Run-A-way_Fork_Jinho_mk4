@@ -61,13 +61,13 @@ namespace Hojun
             if (!ownerZombie.Target.activeSelf) 
             {
                 stateMachine.SetState((int)Zombie.ZombieState.IDLE);
-                ownerZombie.InitTarget();
+                ownerZombie.InitTargetAction();
             }
 
             if (Vector3.Distance(ownerPos, detectedPos) <= arriveDestination)
             {
                 stateMachine.SetState((int)Zombie.ZombieState.IDLE);
-                ownerZombie.InitTarget();
+                ownerZombie.InitTargetAction();
                 return;
             }
             ownerZombie.Move();

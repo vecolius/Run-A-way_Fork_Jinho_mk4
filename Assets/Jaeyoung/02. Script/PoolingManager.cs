@@ -64,6 +64,13 @@ namespace Jaeyoung
         ZOMBIE
     }
 
+
+    // 재영이형이랑 상의 해서 리팩 해볼 것 
+    // 재미는 있을 듯 
+    // 내 생각에는 리플렉션 써서 type 에 해당하는 거
+    // dictionary에 집어 넣어서 사용하는게 베스트
+    // 그게 아니더라도 굳이 poolinginfo를 사용해야 하는 이유를
+    // 잘 모르겠음
     public class PoolingManager : MonoBehaviour
     {
         public static PoolingManager instance;

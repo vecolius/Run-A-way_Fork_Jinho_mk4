@@ -28,11 +28,11 @@ namespace Hojun
             {
                 foreach (var player in players) 
                 {
-                    if (player.IsDead)
-                        return true;
+                    if (!player.IsDead)
+                        return false;
                 }
 
-                return false;
+                return true;
             }
         }
 
