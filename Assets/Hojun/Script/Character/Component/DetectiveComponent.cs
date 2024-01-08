@@ -31,7 +31,6 @@ public class DetectiveComponent : MonoBehaviour
     
     Vector3 direction;
 
-
     void Update()
     {
         Collider[] coll = Physics.OverlapSphere(transform.position, radius, target);

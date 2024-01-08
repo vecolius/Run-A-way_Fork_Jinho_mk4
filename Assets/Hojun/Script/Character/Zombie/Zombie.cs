@@ -86,13 +86,12 @@ namespace Hojun
         
         public GameObject Target 
         {
-            protected set 
+            private set 
             {
                 target = value;
 
                 if (value != null)
                     targetArea = value.transform.position;
-            
             }
             get
             {
