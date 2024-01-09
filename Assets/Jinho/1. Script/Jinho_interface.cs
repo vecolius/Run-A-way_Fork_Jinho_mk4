@@ -20,6 +20,8 @@ namespace Jinho
         HealKit,
         Grenade,
     }
+
+
     public interface IUseable
     {
         public ItemType ItemType { get; }
@@ -30,15 +32,21 @@ namespace Jinho
         [PunRPC]
         public void SetItem(Player player);
     }
+
+
+
+
     public interface IAttackItemable : IUseable
     {
         public void Reloading();
         public void ReloadEffect();
     }
+
     public interface IExpendable : IUseable
     {
         public ExtendableData ExtendableData { get; }
     }
+
     #endregion
     #region Weapon_Class
     public class WeaponItem

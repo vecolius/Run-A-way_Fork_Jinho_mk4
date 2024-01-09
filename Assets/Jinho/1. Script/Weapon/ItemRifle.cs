@@ -105,6 +105,7 @@ namespace Jinho
             if (strategy is IReLoadAble)
                 ((IReLoadAble)strategy).ReLoad();
         }
+
         public void ReloadEffect()
         {
             ReLoad();

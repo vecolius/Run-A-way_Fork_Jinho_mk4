@@ -106,13 +106,14 @@ namespace Jaeyoung
 
         public void ReturnPool(GameObject obj)
         {
-            if (obj.TryGetComponent<PoolingComponent>(out PoolingComponent poolcom))
+            if (obj.TryGetComponent(out PoolingComponent poolcom))
             {
                 if (!poolingDic.ContainsKey(poolcom.poolingType))
                     return;
 
                 poolingDic[poolcom.poolingType].ReturnObj(obj);
             }
+
         }
     }
 }

@@ -85,6 +85,8 @@ public class SceneController : DontDestroySingle<SceneController>
         buttonObjDict["ChacterChoiceButton"] = lobbyChacterChoiceImage;
         buttonObjDict["ProfessionChoiceButton"] = lobbyProfessionChoiceButton;
 
+
+
         LoadScene("TitleScene");
     }
     

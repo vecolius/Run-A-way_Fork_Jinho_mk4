@@ -67,7 +67,6 @@ namespace Hojun
                 {
                     player.animator.SetInteger("WeaponType", 6);
                     player.animator.SetBool("HealKit", true);
-                    Debug.Log("??");
                     continue;
                 }
                 player.animator.SetBool("HealKit", false);

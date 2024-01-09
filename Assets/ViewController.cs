@@ -11,7 +11,7 @@ namespace Hojun
         // Start is called before the first frame update
         void Start()
         {
-            GamePlayManager.instance.gameEndSceneCall += () => { gameObject.SetActive(false); };
+            GamePlayManager.instance.GameClearCall += () => { gameObject.SetActive(false); };
         }
 
     }

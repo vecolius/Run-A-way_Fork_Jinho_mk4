@@ -21,6 +21,7 @@ namespace Hojun
             if (owner == null)
                 Debug.Log("ERROR");
 
+
         }
 
         public virtual void Init(IStateMachine sm)
