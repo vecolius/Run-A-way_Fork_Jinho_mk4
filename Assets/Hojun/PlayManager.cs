@@ -5,7 +5,7 @@ using UnityEngine;
 using Photon;
 
 
-public class PlayManager : MonoBehaviourPunCallbacks, IPunObservable
+public class PlayManager : MonoBehaviourPunCallbacks
 {
 
     public int playerCount = 0;
@@ -18,17 +18,6 @@ public class PlayManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(playerCount);
-        }
-        else if (stream.IsReading)
-        {
-            playerCount = (int)stream.ReceiveNext();
-        }
-    }
 
     [PunRPC]
     void InsertPlayer()

@@ -17,7 +17,7 @@ namespace Hojun
         float arriveDestination = 2f;
         const float runSpeed = 1.4f;
 
-        // µéÀº ¼Ò¸®°¡ runHearValueÀÌ»óÀÌ¸é ´Þ¸®°Ô µÊ
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ runHearValueï¿½Ì»ï¿½ï¿½Ì¸ï¿½ ï¿½Þ¸ï¿½ï¿½ï¿½ ï¿½ï¿½
         public float runHearValue = 20f;
 
         public SearchState(IStateMachine sm) : base(sm)
