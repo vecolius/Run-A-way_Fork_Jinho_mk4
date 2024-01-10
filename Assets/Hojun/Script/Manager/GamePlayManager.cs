@@ -36,7 +36,7 @@ namespace Hojun
                         return true;
                 }
 
-                return false;
+                return true;
             }
         }
 

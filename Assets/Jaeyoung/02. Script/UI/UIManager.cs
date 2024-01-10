@@ -7,13 +7,12 @@ namespace Jaeyoung
 {
     public class UIManager : DontDestroySingle<UIManager>
     {
-        [SerializeField] private GameObject minimapCam;
+        [SerializeField] private MinimapCam minimapCam;
         [SerializeField] private PlayerUI myUI;
         [SerializeField] private GameObject gameUI;
         public MissionUI missionUI;
         [SerializeField] private List<PlayerUI> anotherPlayerUI = new List<PlayerUI>();
         private int anotherPlayerCount = 0;
-        [SerializeField] private float camDistance = 0;
 
         public void PlayerEnter(Player player)
         {
@@ -21,10 +20,7 @@ namespace Jaeyoung
             {
                 myUI.Player = player;
                 gameUI.gameObject.SetActive(true);
-                minimapCam.transform.SetParent(player.transform);
-                minimapCam.transform.localPosition = Vector3.up * camDistance;
-                minimapCam.transform.LookAt(player.transform);
-                minimapCam.transform.localRotation = Quaternion.Euler(new Vector3(90, 0, 0));
+                minimapCam.target = player.gameObject;
             }
             else
             {

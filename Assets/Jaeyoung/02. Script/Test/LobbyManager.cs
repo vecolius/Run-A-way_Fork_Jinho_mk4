@@ -60,7 +60,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks, IPunObservable
     public override void OnConnectedToMaster()
     {
         backGround.SetActive(false);
-        Debug.Log("���� �Ϸ�");
 
 
         sceneController.SetActive(true);

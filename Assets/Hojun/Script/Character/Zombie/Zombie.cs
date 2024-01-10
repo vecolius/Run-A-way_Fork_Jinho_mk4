@@ -10,31 +10,10 @@ using UnityEngine;
 public enum CustomObjectLayer
 {
     ZOMBIE = 0<<20,
-
 }
-
 
 namespace Hojun
 {
-
-    public class ZombieData
-    {
-        public float hp;
-        public float speed;
-        public bool isDead;
-        public float attackPoint;
-        public string zombieName;
-
-        public ZombieData(float hp , float spped , float attack) 
-        {
-            this.hp = hp;
-            this.speed = spped;
-            this.isDead = false;
-            this.attackPoint = attack;
-        }
-
-    }
-
 
     public abstract class Zombie : Character, IMoveAble ,IDieable , IAttackAble , IHitAble
     {
@@ -58,18 +37,18 @@ namespace Hojun
             FIND
         }
 
-        protected Action initTargetAction;
-
+        public Action InitTargetAction;
         DetectiveComponent detectiveCompo;
+        HearComponent hearComponent;
 
         [SerializeField]
         private CharacterData zombieData;
-
-        [SerializeField]
-        float runHearValue;
-        public float RunHearValue { get => runHearValue; }
-
         protected StateMachine<Zombie> stateMachine;
+
+        public CharacterData Data { get => zombieData; }
+        protected Dictionary<int, IMoveStrategy> moveDict = new Dictionary<int, IMoveStrategy>();
+        IMoveStrategy moveStrategy;
+
 
         public virtual float Hp 
         {
@@ -107,21 +86,18 @@ namespace Hojun
         
         public GameObject Target 
         {
-            protected set 
+            private set 
             {
                 target = value;
 
                 if (value != null)
                     targetArea = value.transform.position;
-            
-            
             }
             get
             {
                 if(target != null)
                     targetArea = target.transform.position;
                 
-
                 return target;
             }
         }
@@ -144,7 +120,6 @@ namespace Hojun
         }
         [SerializeField]Vector3 targetArea;
 
-
         public float HearValue 
         {
             get
@@ -152,13 +127,9 @@ namespace Hojun
                 if (hearComponent.SoundOwner == null)
                     return initHearValue;
 
-
-
-
                 return hearComponent.ResultDistance;
             }
         }
-
 
         public bool IsAttack 
         {
@@ -175,47 +146,40 @@ namespace Hojun
                     }
 
                 }
-
-
                 return false;
             }
         }
 
-
-        [SerializeField]
-        protected HearComponent hearComponent;
-
-
-        public CharacterData Data { get => zombieData;}
-
-
-
-        //protected Dictionary<AttackStrategy >
-        protected Dictionary<ZombieMove, IMoveStrategy> moveDict = new Dictionary<ZombieMove, IMoveStrategy>();
-        protected Dictionary<ZombieState, State> stateDict = new Dictionary<ZombieState, State>();
-
-
         public IMoveStrategy GetMoveDict(ZombieMove move)
         {
-            return moveDict[move];
+            return moveDict[(int)move];
         }
 
-        public IMoveStrategy MoveStrategy { get => moveStrategy; set { moveStrategy = value; } }
-
-        public abstract IAttackStrategy AttackStrategy { get; }
-
-        IMoveStrategy moveStrategy;
+        public IMoveStrategy MoveStrategy 
+        { 
+            get => moveStrategy;
+            set { moveStrategy = value; }
+        }
 
         protected void Awake()
         {
-            
-
             hearComponent = GetComponent<HearComponent>();
-            //zombieData = new CharacterData(50,10,20);
             stateMachine = new StateMachine<Zombie>(this);
             detectiveCompo = GetComponent<DetectiveComponent>();
-
             zombieData = zombieData.GetClone;
+        }
+
+        public void Start()
+        {
+            InitTargetAction += hearComponent.InitTarget;
+            InitTargetAction += detectiveCompo.InitTarget;
+            InitTargetAction += () => { stateMachine.SetState((int)Zombie.ZombieState.IDLE);};
+        }
+
+        public new void OnEnable()
+        {
+            base.OnEnable();
+            InitTargetAction();
         }
 
         public virtual void Move() 
@@ -223,27 +187,17 @@ namespace Hojun
             moveStrategy.Move();
         }
 
-        public void Start()
-        {
-            initTargetAction = hearComponent.InitTarget;
-        }
-
-        public abstract void Die();
-        public abstract void Hit(float damage, IAttackAble attacker);
-
         public GameObject GetAttacker()
         {
-            throw new System.NotImplementedException();
+            return this.gameObject;
         }
 
+        public abstract IAttackStrategy AttackStrategy { get; }
         public abstract float GetDamage();
-
-        public void InitTarget()
-        {
-            initTargetAction();
-        }
-
+        public abstract void Die();
+        public abstract void Hit(float damage, IAttackAble attacker);
         public abstract void Hit(float damage);
+
     }
 
 

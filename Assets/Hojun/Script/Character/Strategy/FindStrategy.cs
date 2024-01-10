@@ -12,10 +12,8 @@ namespace Hojun
         Zombie ownerZombie;
         NavMeshAgent agent;
 
-
         public FindStrategy( Zombie owner )
         {
-
             this.ownerZombie = owner;
             agent = owner.GetComponent<NavMeshAgent>();
             if (null == agent)
@@ -27,8 +25,8 @@ namespace Hojun
 
         public void Move()
         {
-
             agent.SetDestination(ownerZombie.Target.transform.position);
+            Debug.Log("find on");        
         }
 
     }

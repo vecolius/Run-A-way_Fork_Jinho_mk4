@@ -31,7 +31,6 @@ public class DetectiveComponent : MonoBehaviour
     
     Vector3 direction;
 
-
     void Update()
     {
         Collider[] coll = Physics.OverlapSphere(transform.position, radius, target);
@@ -64,10 +63,9 @@ public class DetectiveComponent : MonoBehaviour
         
     }
 
-    private void OnDrawGizmos()
+    public void InitTarget()
     {
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawWireSphere(transform.position, radius);
+        targetObj = null;
     }
 
 

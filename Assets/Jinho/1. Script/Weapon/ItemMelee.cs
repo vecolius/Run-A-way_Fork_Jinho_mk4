@@ -45,6 +45,7 @@ namespace Jinho
         }
         public void Use()
         {
+            player.animator.SetBool("Shot", true);
             strategy.Attack();
         }
         public void Reloading()    //근접무기는 재장전 없음

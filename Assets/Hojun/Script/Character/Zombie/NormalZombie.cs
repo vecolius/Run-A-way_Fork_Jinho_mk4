@@ -21,12 +21,13 @@ namespace Hojun
     public class NormalZombie : Zombie 
     {
 
-        public event Action dieAction;
-        public event Action attackAction;
-
+        public event Action DieAction;
+        public event Action AttackAction;
+        
         public IAttackStrategy attackStrategy;
         public IHitStrategy hitStrategy;
         Animator animator;
+        
 
         public override float Hp 
         {
@@ -47,26 +48,20 @@ namespace Hojun
         
             base.Awake();
 
-            moveDict.Add(ZombieMove.SEARCH, new SearchStrategy(this));
-            moveDict.Add(ZombieMove.IDLE, new IdleStrategy(this));
-            moveDict.Add(ZombieMove.FIND, new FindStrategy(this));
+            moveDict.Add((int)ZombieMove.SEARCH, new SearchStrategy(this));
+            moveDict.Add((int)ZombieMove.IDLE, new IdleStrategy(this));
+            moveDict.Add((int)ZombieMove.FIND, new FindStrategy(this));
 
             stateMachine.AddState((int)Zombie.ZombieState.IDLE, new IdleState(stateMachine));
             stateMachine.AddState((int)Zombie.ZombieState.SEARCH, new SearchState(stateMachine));
             stateMachine.AddState((int)Zombie.ZombieState.FIND , new FindState(stateMachine));
             stateMachine.AddState((int)Zombie.ZombieState.DEAD, new DeadState(stateMachine));
             stateMachine.AddState((int)Zombie.ZombieState.ATTACK, new AttackState(stateMachine));
-
             stateMachine.SetState((int)Zombie.ZombieState.IDLE);
 
-            hearComponent = gameObject.GetComponent<HearComponent>();
             animator = GetComponent<Animator>();
 
-
-            dieAction += () => { StartCoroutine(DieCo()); };
-
-            //attackStrategy = new ZombieAttack();
-
+            DieAction += () => { StartCoroutine(DieCo()); };
         }
 
 
@@ -85,12 +80,12 @@ namespace Hojun
             animator.SetInteger("State", (int)ZombieState.DEAD);
             yield return new WaitForSeconds(deathTime);
 
-            Destroy(this.gameObject);
+            PoolingManager.instance.ReturnPool(this.gameObject);
         }
 
         public override void Die()
         {
-            dieAction();
+            DieAction();
         }
 
         public void OnTriggerEnter(Collider other)
@@ -102,7 +97,6 @@ namespace Hojun
             }
 
         }
-
 
         [PunRPC]
         public override void Hit(float damage, IAttackAble attacker)
@@ -119,7 +113,6 @@ namespace Hojun
         [PunRPC]
         public override void Hit(float damage)
         {
-            Debug.Log("hit");
             Hp -= damage;
         }
     }

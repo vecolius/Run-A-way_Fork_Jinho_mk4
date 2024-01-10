@@ -21,7 +21,6 @@ namespace Hojun
             ownerZombie = owner.GetComponent<Zombie>();
             aniCompo = owner.GetComponent<Animator>();
             agent = owner.GetComponent<NavMeshAgent>();
-
         }
 
         public override void Enter()
@@ -31,8 +30,6 @@ namespace Hojun
             agent.speed = 0;
 
             aniCompo.SetInteger("State" , (int)Zombie.ZombieState.ATTACK );
-            // 추가적으로  state 말고도 좀 추가할 것
-            // 예를들면 strategy 에 의해서 Attack을 좀 변하게 해야할듯.
             agent.SetDestination(ownerZombie.transform.position);
         }
 
@@ -54,7 +51,7 @@ namespace Hojun
             if (!ownerZombie.Target.activeSelf)
             {
                 stateMachine.SetState((int)Zombie.ZombieState.IDLE);
-                ownerZombie.InitTarget();
+                ownerZombie.InitTargetAction();
             }
 
         }

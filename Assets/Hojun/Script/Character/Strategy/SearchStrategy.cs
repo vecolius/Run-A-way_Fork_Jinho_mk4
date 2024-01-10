@@ -33,10 +33,7 @@ namespace Hojun
 
             Debug.Log("searchstrategy on 찾기 시작");
 
-
             agent.SetDestination(ownerZombie.TargetArea);
-
-
 
 
         }

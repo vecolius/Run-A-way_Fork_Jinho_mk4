@@ -177,7 +177,7 @@ namespace Jinho
         public Job job;
 
         public float DefaultMoveSpeed => 3;
-        public float DefaultMaxHp => 200;
+        public float DefaultMaxHp => 500;
         float moveSpeed;
         public float MoveSpeed
         {

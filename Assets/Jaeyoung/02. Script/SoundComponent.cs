@@ -31,6 +31,8 @@ namespace Jaeyoung
             base.OnEnable();
             soundSource.Play();
             soundAction();
+
+            StartCoroutine(ReturnSound());
         }
 
 
@@ -38,14 +40,16 @@ namespace Jaeyoung
         {
             if (soundSource == null)
                 return;
+        }
 
-            if (!soundSource.isPlaying)
+        IEnumerator ReturnSound()
+        {
+            yield return new WaitForSeconds(soundSource.clip.length);
                 PoolingManager.instance.ReturnPool(this.gameObject);
         }
 
 
-
-        [PunRPC]
+        //[PunRPC]
         public void ActiveSound()
         {
             Collider[] coll = Physics.OverlapSphere(transform.position, soundAreaSize);

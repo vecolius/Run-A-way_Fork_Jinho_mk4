@@ -80,6 +80,8 @@ namespace Jinho
 
         public void UseEffect()
         {
+            if (BulletCount <= 0)
+                return;
             InstantiateEffect(fireEffect, firePos);
             MakeBullet();
         }
@@ -98,7 +100,7 @@ namespace Jinho
             bulletScript.SetBulletVec(firePos, aimPos.position);
 
             this.sound.ActiveSound();
-            SoundEffect(gunFireSound, firePos);
+            SoundEffect(gunFireSound, firePos, 30);
         }
         public void Reloading()    //근접무기는 재장전 없음
         {

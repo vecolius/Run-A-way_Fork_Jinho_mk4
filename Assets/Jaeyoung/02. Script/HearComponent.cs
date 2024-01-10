@@ -17,8 +17,6 @@ namespace Jaeyoung
         const float ChaseValue = 2.0f;
         const float DetectiveValue = 1.0f;
 
-
-
         [SerializeField]
         float resultDistance;
         [SerializeField]

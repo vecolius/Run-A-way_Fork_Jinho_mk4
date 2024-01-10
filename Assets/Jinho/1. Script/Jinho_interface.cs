@@ -115,10 +115,12 @@ namespace Jinho
             }
         }
         [PunRPC]
-        protected void SoundEffect(AudioClip clip, Transform transform)    //家府 犁积
+        protected void SoundEffect(AudioClip clip, Transform transform, int soundRange = 15)    //家府 犁积
         {
             GameObject soundObj = PoolingManager.instance.PopObj(PoolingType.SOUND);
             soundObj.transform.position = transform.position;
+            soundObj.GetComponent<SoundComponent>().soundAreaSize = soundRange;
+            //soundObj.transform.position = transform.position;
             AudioSource sound = soundObj.GetComponent<AudioSource>();
             sound.clip = clip;
             soundObj.SetActive(true);
