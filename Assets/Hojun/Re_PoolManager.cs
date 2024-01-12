@@ -4,13 +4,15 @@ using UnityEngine;
 using System;
 using Jinho;
 
-
 public class Re_PoolManager : MonoBehaviour
 {
     
     public static Re_PoolManager instance;
     [SerializeField]
     GameObject parent;
+    Type cachingType;
+    GameObject createObj;
+    GameObject item;
 
     public const int minSize = 10;
 
@@ -58,10 +60,9 @@ public class Re_PoolManager : MonoBehaviour
 
     public GameObject PopPool( IPoolingItemAble itemType )
     {
-        Type cachingType = itemType.GetType();
-        GameObject createObj;
-        GameObject item;
 
+        cachingType = itemType.GetType();
+        
         if (poolDict.ContainsKey(cachingType))
         {
             while ( poolDict[cachingType].Count <= 0)
