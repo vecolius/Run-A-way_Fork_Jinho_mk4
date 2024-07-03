@@ -1,87 +1,74 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Jinho;
+using UnityEngine.AI;
 
-public class Re_PoolManager : MonoBehaviour
+namespace Hojun
 {
-    
-    public static Re_PoolManager instance;
-    [SerializeField]
-    GameObject parent;
-    Type cachingType;
-    GameObject createObj;
-    GameObject item;
 
-    public const int minSize = 10;
 
-    private void Awake()
+    public class SearchState : State
     {
-        if(instance == null)
-            instance = this;
-        else
-            Destroy(this.gameObject);
-    
-        poolDict = new Dictionary<Type, Queue<GameObject>>();
-    }
 
-    
-    Dictionary<Type, Queue<GameObject>> poolDict;
+        Zombie ownerZombie;
+        Animator aniCompo;
+        NavMeshAgent agent;
 
+        float arriveDestination = 2f;
+        const float runSpeed = 1.4f;
 
-    public void PoolAddItem(IPoolingItemAble makeListType )
-    {
-        poolDict[makeListType.GetItemType()] = new Queue<GameObject>();
-    }
+        // ���� �Ҹ��� runHearValue�̻��̸� �޸��� ��
+        public float runHearValue = 20f;
 
-    public void ReturnPool( IPoolingItemAble item )
-    {
-        Type itemType = item.GetItemType();
-        GameObject itemObject = item.GetGameObj();
-
-        if (!poolDict.ContainsKey(itemType))
-            PoolAddItem(item);
-        
-        itemObject.SetActive(false);
-        poolDict[itemType].Enqueue(itemObject);
-    }
-
-    public GameObject PopPool( String typeName )
-    {
-        foreach (var item in poolDict.Keys)
+        public SearchState(IStateMachine sm) : base(sm)
         {
-            if(item.Name == typeName)
-                return poolDict[item].Dequeue();
-        }
+            ownerZombie = owner.GetComponent<Zombie>();
+            aniCompo = owner.GetComponent<Animator>();
+            agent = owner.GetComponent<NavMeshAgent>();
 
-        return null;
-    }
-
-    public GameObject PopPool( IPoolingItemAble itemType )
-    {
-
-        cachingType = itemType.GetType();
-        
-        if (!poolDict.ContainsKey(cachingType))
-        {
-            PoolAddItem(itemType);
-        }
-
-        if(poolDict[cachingType].Count <= 0)
-        {
-            for (int i = 0; i< minSize; i++)
+            if(ownerZombie == null) 
             {
-                createObj = Instantiate(itemType.GetGameObj(), parent.transform);
-                createObj.SetActive(false);
-                poolDict[cachingType].Enqueue(createObj);
+                Debug.Log("ERROR");
             }
 
         }
-        
-        item = poolDict[cachingType].Dequeue();
-        item.SetActive(true);
 
-        return item;
+        public override void Enter()
+        {
+            aniCompo.SetInteger("State" , (int)Zombie.ZombieState.SEARCH );
+            agent.enabled = true;
+            ownerZombie.MoveStrategy = ownerZombie.GetMoveDict(Zombie.ZombieMove.SEARCH);
+            agent.speed = runSpeed;
+        }
+
+        public override void Exit()
+        {
+
+        }
+
+        public override void Update()
+        {
+
+            if (ownerZombie.IsFindPlayer)
+            {
+                stateMachine.SetState( (int)Zombie.ZombieState.FIND );
+            }
+
+
+            Vector3 ownerPos =  ownerZombie.transform.position;
+            Vector3 detectedPos = ownerZombie.TargetArea;
+
+
+            if (Vector3.Distance(ownerPos, detectedPos) <= arriveDestination)
+            {
+                stateMachine.SetState((int)Zombie.ZombieState.IDLE);
+                ownerZombie.InitTargetAction();
+                return;
+            }
+            ownerZombie.Move();
+
+        }
+
     }
+
 }

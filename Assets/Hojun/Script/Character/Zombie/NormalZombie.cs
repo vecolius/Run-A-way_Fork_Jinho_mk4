@@ -53,6 +53,7 @@ namespace Hojun
             moveDict.Add((int)ZombieMove.FIND, new FindStrategy(this));
 
             stateMachine.AddState((int)Zombie.ZombieState.IDLE, new IdleState(stateMachine));
+            stateMachine.AddState((int)Zombie.ZombieState.SEARCH, new SearchState(stateMachine));
             stateMachine.AddState((int)Zombie.ZombieState.FIND , new FindState(stateMachine));
             stateMachine.AddState((int)Zombie.ZombieState.DEAD, new DeadState(stateMachine));
             stateMachine.AddState((int)Zombie.ZombieState.ATTACK, new AttackState(stateMachine));

@@ -4,10 +4,10 @@ using UnityEngine;
 using System;
 using Jinho;
 
-public class PoolManager : MonoBehaviour
+public class Re_PoolManager : MonoBehaviour
 {
     
-    public static PoolManager instance;
+    public static Re_PoolManager instance;
     [SerializeField]
     GameObject parent;
     Type cachingType;
